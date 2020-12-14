@@ -4,8 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.function.Consumer;
-
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
@@ -80,18 +78,5 @@ public class EvenIteratorTest {
         assertThat(it.next(), is(2));
         assertThat(it.next(), is(4));
         assertThat(it.hasNext(), is(false));
-    }
-
-    @Test(expected = UnsupportedOperationException.class)
-    public void removeUnsupported() {
-        it = new EvenIterator(new int[] {2, 4, 1, 1});
-        it.remove();
-    }
-
-    @Test(expected = UnsupportedOperationException.class)
-    public void forEachRemainingUnsupported() {
-        it = new EvenIterator(new int[] {2, 4, 1, 1});
-        Consumer<Integer> printer = x -> System.out.println("message: " + x);
-        it.forEachRemaining(printer);
     }
 }

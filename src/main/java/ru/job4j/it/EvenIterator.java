@@ -2,7 +2,6 @@ package ru.job4j.it;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.function.Consumer;
 
 /**
  * Итератор возвращает только четные числа.
@@ -16,24 +15,21 @@ public class EvenIterator implements Iterator<Integer> {
         this.numbers = numbers;
     }
 
-    @Override
-    public void remove() {
-        throw new UnsupportedOperationException("remove method not supported in EvenIterator class");
-    }
-
-    @Override
-    public void forEachRemaining(Consumer<? super Integer> action) {
-        throw new UnsupportedOperationException("forEachRemaining method not supported in EvenIterator class");
-    }
-
     /**
      * Метод определяет есть ли следующее четное значение.
      * Возвращает true если в массиве есть четная цифра после position.
-     * Возращает false если в массиве нет четной цифры после position.
+     * Возвращает false если в массиве нет четной цифры после position.
      */
     @Override
     public boolean hasNext() {
-        return findEven(position) >= 0;
+        position = findEven(position); // присваиваем position индекс четного числа, если конечно четные числа есть
+        if (position == -1) { // если четных чисел нет и пришел индекс - 1
+            position = numbers.length - 1; // присваиваем position индекс последнего элемента массива
+            return false; // и возращаем false
+        } else {
+            return position >= 0;
+        }
+
     }
 
     /**
@@ -44,25 +40,19 @@ public class EvenIterator implements Iterator<Integer> {
         if (!hasNext()) {
             throw new NoSuchElementException("not more even element after position in array");
         }
-        int result;
-        if (numbers[position] % 2 == 0) { // если это число под индексом 0 и четное
-            result = numbers[position]; // возвращаем его как результат
-            position++; // смещаем индекс на 1
-        } else { // в ином случае
-            result = numbers[findEven(position)]; // результатом будет четное число под индексом который получили от метода findEven
-            position = findEven(position) + 1; // смещаем индекс на 1
-        }
-        return result;
+        int ret = numbers[position];
+        position++;
+        return ret;
     }
 
     /**
      * Метод ищет следующее четное число в массиве.
      * @param index на вход получает текущий индекс.
-     * @return возрашает индекс ближайшей четной поизции, если её нет - возрашает -1.
+     * @return возвращает индекс ближайшей четной позиции, если её нет - возвращает -1.
      */
     public int findEven(int index) { // index = position
         int rsl = -1; // индекс результат
-        for (int i = index + 1; i < numbers.length; i++) { // цикл начинается с просмотра индекса "position + 1"
+        for (int i = index; i < numbers.length; i++) { // цикл начинается с просмотра индекса "position + 1"
             if (numbers[i] % 2 == 0) { // если число под индексом i четное
                 rsl = i; // возвращаем этот индекс как результат
                 break;

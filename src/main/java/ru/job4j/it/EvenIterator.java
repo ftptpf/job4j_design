@@ -22,6 +22,7 @@ public class EvenIterator implements Iterator<Integer> {
      */
     @Override
     public boolean hasNext() {
+/*
         position = findEven(position); // присваиваем position индекс четного числа, если конечно четные числа есть
         if (position == -1) { // если четных чисел нет и пришел индекс - 1
             position = numbers.length - 1; // присваиваем position индекс последнего элемента массива
@@ -29,8 +30,11 @@ public class EvenIterator implements Iterator<Integer> {
         } else {
             return position >= 0;
         }
-
+*/
+        position = findEven(position);
+        return position != -1;
     }
+
 
     /**
      * Метод берет значение.
@@ -40,9 +44,7 @@ public class EvenIterator implements Iterator<Integer> {
         if (!hasNext()) {
             throw new NoSuchElementException("not more even element after position in array");
         }
-        int ret = numbers[position];
-        position++;
-        return ret;
+        return numbers[position++];
     }
 
     /**
@@ -52,7 +54,7 @@ public class EvenIterator implements Iterator<Integer> {
      */
     public int findEven(int index) { // index = position
         int rsl = -1; // индекс результат
-        for (int i = index; i < numbers.length; i++) { // цикл начинается с просмотра индекса "position + 1"
+        for (int i = index; i < numbers.length; i++) {
             if (numbers[i] % 2 == 0) { // если число под индексом i четное
                 rsl = i; // возвращаем этот индекс как результат
                 break;

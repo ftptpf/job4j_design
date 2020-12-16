@@ -8,7 +8,7 @@ import java.util.NoSuchElementException;
  * На входе получает массив чисел.
  */
 public class EvenIterator implements Iterator<Integer> {
-    private int[] numbers;
+    private final int[] numbers;
     private int position = 0;
 
     public EvenIterator(int[] numbers) {
@@ -22,19 +22,10 @@ public class EvenIterator implements Iterator<Integer> {
      */
     @Override
     public boolean hasNext() {
-/*
-        position = findEven(position); // присваиваем position индекс четного числа, если конечно четные числа есть
-        if (position == -1) { // если четных чисел нет и пришел индекс - 1
-            position = numbers.length - 1; // присваиваем position индекс последнего элемента массива
-            return false; // и возращаем false
-        } else {
-            return position >= 0;
-        }
-*/
-        position = findEven(position);
-        return position != -1;
+        int index = findEven(position);
+        position = index == -1 ? numbers.length : index;
+        return position < numbers.length;
     }
-
 
     /**
      * Метод берет значение.

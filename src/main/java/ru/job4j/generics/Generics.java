@@ -19,13 +19,13 @@ public class Generics {
         gen.printObject(second);
         gen.printObject(third);
 
-        gen.printBoundedWildCard(first);
+        // gen.printBoundedWildCard(first); - Animal попадает за пределы верхнего ограничения Predator
         gen.printBoundedWildCard(second);
         gen.printBoundedWildCard(third);
 
         gen.printLowerBoundedWildCard(first);
         gen.printLowerBoundedWildCard(second);
-        gen.printLowerBoundedWildCard(third);
+        // gen.printLowerBoundedWildCard(third); - Tiger попадает за пределы нижнего ограничения Predator
     }
 
     /**
@@ -40,22 +40,22 @@ public class Generics {
     }
 
     /**
-     * Метод имеет ограничение сверху и ограничен классом Animal.
+     * Метод имеет ограничение сверху и ограничен классом Predator.
      * @param list
      */
-    public void printBoundedWildCard(List<? extends Animal> list) {
-        for (Iterator<? extends Animal> it = list.iterator(); it.hasNext();) {
+    public void printBoundedWildCard(List<? extends Predator> list) {
+        for (Iterator<? extends Predator> it = list.iterator(); it.hasNext();) {
             Object next = it.next();
             System.out.println("Текущий элемент: " + next);
         }
     }
 
     /**
-     * Метод имеет ограничение снизу и ограничен классом Tiger.
+     * Метод имеет ограничение снизу и ограничен классом Predator.
      * @param list
      */
-    public void printLowerBoundedWildCard(List<? super Tiger> list) {
-        for (Iterator<? super Tiger> it = list.iterator(); it.hasNext();) {
+    public void printLowerBoundedWildCard(List<? super Predator> list) {
+        for (Iterator<? super Predator> it = list.iterator(); it.hasNext();) {
             Object next = it.next();
             System.out.println("Текущий элемент: " + next);
         }

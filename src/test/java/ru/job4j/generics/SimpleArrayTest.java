@@ -9,69 +9,79 @@ public class SimpleArrayTest {
 
     @Test
     public void iteratorTestInteger() {
-        Integer[] inArray = {1, 2, 3};
-        SimpleArray<Integer> it = new SimpleArray<>(inArray);
+        SimpleArray<Integer> it = new SimpleArray<Integer>(3);
+        it.add(1);
+        it.add(2);
+        it.add(3);
         assertThat(it.iterator().hasNext(), is(true));
+        assertThat(it.iterator().next(), is(1));
         assertThat(it.iterator().hasNext(), is(true));
+        assertThat(it.iterator().next(), is(2));
+        assertThat(it.iterator().hasNext(), is(true));
+        assertThat(it.iterator().next(), is(3));
+        assertThat(it.iterator().hasNext(), is(false));
     }
 
     @Test
     public void iteratorTestString() {
-        String[] inArray = {"one", "two", "three"};
-        SimpleArray<String> it = new SimpleArray<>(inArray);
+        SimpleArray<String> it = new SimpleArray<>(3);
+        it.add("one");
+        it.add("two");
+        it.add("three");
         assertThat(it.iterator().hasNext(), is(true));
         assertThat(it.iterator().hasNext(), is(true));
         assertThat(it.iterator().next(), is("one"));
-        assertThat(it.iterator().next(), is("one"));
-        assertThat(it.iterator().next(), is("one"));
-        assertThat(it.iterator().hasNext(), is(true));
+        assertThat(it.iterator().next(), is("two"));
+        assertThat(it.iterator().next(), is("three"));
+        assertThat(it.iterator().hasNext(), is(false));
     }
 
     @Test
-    public void getTest() {
-        Integer[] inArray = {1, 2, 3};
-        SimpleArray<Integer> it = new SimpleArray<>(inArray);
+    public void getIntegerTest() {
+        SimpleArray<Integer> it = new SimpleArray<>(3);
+        it.add(1);
+        it.add(2);
+        it.add(3);
         assertThat(it.get(0), is(1));
         assertThat(it.get(1), is(2));
         assertThat(it.get(2), is(3));
     }
 
+    @Test
+    public void getStringTest() {
+        SimpleArray<String> it = new SimpleArray<>(3);
+        it.add("one");
+        it.add("two");
+        it.add("three");
+        assertThat(it.get(0), is("one"));
+        assertThat(it.get(1), is("two"));
+        assertThat(it.get(2), is("three"));
+    }
+
     @Test (expected = IndexOutOfBoundsException.class)
     public void getTestIndexOut() {
-        Integer[] inArray = {1, 2, 3};
-        SimpleArray<Integer> it = new SimpleArray<>(inArray);
+        SimpleArray<Integer> it = new SimpleArray<>(1);
+        it.add(1);
         it.get(3);
     }
 
     @Test
     public void removeTestInteger() {
-        Integer[] inArray = {1, 2, 3};
-        SimpleArray<Integer> it = new SimpleArray<>(inArray);
+        SimpleArray<Integer> it = new SimpleArray<>(3);
+        it.add(1);
+        it.add(2);
+        it.add(3);
         it.remove(1);
         assertThat(it.get(0), is(1));
         assertThat(it.get(1), is(3));
-        // assertThat(it.get(2), is(0)); -- null
+        assertNull(it.get(2));
     }
 
     @Test
     public void addTestIntegerEmpty() {
-        Integer[] inArray = {};
-        SimpleArray<Integer> it = new SimpleArray<>(inArray);
+        SimpleArray<Integer> it = new SimpleArray<>(0);
         it.add(10);
         assertThat(it.get(0), is(10));
-        assertThat(it.get(1), is(0)); // null
-        assertThat(it.get(9), is(0)); // null
-    }
-
-    @Test
-    public void addTestStringEmpty() {
-        String[] inArray = {};
-        SimpleArray<String> it = new SimpleArray<>(inArray);
-        it.add("one");
-        assertThat(it.get(0), is("one"));
         assertNull(it.get(1));
-        assertNull(it.get(9));
     }
-
-
 }

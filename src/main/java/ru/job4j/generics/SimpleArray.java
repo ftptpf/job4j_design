@@ -5,13 +5,25 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
+/**
+ * Класс - универсальная обертка над массивом.
+ * @param <T>
+ */
 public class SimpleArray<T> implements Iterable<T> {
 
     private T[] array;
+    private static final int DEFAULT_CAPACITY = 10;
     T sl;
+    int cursor;
 
-    public SimpleArray(T[] array) {
-        this.array = array;
+    public SimpleArray(int cellIncome) {
+        if (cellIncome > 0) {
+            array = (T[]) new Object[cellIncome];
+        } else if (cellIncome == 0) {
+            array = (T[]) new Object[DEFAULT_CAPACITY];
+        } else {
+            throw new IllegalArgumentException("Неверно задан начальный размер массива: " + cellIncome);
+        }
     }
 
     /**
@@ -19,21 +31,6 @@ public class SimpleArray<T> implements Iterable<T> {
      * @param model
      */
     public void add(T model) {
-        int count = 0;
-        int startSize = 10;
-
-        if (array.length == 0) {
-            array = (T[]) new Object[startSize];
-        }
-        for (int i = 0; i < array.length; i++) {
-            if (!array[i].equals(null)) {
-                count += 1;
-            }
-        }
-        if (count == 10) {
-            startSize = startSize + 10;
-            array = (T[]) new Object[startSize];
-        }
         for (int i = 0; i < array.length; i++) {
             if (array[i] == null) {
                 array[i] = model;
@@ -53,6 +50,7 @@ public class SimpleArray<T> implements Iterable<T> {
         } catch (IndexOutOfBoundsException e) {
             System.out.println("Индекс за пределами массива");
         }
+        array[index] = model;
     }
 
     /**
@@ -92,7 +90,6 @@ public class SimpleArray<T> implements Iterable<T> {
     }
 
     private class Itr implements Iterator<T> {
-        int cursor; // индекс следующего возвращаемого элемента
 
         @Override
         public boolean hasNext() {

@@ -9,7 +9,7 @@ public class SimpleArrayTest {
 
     @Test
     public void iteratorTestInteger() {
-        SimpleArray<Integer> it = new SimpleArray<Integer>(3);
+        SimpleArray<Integer> it = new SimpleArray<>(3);
         it.add(1);
         it.add(2);
         it.add(3);
@@ -65,7 +65,7 @@ public class SimpleArrayTest {
         it.get(3);
     }
 
-    @Test
+    @Test (expected = IndexOutOfBoundsException.class)
     public void removeTestInteger() {
         SimpleArray<Integer> it = new SimpleArray<>(3);
         it.add(1);
@@ -74,14 +74,20 @@ public class SimpleArrayTest {
         it.remove(1);
         assertThat(it.get(0), is(1));
         assertThat(it.get(1), is(3));
-        assertNull(it.get(2));
+        assertNull(it.get(2)); // --- java.lang.IndexOutOfBoundsException: Index 2 out of bounds for length 2
     }
 
-    @Test
+    @Test (expected = IndexOutOfBoundsException.class)
     public void addTestIntegerEmpty() {
         SimpleArray<Integer> it = new SimpleArray<>(0);
         it.add(10);
         assertThat(it.get(0), is(10));
-        assertNull(it.get(1));
+        assertNull(it.get(1)); // --- java.lang.IndexOutOfBoundsException: Index 1 out of bounds for length 1
+    }
+
+    @Test
+    public void testIteratorEmpty() {
+        SimpleArray<Integer> it = new SimpleArray<>(0);
+        assertThat(it.iterator().hasNext(), is(false));
     }
 }

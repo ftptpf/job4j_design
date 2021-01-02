@@ -12,9 +12,11 @@ import java.util.Objects;
 public class SimpleArray<T> implements Iterable<T> {
 
     private T[] array;
-    private static final int DEFAULT_CAPACITY = 10;
+    private static final int DEFAULT_CAPACITY = 10; // константа начального размера массива
     T sl;
-    int cursor;
+    int cursor; // счетчик в итераторе
+    int count = 0; // счетчик, размер массива без null элементов
+    // int mod = 0;
 
     public SimpleArray(int cellIncome) {
         if (cellIncome > 0) {
@@ -34,6 +36,7 @@ public class SimpleArray<T> implements Iterable<T> {
         for (int i = 0; i < array.length; i++) {
             if (array[i] == null) {
                 array[i] = model;
+                count++;
                 break;
             }
         }
@@ -45,12 +48,12 @@ public class SimpleArray<T> implements Iterable<T> {
      * @param model
      */
     public void set(int index, T model) {
-        try {
-            Objects.checkIndex(index, array.length);
+/*        try {
+            Objects.checkIndex(index, count);
         } catch (IndexOutOfBoundsException e) {
             System.out.println("Индекс за пределами массива");
-        }
-        array[index] = model;
+        }*/
+        array[Objects.checkIndex(index, count)] = model;
     }
 
     /**
@@ -60,14 +63,13 @@ public class SimpleArray<T> implements Iterable<T> {
      */
     public void remove(int index) {
         try {
-            Objects.checkIndex(index, array.length);
+            Objects.checkIndex(index, count);
         } catch (IndexOutOfBoundsException e) {
             System.out.println("Индекс за пределами массива");
         }
-        T[] destArray = (T[]) new Object[array.length];
-        System.arraycopy(array, 0, destArray, 0, index + 1);
-        System.arraycopy(array, index + 1, destArray, index, (array.length - index - 1));
-        array = destArray;
+        System.arraycopy(array, index + 1, array, index, array.length - index - 1);
+        array[count - 1] = null;
+        count--;
     }
 
     /**
@@ -76,12 +78,12 @@ public class SimpleArray<T> implements Iterable<T> {
      * @return
      */
     public T get(int index) {
-        try {
-            Objects.checkIndex(index, array.length);
+/*        try {
+            Objects.checkIndex(index, count);
         } catch (IndexOutOfBoundsException e) {
             System.out.println("Индекс за пределами массива");
-        }
-        return array[index];
+        }*/
+        return array[Objects.checkIndex(index, count)];
     }
 
     @Override
@@ -93,7 +95,7 @@ public class SimpleArray<T> implements Iterable<T> {
 
         @Override
         public boolean hasNext() {
-            return cursor < array.length;
+            return cursor < count;
         }
 
         @Override

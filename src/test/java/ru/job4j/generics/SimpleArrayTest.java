@@ -90,4 +90,16 @@ public class SimpleArrayTest {
         SimpleArray<Integer> it = new SimpleArray<>(0);
         assertThat(it.iterator().hasNext(), is(false));
     }
+    @Test
+    public void setIntegerTest() {
+        SimpleArray<Integer> it = new SimpleArray<>(3);
+        it.add(1);
+        it.add(2);
+        it.add(3);
+        assertThat(it.get(0), is(1));
+        assertThat(it.get(1), is(2));
+        assertThat(it.get(2), is(3));
+        it.set(1, 10);
+        assertThat(it.get(1), is(10));
+    }
 }

@@ -1,6 +1,7 @@
 package ru.job4j.generics;
 
 
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -16,7 +17,7 @@ public class SimpleArray<T> implements Iterable<T> {
     T sl;
     int cursor; // счетчик в итераторе
     int count = 0; // счетчик, размер массива без null элементов
-    // int mod = 0;
+    int mod = 0; // счетчик модификаций
 
     public SimpleArray(int cellIncome) {
         if (cellIncome > 0) {
@@ -35,6 +36,7 @@ public class SimpleArray<T> implements Iterable<T> {
     public void add(T model) {
         for (int i = 0; i < array.length; i++) {
             if (array[i] == null) {
+                mod++;
                 array[i] = model;
                 count++;
                 break;
@@ -48,12 +50,9 @@ public class SimpleArray<T> implements Iterable<T> {
      * @param model
      */
     public void set(int index, T model) {
-/*        try {
-            Objects.checkIndex(index, count);
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println("Индекс за пределами массива");
-        }*/
-        array[Objects.checkIndex(index, count)] = model;
+        Objects.checkIndex(index, count);
+        mod++;
+        array[index] = model;
     }
 
     /**
@@ -62,11 +61,8 @@ public class SimpleArray<T> implements Iterable<T> {
      * @param index
      */
     public void remove(int index) {
-        try {
-            Objects.checkIndex(index, count);
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println("Индекс за пределами массива");
-        }
+        Objects.checkIndex(index, count);
+        mod++;
         System.arraycopy(array, index + 1, array, index, array.length - index - 1);
         array[count - 1] = null;
         count--;
@@ -78,12 +74,8 @@ public class SimpleArray<T> implements Iterable<T> {
      * @return
      */
     public T get(int index) {
-/*        try {
-            Objects.checkIndex(index, count);
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println("Индекс за пределами массива");
-        }*/
-        return array[Objects.checkIndex(index, count)];
+        Objects.checkIndex(index, count);
+        return array[index];
     }
 
     @Override
@@ -92,9 +84,13 @@ public class SimpleArray<T> implements Iterable<T> {
     }
 
     private class Itr implements Iterator<T> {
+        int expectedMod = mod;
 
         @Override
         public boolean hasNext() {
+            if (mod != expectedMod) {
+                throw new ConcurrentModificationException();
+            }
             return cursor < count;
         }
 
@@ -102,6 +98,8 @@ public class SimpleArray<T> implements Iterable<T> {
         public T next() {
             if (!hasNext()) {
                 throw new NoSuchElementException();
+            } else if (mod != expectedMod) {
+                throw new ConcurrentModificationException();
             }
             return array[cursor++];
         }

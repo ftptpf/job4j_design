@@ -16,7 +16,7 @@ public class SimpleArray<T> implements Iterable<T> {
     private static final int DEFAULT_CAPACITY = 10; // константа начального размера массива
     T sl;
     int cursor; // счетчик в итераторе
-    int count = 0; // счетчик, размер массива без null элементов
+    int count = 0; // счетчик размера массива переданых значений
     int mod = 0; // счетчик модификаций
 
     public SimpleArray(int cellIncome) {
@@ -34,14 +34,8 @@ public class SimpleArray<T> implements Iterable<T> {
      * @param model
      */
     public void add(T model) {
-        for (int i = 0; i < array.length; i++) {
-            if (array[i] == null) {
-                mod++;
-                array[i] = model;
-                count++;
-                break;
-            }
-        }
+        mod++;
+        array[count++] = model;
     }
 
     /**

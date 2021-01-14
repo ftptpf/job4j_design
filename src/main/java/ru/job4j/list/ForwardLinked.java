@@ -87,7 +87,6 @@ public class ForwardLinked<T> implements Iterable<T> {
             curNode.next = preNode; // в текущем ноде делаем ссылку на предыдущий
             preNode = curNode; // предыдущий нод нод инициализируем текущим
             curNode = nextNode; // текущий нод инициализируем последуюшим, сдвигаемся по списку
-            modCount++;
         }
         head = preNode;
         modCount++;

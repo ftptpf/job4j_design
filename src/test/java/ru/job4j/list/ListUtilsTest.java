@@ -40,6 +40,14 @@ public class ListUtilsTest {
     }
 
     @Test
+    public void whenRemoveAllString() {
+        List<String> one = new ArrayList<>(Arrays.asList("one", "two", "three"));
+        List<String> two = new ArrayList<>(Arrays.asList("one"));
+        ListUtils.removeAll(one, two);
+        assertThat(Arrays.asList("two", "three"), Is.is(one));
+    }
+
+    @Test
     public void whenRemoveAllNull() {
         List<Integer> one = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5));
         List<Integer> two = new ArrayList<>();

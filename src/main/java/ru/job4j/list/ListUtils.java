@@ -95,7 +95,7 @@ public class ListUtils {
         for (T e : element) {
             ListIterator<T> listIterator = list.listIterator();
             while (listIterator.hasNext()) {
-                if (e == list.get(listIterator.nextIndex())) {
+                if (e.equals(list.get(listIterator.nextIndex()))) {
                     listIterator.next();
                     listIterator.remove();
                 } else {
@@ -104,5 +104,15 @@ public class ListUtils {
             }
         }
         return null;
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
     }
 }

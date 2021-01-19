@@ -53,14 +53,13 @@ public class ListUtils {
     public static <T> List<T> removeIf(List<T> list, Predicate<T> filter) {
         ListIterator<T> listIterator = list.listIterator();
         while (listIterator.hasNext()) {
-            if (filter.test(list.get(listIterator.nextIndex()))) {
-                listIterator.next();
+            if (filter.test(listIterator.next())) {
                 listIterator.remove();
             } else {
                 listIterator.next();
             }
         }
-        return null;
+        return list;
     }
 
     /**
@@ -74,14 +73,13 @@ public class ListUtils {
     public static <T> List<T> replaceIf(List<T> list, Predicate<T> filter, T value) {
         ListIterator<T> listIterator = list.listIterator();
         while (listIterator.hasNext()) {
-            if (filter.test(list.get(listIterator.nextIndex()))) {
-                listIterator.next();
+            if (filter.test(listIterator.next())) {
                 listIterator.set(value);
             } else {
                 listIterator.next();
             }
         }
-        return null;
+        return list;
     }
 
     /**
@@ -93,17 +91,11 @@ public class ListUtils {
      */
     public static <T> List<T> removeAll(List<T> list, List<T> element) {
         for (T e : element) {
-            ListIterator<T> listIterator = list.listIterator();
-            while (listIterator.hasNext()) {
-                if (e.equals(list.get(listIterator.nextIndex()))) {
-                    listIterator.next();
-                    listIterator.remove();
-                } else {
-                    listIterator.next();
-                }
+            while (list.contains(e)) {
+                list.remove(e);
             }
         }
-        return null;
+        return list;
     }
 
     @Override

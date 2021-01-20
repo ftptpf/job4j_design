@@ -55,8 +55,6 @@ public class ListUtils {
         while (listIterator.hasNext()) {
             if (filter.test(listIterator.next())) {
                 listIterator.remove();
-            } else {
-                listIterator.next();
             }
         }
         return list;
@@ -75,8 +73,6 @@ public class ListUtils {
         while (listIterator.hasNext()) {
             if (filter.test(listIterator.next())) {
                 listIterator.set(value);
-            } else {
-                listIterator.next();
             }
         }
         return list;
@@ -90,9 +86,10 @@ public class ListUtils {
      * @return
      */
     public static <T> List<T> removeAll(List<T> list, List<T> element) {
-        for (T e : element) {
-            while (list.contains(e)) {
-                list.remove(e);
+        ListIterator<T> listIterator = list.listIterator();
+        while (listIterator.hasNext()) {
+            if (element.contains(listIterator.next())) {
+                listIterator.remove();
             }
         }
         return list;

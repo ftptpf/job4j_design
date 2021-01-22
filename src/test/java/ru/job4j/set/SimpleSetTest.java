@@ -13,10 +13,23 @@ public class SimpleSetTest {
     @Test
     public void whenAdd() {
         SimpleSet<Integer> set = new SimpleSet<>();
+        Iterator<Integer> setIter = set.iterator();
         set.add(1);
         set.add(2);
-        assertThat(set.list.get(0), is(1));
-        assertThat(set.list.get(1), is(2));
+        assertThat(setIter.next(), is(1));
+        assertThat(setIter.next(), is(2));
+    }
+
+    @Test (expected = NoSuchElementException.class)
+    public void whenAddUnique() {
+        SimpleSet<Integer> set = new SimpleSet<>();
+        set.add(1);
+        set.add(2);
+        set.add(1);
+        set.add(2);
+        assertThat(set.iterator().next(), is(1));
+        assertThat(set.iterator().next(), is(2));
+        assertThat(set.iterator().next(), is(1));
     }
 
     @Test (expected = NoSuchElementException.class)

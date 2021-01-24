@@ -13,9 +13,9 @@ public class SimpleSetTest {
     @Test
     public void whenAdd() {
         SimpleSet<Integer> set = new SimpleSet<>();
-        Iterator<Integer> setIter = set.iterator();
         set.add(1);
         set.add(2);
+        Iterator<Integer> setIter = set.iterator();
         assertThat(setIter.next(), is(1));
         assertThat(setIter.next(), is(2));
     }
@@ -27,9 +27,10 @@ public class SimpleSetTest {
         set.add(2);
         set.add(1);
         set.add(2);
-        assertThat(set.iterator().next(), is(1));
-        assertThat(set.iterator().next(), is(2));
-        assertThat(set.iterator().next(), is(1));
+        Iterator<Integer> setIter = set.iterator();
+        assertThat(setIter.next(), is(1));
+        assertThat(setIter.next(), is(2));
+        assertThat(setIter.next(), is(1));
     }
 
     @Test (expected = NoSuchElementException.class)

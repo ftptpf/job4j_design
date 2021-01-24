@@ -43,6 +43,47 @@ public class SimpleArrayList<T> implements Iterable<T> {
         container[size++] = model;
     }
 
+    /**
+     * Метод проверяет содержится ли уже передаваемый элемент (model) в массиве.
+     * Если "да" возвращает true.
+     * Если "нет" возвращает false;
+     * @param model
+     * @return
+     */
+    public boolean contains(T model) {
+        int count = -1;
+        if (Objects.equals(model, null)) {
+        //if (model == null) {
+            for (int i = 0; i < size; i++) {
+                if (Objects.equals(container[i], null)) {
+                //if (container[i] == null) {
+                    count++;
+                }
+            }
+        } else {
+            for (int i = 0; i < size; i++) {
+                if (Objects.equals(container[i], model)) {
+                //if (container[i] == model) {
+                    count++;
+                }
+            }
+        }
+        return count != -1;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SimpleArrayList<?> that = (SimpleArrayList<?>) o;
+        return Arrays.equals(container, that.container);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(container);
+    }
+
     @Override
     public Iterator<T> iterator() {
         return new Itr();

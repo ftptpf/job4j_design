@@ -71,4 +71,16 @@ public class SimpleArrayListTest {
         Integer rsl = array.get(10);
         assertThat(rsl, is(11));
     }
+    @Test
+    public void whenAddThenContains() {
+        SimpleArrayList<String> array = new SimpleArrayList<>();
+        array.add("first");
+        array.add(null);
+        boolean rslNull = array.contains(null);
+        boolean rslString = array.contains("first");
+        boolean rslStringWrong = array.contains("two");
+        assertThat(rslString, is(true));
+        assertThat(rslStringWrong, is(false));
+        assertThat(rslNull, is(true));
+    }
 }

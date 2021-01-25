@@ -52,21 +52,11 @@ public class SimpleArrayList<T> implements Iterable<T> {
      */
     public boolean contains(T model) {
         int count = -1;
-        if (Objects.equals(model, null)) {
-        //if (model == null) {
-            for (int i = 0; i < size; i++) {
-                if (Objects.equals(container[i], null)) {
-                //if (container[i] == null) {
-                    count++;
-                }
-            }
-        } else {
-            for (int i = 0; i < size; i++) {
-                if (Objects.equals(container[i], model)) {
-                //if (container[i] == model) {
-                    count++;
-                }
-            }
+        for (Object el : container) {
+             if (Objects.equals(el, model)) {
+                  count++;
+                  break;
+             }
         }
         return count != -1;
     }

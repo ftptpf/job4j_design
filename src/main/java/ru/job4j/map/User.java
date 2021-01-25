@@ -40,7 +40,7 @@ public class User {
     public void setBirthday(Calendar birthday) {
         this.birthday = birthday;
     }
-
+/*
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -52,5 +52,5 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(name, children, birthday);
-    }
+    }*/
 }

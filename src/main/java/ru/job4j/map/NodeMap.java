@@ -3,17 +3,17 @@ package ru.job4j.map;
 import java.util.Objects;
 
 public class NodeMap<K, V> {
-    final int hash;
-    final int key;
-    V value;
+    private final int hash;
+    private final K key;
+    private V value;
 
-    public NodeMap(int hash, int key, V value) {
+    public NodeMap(int hash, K key, V value) {
         this.hash = hash;
         this.key = key;
         this.value = value;
     }
 
-    public int getKey() {
+    public K getKey() {
         return key;
     }
 
@@ -32,7 +32,7 @@ public class NodeMap<K, V> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         NodeMap<?, ?> node = (NodeMap<?, ?>) o;
-        return key == node.key && value.equals(node.value);
+        return key.equals(node.key) && value.equals(node.value);
     }
 
     @Override

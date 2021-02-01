@@ -4,20 +4,20 @@ import java.util.Iterator;
 import java.util.Objects;
 
 /**
- * Упрощенная реализация HashMap, динамического ассоциативого массива на базе хеш-таблицы.
+ * Упрощенная реализация HashMap, динамического ассоциативного массива на базе хеш-таблицы.
  * Предусмотрена возможность роста хеш-таблицы при нехватке места для вставки нового элемента.
- * Не предусмотрены методы разрешения коллизий при добавлении новх елементов.
- * Есили при добавлении ключ уже есть - просто возвращается false.
- * Реализовано фиксированное время встравки и получения элементов.
+ * Не предусмотрены методы разрешения коллизий при добавлении новых элементов.
+ * Если при добавлении ключ уже есть - просто возвращается false.
+ * Реализовано фиксированное время вставки и получения элементов.
  * @param <K> ключ
  * @param <V> значение
  */
 public class SimpleHashMap<K, V> implements Iterable<K> {
-    private final int DEFAULT_INITIAL_CAPACITY = 16; // константа начальной емкости массива
-    private final float MAXIMUM_CAPACITY = 0.75f; // коэффициент загрузки массива
+    static final int DEFAULT_INITIAL_CAPACITY = 16; // константа начальной емкости массива
+    static final float MAXIMUM_CAPACITY = 0.75f; // коэффициент загрузки массива
     private int size; // количество добавленных в массив элементов
     private final NodeMap<K, V>[] array; // массив элементов (нодов)
-    private int modCount; // счетчик изменений
+    private int modCount = 0; // счетчик изменений
 
     public SimpleHashMap() {
         array = new NodeMap[DEFAULT_INITIAL_CAPACITY];
@@ -29,6 +29,9 @@ public class SimpleHashMap<K, V> implements Iterable<K> {
      * @return Если при добавлении ключ уже есть - возвращает false.
      */
     public boolean insert(K key, V value) {
+        int h = key.hashCode();
+        NodeMap<K, V> nodeMap= new NodeMap<>()
+
         return true;
     }
 
@@ -51,12 +54,13 @@ public class SimpleHashMap<K, V> implements Iterable<K> {
     }
 
     /**
-     * Метод хеширования ключа.
+     * Метод позиционирования нода в массиве на основании хеша ключа и размера массива.
      * @param key
      * @return
      */
-    public int hasFunction(K key) {
-        return 0;
+    public int hashPosition(K key) {
+        int h;
+        return (key == null) ? 0 : (h = key.hashCode()) % (array.length - 1);
     }
 
 

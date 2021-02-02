@@ -19,5 +19,7 @@ public class UserMap {
         System.out.println(userObjectMap.get(userTwo));
         System.out.println(userOne.equals(userTwo));
         System.out.println(userOne == userTwo);
+        System.out.println(userObjectMap.get(userOne));
+        System.out.println(userObjectMap.get(userTwo));
     }
 }

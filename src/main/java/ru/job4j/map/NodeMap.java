@@ -3,12 +3,10 @@ package ru.job4j.map;
 import java.util.Objects;
 
 public class NodeMap<K, V> {
-    private final int hash;
     private final K key;
     private V value;
 
-    public NodeMap(int hash, K key, V value) {
-        this.hash = hash;
+    public NodeMap(K key, V value) {
         this.key = key;
         this.value = value;
     }

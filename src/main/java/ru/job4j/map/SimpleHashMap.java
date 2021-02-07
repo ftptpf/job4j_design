@@ -53,7 +53,7 @@ public class SimpleHashMap<K, V> implements Iterable<NodeMap<K, V>> {
         float check = (float) count / arraySize; // высчитываем соотношение заполненных ячеек к размеру массива
         if (check >= MAXIMUM_CAPACITY) { // если превышено значение коэффициента загрузки массива
             NodeMap<K, V>[] newNodeArray; // создаем объект нового расширенного массива
-            arraySize *= 2; // увеличиваем заначение размера массива
+            arraySize *= 2; // увеличиваем значение размера массива
             newNodeArray = new NodeMap[arraySize]; // инициализируем новый массив новым увеличенным размером
             NodeMap<K, V>[] tempArray = array; // создаем клон старого массива
             array = newNodeArray; // старому массиву присваиваем размер нового массива
@@ -63,7 +63,7 @@ public class SimpleHashMap<K, V> implements Iterable<NodeMap<K, V>> {
                 if (Objects.nonNull(nod)) { // если нод не равен null
                     int hashIndex = hashIndexPosition(nod.getKey()); // высчитываем новый индекс по ключу нода
                     if (Objects.isNull(newNodeArray[hashIndex])) { // выполняем проверку содержит ли уже ячейка массива ранее записанный нод
-                        newNodeArray[hashIndex] = nod; // если ячейка пустая, записывам нод в новый массив
+                        newNodeArray[hashIndex] = nod; // если ячейка пуста, записываем нод в новый массив
                         resizeCount++;
                     } else {
                         throw new AssertionError("Коллизия при расширении массива. Попытка вставить нод в заполненную ячейку");
@@ -81,11 +81,11 @@ public class SimpleHashMap<K, V> implements Iterable<NodeMap<K, V>> {
     /**
      * Метод метод возвращает значение по ключу.
      * @param key
-     * @return Если ячейка не содержит значения сопоставимого с ключём - возвращается null.
+     * @return Если ячейка не содержит значения сопоставимого с ключом - возвращается null.
      */
     public V get(K key) {
         int index = hashIndexPosition(key); // определяем индекс массива где должен располагаться нод
-        if (Objects.nonNull(array[index])) { // проверяем не пуста ли ячейка массива к которой мы обратились
+        if (Objects.nonNull(array[index]) && key.equals(array[index].getKey())) { // проверяем не пуста ли ячейка массива к которой мы обратились, и содержит ли она нужный нам ключ
             return array[index].getValue(); // возвращаем значение value нода, который хранится в ячейке массива
         }
         return null;
@@ -98,7 +98,7 @@ public class SimpleHashMap<K, V> implements Iterable<NodeMap<K, V>> {
      */
     public boolean delete(K key) {
         int index = hashIndexPosition(key); // определяем индекс массива по которому нам необходимо выполнить удаление
-        if (Objects.nonNull(array[index])) { // проверяем не пуста ли ячейка массива к которой мы обратились
+        if (Objects.nonNull(array[index]) && key.equals(array[index].getKey())) { // проверяем не пуста ли ячейка массива к которой мы обратились, и содержит ли она нужный нам ключ
             array[index] = null; // обнуляем значения которые были записаны в ячейке
             modCount++; // увеличиваем счетчик произошедших с массивом изменений
             count--; // уменьшаем счетчик нодов, которые находятся в массиве

@@ -20,6 +20,17 @@ public class SimpleHashMapTest {
     }
 
     @Test
+    public void insertGetNull() {
+        SimpleHashMap<Integer, String> shm = new SimpleHashMap<>();
+        shm.insert(1112, "one");
+        shm.insert(1113, "two");
+        //shm.insert(null, null);
+        shm.insert(0, null);
+        assertNull(shm.get(null));
+        assertNull(shm.get(0));
+    }
+
+    @Test
     public void insertDelete() {
         SimpleHashMap<Integer, String> shm = new SimpleHashMap<>();
         shm.insert(1112, "one");

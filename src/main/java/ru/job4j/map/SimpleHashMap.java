@@ -85,7 +85,7 @@ public class SimpleHashMap<K, V> implements Iterable<NodeMap<K, V>> {
      */
     public V get(K key) {
         int index = hashIndexPosition(key); // определяем индекс массива где должен располагаться нод
-        if (Objects.nonNull(array[index]) && key.equals(array[index].getKey())) { // проверяем не пуста ли ячейка массива к которой мы обратились, и содержит ли она нужный нам ключ
+        if (Objects.nonNull(array[index]) && Objects.equals(key, array[index].getKey())) { // проверяем не пуста ли ячейка массива к которой мы обратились, и содержит ли она нужный нам ключ
             return array[index].getValue(); // возвращаем значение value нода, который хранится в ячейке массива
         }
         return null;
@@ -98,7 +98,7 @@ public class SimpleHashMap<K, V> implements Iterable<NodeMap<K, V>> {
      */
     public boolean delete(K key) {
         int index = hashIndexPosition(key); // определяем индекс массива по которому нам необходимо выполнить удаление
-        if (Objects.nonNull(array[index]) && key.equals(array[index].getKey())) { // проверяем не пуста ли ячейка массива к которой мы обратились, и содержит ли она нужный нам ключ
+        if (Objects.nonNull(array[index]) && Objects.equals(key, array[index].getKey())) { // проверяем не пуста ли ячейка массива к которой мы обратились, и содержит ли она нужный нам ключ
             array[index] = null; // обнуляем значения которые были записаны в ячейке
             modCount++; // увеличиваем счетчик произошедших с массивом изменений
             count--; // уменьшаем счетчик нодов, которые находятся в массиве

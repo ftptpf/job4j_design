@@ -24,10 +24,12 @@ public class SimpleHashMapTest {
         SimpleHashMap<Integer, String> shm = new SimpleHashMap<>();
         shm.insert(1112, "one");
         shm.insert(1113, "two");
-        //shm.insert(null, null);
+        shm.insert(null, null);
         shm.insert(0, null);
+        shm.insert(null, "txt");
         assertNull(shm.get(null));
         assertNull(shm.get(0));
+        assertTrue(shm.delete(null));
     }
 
     @Test

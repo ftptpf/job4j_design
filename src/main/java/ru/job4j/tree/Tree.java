@@ -21,16 +21,15 @@ public class Tree<E> implements SimpleTree<E> {
      */
     @Override
     public boolean add(E parent, E child) {
-        Node<E> childNode = new Node<>(child);
-        Node<E> parentNode = new Node<>(parent);
-        Node<E> node;
-        Optional<Node<E>> eParentNode = findBy(parent);
-        eParentNode.
-
-
-
-        boolean rsl = false;
-        return rsl;
+        Optional<Node<E>> fParent = findBy(parent); // ищем нод по значению(value) parent
+        Optional<Node<E>> fChild = findBy(child); // ищем нод по значению(value) child
+        if (fParent.isPresent()) { // если мы находим нод со значением parent
+            if (fChild.isEmpty()) { // и если мы не находим нод со значение child
+                fParent.get().children.add(new Node<>(child)); //  в ArrayList найденного родительского нода добавляем новый нод с child значением
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -40,7 +39,7 @@ public class Tree<E> implements SimpleTree<E> {
      */
     @Override
     public Optional<Node<E>> findBy(E value) {
-        Optional<Node<E>> rsl = Optional.empty(); // создаем пустой нод
+        Optional<Node<E>> rsl = Optional.empty(); // создаем пустой нод в обертке Optional
         Queue<Node<E>> data = new LinkedList<>(); // на базе связанного списка создаем очередь нодов
         data.offer(this.root); // в очередь добавляем корневой нод
         while (!data.isEmpty()) { // пока очередь не пуста

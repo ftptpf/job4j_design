@@ -3,6 +3,7 @@ package ru.job4j.tree;
 import java.util.LinkedList;
 import java.util.Optional;
 import java.util.Queue;
+import java.util.function.Predicate;
 
 public class Tree<E> implements SimpleTree<E> {
     private final Node<E> root;
@@ -40,16 +41,43 @@ public class Tree<E> implements SimpleTree<E> {
     @Override
     public Optional<Node<E>> findBy(E value) {
         Optional<Node<E>> rsl = Optional.empty(); // создаем пустой нод в обертке Optional
-        Queue<Node<E>> data = new LinkedList<>(); // на базе связанного списка создаем очередь нодов
+        Queue<Node<E>> data = new LinkedList<>(); // на базе связанного списка создаем пустую очередь нодов
         data.offer(this.root); // в очередь добавляем корневой нод
-        while (!data.isEmpty()) { // пока очередь не пуста
-            Node<E> el = data.poll(); // присваиваем ноду el первый элемент очереди
+        while (!data.isEmpty()) { // до тех пор пока у очереди есть ноды
+            Node<E> el = data.poll(); // берем присваиваем ноду el первый элемент очереди и сразу удаляем этот элемент из очереди
             if (el.value.equals(value)) { // если value значение нода el равно искомому значению
                 rsl = Optional.of(el); // искомое значение найдено
                 break;
             }
-            data.addAll(el.children); //добавляем все элементы ArrayList нода el в очередь
+            data.addAll(el.children); // всех потомков из ArrayList-a текущего нода добавляем в очередь для проверки
         }
         return rsl;
+    }
+
+    /**
+     * Метод проверяет количество дочерних элементов в дереве.
+     * Если их > 2 - то дерево не бинарное, возвращаем false.
+     * @return
+     */
+    public boolean isBinary() {
+        Queue<Node<E>> data = new LinkedList<>(); // на базе связанного списка создаем пустую очередь нодов
+        data.offer(this.root); // в очередь добавляем корневой нод
+        while (!data.isEmpty()) { // до тех пор пока у очереди есть ноды
+            Node<E> el = data.poll(); // берем присваиваем ноду el первый элемент очереди и сразу удаляем этот элемент из очереди
+            if (el.children.size() > 2) { // если количество (размер ArrayList-а) потомков у данного нода более двух - это значит что дерево не бинарное
+                return false;
+            }
+            data.addAll(el.children); // всех потомков из ArrayList-a текущего нода добавляем в очередь для проверки
+        }
+        return true;
+    }
+
+    /**
+     * Метод поиска по условию.
+     * @param condition
+     * @return
+     */
+    private Optional<Node<E>> findByPredicate(Predicate<Node<E>> condition) {
+        return null;
     }
 }

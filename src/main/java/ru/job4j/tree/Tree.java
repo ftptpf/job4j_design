@@ -38,7 +38,7 @@ public class Tree<E> implements SimpleTree<E> {
      * @param value
      * @return
      */
-    @Override
+/*    @Override
     public Optional<Node<E>> findBy(E value) {
         Optional<Node<E>> rsl = Optional.empty(); // создаем пустой нод в обертке Optional
         Queue<Node<E>> data = new LinkedList<>(); // на базе связанного списка создаем пустую очередь нодов
@@ -52,6 +52,13 @@ public class Tree<E> implements SimpleTree<E> {
             data.addAll(el.children); // всех потомков из ArrayList-a текущего нода добавляем в очередь для проверки
         }
         return rsl;
+    }*/
+
+    @Override
+    public Optional<Node<E>> findBy(E value) {
+        // Optional<Node<E>> rsl = Optional.empty();
+        Predicate<Node<E>> predicate = el -> el.value.equals(value);
+        return findByPredicate(predicate);
     }
 
     /**
@@ -78,6 +85,16 @@ public class Tree<E> implements SimpleTree<E> {
      * @return
      */
     private Optional<Node<E>> findByPredicate(Predicate<Node<E>> condition) {
+        Queue<Node<E>> data = new LinkedList<>();
+        data.offer(this.root);
+        while (!data.isEmpty()) {
+            Node<E> el = data.poll();
+            if (condition.test(el)) {
+                rsl =
+                return rsl;
+            }
+            data.addAll(el.children);
+        }
         return null;
     }
 }

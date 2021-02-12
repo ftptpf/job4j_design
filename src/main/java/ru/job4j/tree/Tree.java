@@ -15,10 +15,9 @@ public class Tree<E> implements SimpleTree<E> {
     /**
      * Метод находит узел по значению parent и добавлять в него дочерний узел со значением child.
      * В методе реализована проверка, что значения child еще нет в дереве а parent есть.
-     * Если child есть, то метод возвращает false.
      * @param parent
      * @param child
-     * @return
+     * @return Если child есть, то метод возвращает false.
      */
     @Override
     public boolean add(E parent, E child) {
@@ -34,30 +33,13 @@ public class Tree<E> implements SimpleTree<E> {
     }
 
     /**
-     * В методе реализован алгоритм обхода в ширину.
+     * Метод поиска по значению, в нем реализован алгоритм обхода в ширину.
      * @param value
      * @return
      */
-/*    @Override
-    public Optional<Node<E>> findBy(E value) {
-        Optional<Node<E>> rsl = Optional.empty(); // создаем пустой нод в обертке Optional
-        Queue<Node<E>> data = new LinkedList<>(); // на базе связанного списка создаем пустую очередь нодов
-        data.offer(this.root); // в очередь добавляем корневой нод
-        while (!data.isEmpty()) { // до тех пор пока у очереди есть ноды
-            Node<E> el = data.poll(); // берем присваиваем ноду el первый элемент очереди и сразу удаляем этот элемент из очереди
-            if (el.value.equals(value)) { // если value значение нода el равно искомому значению
-                rsl = Optional.of(el); // искомое значение найдено
-                break;
-            }
-            data.addAll(el.children); // всех потомков из ArrayList-a текущего нода добавляем в очередь для проверки
-        }
-        return rsl;
-    }*/
-
     @Override
     public Optional<Node<E>> findBy(E value) {
-        // Optional<Node<E>> rsl = Optional.empty();
-        Predicate<Node<E>> predicate = el -> el.value.equals(value);
+        Predicate<Node<E>> predicate = el -> el.value.equals(value); // создаем условие проверки - value значение нода el равно искомому значению
         return findByPredicate(predicate);
     }
 
@@ -67,16 +49,11 @@ public class Tree<E> implements SimpleTree<E> {
      * @return
      */
     public boolean isBinary() {
-        Queue<Node<E>> data = new LinkedList<>(); // на базе связанного списка создаем пустую очередь нодов
-        data.offer(this.root); // в очередь добавляем корневой нод
-        while (!data.isEmpty()) { // до тех пор пока у очереди есть ноды
-            Node<E> el = data.poll(); // берем присваиваем ноду el первый элемент очереди и сразу удаляем этот элемент из очереди
-            if (el.children.size() > 2) { // если количество (размер ArrayList-а) потомков у данного нода более двух - это значит что дерево не бинарное
-                return false;
-            }
-            data.addAll(el.children); // всех потомков из ArrayList-a текущего нода добавляем в очередь для проверки
+        Predicate<Node<E>> predicate = el -> el.children.size() > 2; // создаем условие проверки - количество (размер ArrayList-а) потомков у данного нода более двух
+        if (findByPredicate(predicate).isPresent()) { // если по условию выше к нам вернулось не пустое значение
+            return false; // дерево не бинарное
         }
-        return true;
+        return true; // в ином случае - дерево бинарное
     }
 
     /**
@@ -85,16 +62,17 @@ public class Tree<E> implements SimpleTree<E> {
      * @return
      */
     private Optional<Node<E>> findByPredicate(Predicate<Node<E>> condition) {
-        Queue<Node<E>> data = new LinkedList<>();
-        data.offer(this.root);
-        while (!data.isEmpty()) {
-            Node<E> el = data.poll();
-            if (condition.test(el)) {
-                rsl =
-                return rsl;
+        Optional<Node<E>> rsl = Optional.empty(); // создаем пустой нод в обертке Optional
+        Queue<Node<E>> data = new LinkedList<>(); // на базе связанного списка создаем пустую очередь нодов
+        data.offer(this.root); // в очередь добавляем корневой нод
+        while (!data.isEmpty()) { // до тех пор пока у очереди есть ноды
+            Node<E> el = data.poll(); // берем присваиваем ноду el первый элемент очереди и сразу удаляем этот элемент из очереди
+            if (condition.test(el)) { // выполяем проверку по полученному Predicate
+                rsl = Optional.of(el); // если проверка true - искомое значение найдено и присваивается rsl
+                return rsl; // и возвращается rsl найденным значением
             }
-            data.addAll(el.children);
+            data.addAll(el.children); // всех потомков из ArrayList-a текущего нода добавляем в очередь для проверки
         }
-        return null;
+        return rsl;
     }
 }

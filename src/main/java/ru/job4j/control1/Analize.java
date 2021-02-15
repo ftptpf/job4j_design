@@ -1,6 +1,8 @@
 package ru.job4j.control1;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Класс определения разницы между начальным состояние массива и измененным.
@@ -13,20 +15,31 @@ public class Analize {
      * @return
      */
     public Info diff(List<User> previous, List<User> current) {
-        int add = 0;
-        int change = 0;
-        int delete = 0;
-        // Info rsl; // ссылка на объект Info в котором будех собрана информация о изменении данных в коллекции.
-        for (User previousUser : previous) {
-            for (User currentUser : current) {
-                if (previousUser.equals(currentUser)) {
-                    previous.remove(previousUser);
-                    current.remove(currentUser);
+        int add = 0; // Счетчик добавленных элементов.
+        int change = 0; // Счетчик измененных элементов.
+        int delete = 0; // Счетчик удаленных элементов.
+
+        Set<Integer> idSet = new HashSet<>(); // Общий сет всех уникальных id двух списков previous и current.
+        for (User idUser : previous) { // Собираем в сет id списка previous.
+            idSet.add(idUser.getId());
+        }
+        for (User idUser : current) { // Собираем в сет id списка current.
+            idSet.add(idUser.getId());
+        }
+
+        for (int id : idSet) {
+            for (User prUser : previous) {
+                for (User cUser : current) {
+                    if (id == prUser.getId() && id == cUser.getId() && !prUser.getName().equals(cUser.getName())) {
+                        change++; // Увеличиваем счетчик измененных элементов.
+                    } else if (!current.contains(prUser)) {
+                        delete++; // Увеличиваем счетчик удаленных элементов.
+                    } else if (!previous.contains(cUser)) {
+                        add++; // Увеличиваем счетчик добавленных элементов.
+                    }
                 }
             }
         }
-
-
         return new Info(add, change, delete);
 
     }

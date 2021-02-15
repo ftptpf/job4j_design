@@ -20,15 +20,18 @@ public class AnalizeTest {
         previous.add(new User(4,"Bill"));
         previous.add(new User(5, "Garri"));
 
-        List<User> current = new ArrayList<>(previous);
-        current.get(1).setName("Inga");
-        current.remove(3);
+        List<User> current = new ArrayList<>();
+        current.add(new User(1, "Roy"));
+        current.add(new User(2, "Inga"));
+        current.add(new User(3, "Din"));
+
+        current.add(new User(5, "Zoya"));
         current.add(new User(6, "Nika"));
 
         Info rsl = analize.diff(previous, current);
 
         assertThat(rsl.getAdded(), is(1));
-        assertThat(rsl.getChanged(), is(1));
+        assertThat(rsl.getChanged(), is(2));
         assertThat(rsl.getDeleted(), is(1));
     }
 }

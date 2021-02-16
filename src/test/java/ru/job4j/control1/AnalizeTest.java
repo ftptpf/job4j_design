@@ -30,8 +30,8 @@ public class AnalizeTest {
 
         Info rsl = analize.diff(previous, current);
 
-        assertThat(rsl.getAdded(), is(1));
         assertThat(rsl.getChanged(), is(2));
+        assertThat(rsl.getAdded(), is(1));
         assertThat(rsl.getDeleted(), is(1));
     }
 }

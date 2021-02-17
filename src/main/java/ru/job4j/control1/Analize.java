@@ -20,43 +20,31 @@ public class Analize {
         int delete = 0; // Счетчик удаленных элементов.
 
        Set<Integer> idSet = new HashSet<>(); // Общий сет всех уникальных id двух списков previous и current.
-        for (User idUser : previous) { // Собираем в сет id списка previous.
-            idSet.add(idUser.getId());
-        }
-        for (User idUser : current) { // Собираем в сет id списка current.
-            idSet.add(idUser.getId());
+
+        for (User cUser : current) { // Берем элемент из списка измененных данных
+            if (!previous.contains(cUser)) { // Если его небыло в списке начальных данных
+                add++; // Увеличиваем счетчик добавленных элементов.
+            }
+            idSet.add(cUser.getId()); // Собираем в сет id списка current.
         }
 
-/*        for (int id : idSet) {
+        for (User prUser : previous) { // Берем элемент из списка начальных данных
+            if (!current.contains(prUser)) { // Если его нет в списке измененных данных
+                delete++; // Увеличиваем счетчик удаленных элементов.
+            }
+            idSet.add(prUser.getId()); // Собираем в сет id списка previous.
+        }
+
+        for (int id : idSet) {
             for (User prUser : previous) {
                 for (User cUser : current) {
                     if (id == prUser.getId() && id == cUser.getId() && !prUser.getName().equals(cUser.getName())) {
                         change++; // Увеличиваем счетчик измененных элементов.
-                    } else if (!current.contains(prUser)) {
-                        delete++; // Увеличиваем счетчик удаленных элементов.
-                    } else if (!previous.contains(cUser)) {
-                        add++; // Увеличиваем счетчик добавленных элементов.
                     }
                 }
             }
-        }*/
-
-        int p = previous.size();
-        for (int index = 0; index < p; index++) {
-            if (!current.contains(previous.get(index))) {
-                delete++;
-                previous.remove(index);
-            }
         }
-        for (User cUser : current) {
-            if (!previous.contains(cUser)) {
-                add++;
-            }
-        }
-
-
 
         return new Info(add, change, delete);
-
     }
 }

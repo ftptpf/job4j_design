@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Users {
+public class UserData {
     private String name;
     private List<String> emailList;
 
-    public Users(String name, List<String> emailArrayList) {
+    public UserData(String name, List<String> emailArrayList) {
         this.name = name;
         this.emailList = emailArrayList;
     }
@@ -33,7 +33,7 @@ public class Users {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Users users = (Users) o;
+        UserData users = (UserData) o;
         return name.equals(users.name) && emailList.equals(users.emailList);
     }
 

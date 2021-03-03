@@ -13,7 +13,7 @@ public class UserEmails {
             usersArrayList.remove(userData);
         }
 
-        Map<String,UserData> userDataMap = new HashMap<>();
+        Map<String, UserData> userDataMap = new HashMap<>();
         for (int i = 1; i < usersArrayList.size(); i++) {
             UserData uData1 = usersArrayList.get(i - 1);
             UserData uData2 = usersArrayList.get(i);

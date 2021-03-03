@@ -28,7 +28,7 @@ public class LogFilter {
                 new BufferedOutputStream(
                         new FileOutputStream("404.txt")
                 )
-        )){
+        )) {
             for (String outString : log) {
                 out.write(outString);
                 out.print(System.lineSeparator());

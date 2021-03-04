@@ -2,18 +2,16 @@ package ru.job4j.inout;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.StringJoiner;
+import java.util.*;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * Читаем файл конфигурации.
  */
 public class Config {
     private final String path; // Путь к файлу "конфигурации" с которого берем данные.
-    private final Map<String, String> values = new HashMap<>(); // Хранит "ключ-значение".
+    private Map<String, String> values = new HashMap<>(); // Хранит "ключ-значение".
 
     public Config(final String path) {
         this.path = path;
@@ -28,11 +26,12 @@ public class Config {
         try (BufferedReader in = new BufferedReader(new FileReader(path))) {
             Predicate<String> predicateStartsWith = s -> !s.startsWith("#");
             Predicate<String> predicateIsEmpty = s -> !s.isEmpty();
-            in.lines()
+            values = in.lines()
                     .filter(predicateIsEmpty)
-                    .filter(predicateStartsWith)
-                    // .flatMap(s -> values.put(Arrays.stream(Arrays.stream(s.split(":")).findFirst().get(), Arrays.stream(Arrays.stream(s.split(":"))..get())
-                    // .flatMap(s -> Arrays.stream(s.split(":")).map()).map();
+                    .filter(predicateStartsWith).map(str -> str.split("="))
+                    //.collect(Collectors.toMap() )
+                    .collect(Collectors.toMap(s -> s[0], s -> s[1]));
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -44,7 +43,7 @@ public class Config {
      * @return
      */
     public String value(String key) {
-        throw new UnsupportedOperationException("Don't impl this method yet!");
+        return values.get(key);
     }
 
     @Override
@@ -62,8 +61,3 @@ public class Config {
         System.out.println(new Config("app.properties"));
     }
 }
-
-
-// Для считывания файлов нужно использовать
-// import java.io.BufferedReader;
-// import java.io.FileReader;

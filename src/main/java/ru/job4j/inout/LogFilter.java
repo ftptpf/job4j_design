@@ -30,8 +30,7 @@ public class LogFilter {
                 )
         )) {
             for (String outString : log) {
-                out.write(outString);
-                out.print(System.lineSeparator());
+                out.println(outString);
             }
 
         } catch (Exception e) {

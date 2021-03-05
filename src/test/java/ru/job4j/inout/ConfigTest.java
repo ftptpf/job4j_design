@@ -20,13 +20,9 @@ public class ConfigTest {
 
     @Test
     public void whenWithoutValue() {
-        String path = "app.properties";
+        String path = "app1.properties";
         Config config = new Config(path);
         config.load();
         assertNull(config.value("hibernate.connection.data"));
-/*        assertThat(
-                config.value("hibernate.connection.data"),
-                is("null")*/
-        //);
     }
 }

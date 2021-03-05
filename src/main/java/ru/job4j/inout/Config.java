@@ -27,10 +27,23 @@ public class Config {
             Predicate<String> predicateStartsWith = s -> !s.startsWith("#");
             Predicate<String> predicateIsEmpty = s -> !s.isEmpty();
             values = in.lines()
+                    .filter(predicateStartsWith)
                     .filter(predicateIsEmpty)
-                    .filter(predicateStartsWith).map(str -> str.split("="))
-                    //.collect(Collectors.toMap() )
-                    .collect(Collectors.toMap(s -> s[0], s -> s[1]));
+/*                    .forEach(
+                            str -> {
+                                if (!str.endsWith("=")) {
+                                    Arrays.stream(str.split("="))
+                                            .collect(Collectors.toMap(s -> s[0], s ->s[1]));
+                                } else {
+                                    Arrays.stream(str.split("="))
+                                            .collect(Collectors.toMap(s -> s[0], null));
+                                }
+                            }
+                    );*/
+                    .map(str -> str.split("="))
+                    .collect(Collectors.toMap(
+                            s -> s[0],
+                            s -> s[1]));
 
         } catch (Exception e) {
             e.printStackTrace();

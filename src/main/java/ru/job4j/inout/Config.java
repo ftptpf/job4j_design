@@ -25,25 +25,13 @@ public class Config {
     public void load() {
         try (BufferedReader in = new BufferedReader(new FileReader(path))) {
             Predicate<String> predicateStartsWith = s -> !s.startsWith("#");
-            Predicate<String> predicateIsEmpty = s -> !s.isEmpty();
             values = in.lines()
-                    .filter(predicateStartsWith)
-                    .filter(predicateIsEmpty)
-/*                    .forEach(
-                            str -> {
-                                if (!str.endsWith("=")) {
-                                    Arrays.stream(str.split("="))
-                                            .collect(Collectors.toMap(s -> s[0], s ->s[1]));
-                                } else {
-                                    Arrays.stream(str.split("="))
-                                            .collect(Collectors.toMap(s -> s[0], null));
-                                }
-                            }
-                    );*/
-                    .map(str -> str.split("="))
+                    .filter(predicateStartsWith) // отфильтровываем строки-комментарии
+                    .map(str -> str.split("="))//из разделенной по знаку "=" строки формируем массив строк
+                    .filter(a -> a.length == 2) // массив строк состоящий из двух элементов
                     .collect(Collectors.toMap(
                             s -> s[0],
-                            s -> s[1]));
+                            s -> s[1])); // собираем в Map
 
         } catch (Exception e) {
             e.printStackTrace();

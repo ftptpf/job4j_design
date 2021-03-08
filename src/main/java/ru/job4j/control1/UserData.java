@@ -1,16 +1,15 @@
 package ru.job4j.control1;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class UserData {
     private String name;
-    private List<String> emailList;
+    private Set<String> emailSet;
 
-    public UserData(String name, List<String> emailArrayList) {
+    public UserData(String name, Set<String> emailSet) {
         this.name = name;
-        this.emailList = emailArrayList;
+        this.emailSet = emailSet;
     }
 
     public String getName() {
@@ -21,12 +20,12 @@ public class UserData {
         this.name = name;
     }
 
-    public List<String> getEmailList() {
-        return emailList;
+    public Set<String> getEmailSet() {
+        return emailSet;
     }
 
-    public void setEmailList(List<String> emailList) {
-        this.emailList = emailList;
+    public void setEmailSet(Set<String> emailSet) {
+        this.emailSet = emailSet;
     }
 
     @Override
@@ -34,11 +33,11 @@ public class UserData {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserData users = (UserData) o;
-        return name.equals(users.name) && emailList.equals(users.emailList);
+        return name.equals(users.name) && emailSet.equals(users.emailSet);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, emailList);
+        return Objects.hash(name, emailSet);
     }
 }

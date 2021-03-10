@@ -1,9 +1,7 @@
 package ru.job4j.inout.io;
 
-import java.io.BufferedReader;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.PrintWriter;
+import java.io.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -16,18 +14,30 @@ public class Analizy {
      * @param source имя лог-файла
      * @param target имя файла после анализа
      */
+    int indicator = 0; // признак начала и окончания считывания информации (0 - начинаем читать, 1 - заканчиваем)
+
     public void unavailable(String source, String target) {
-        try (BufferedReader in = new BufferedReader(new FileReader("resources/serverlog.txt"))) {
-            //in.readLine().startsWith(("400" || "500")) || in.readLine().
-/*            in.lines()
-                    .filter(a -> a.startsWith("400") || a.startsWith("500"))
-                    .map(str -> str.split(" "))
-                    .filter(a -> a.length == 2)
-                    .collect(Collectors.toMap(s -> s[0], s -> s[1]));*/
-            String[] array = (String[]) in.lines().toArray();
-            for (String str : array) {
-                str.startsWith("400") ||
-            }
+        try (BufferedReader in = new BufferedReader(new FileReader(source))) {
+            PrintWriter out = new PrintWriter(new BufferedOutputStream(new FileOutputStream(target)));
+            Predicate<String> predicate = str -> {
+                if ((str.startsWith("400") || str.startsWith("500")) && indicator == 0) {
+                    indicator = 1;
+                    return true;
+                } else if ((str.startsWith("200") || str.startsWith("300")) && indicator == 1){
+                    indicator = 0;
+                    return true;
+                }
+                return false;
+            };
+
+
+            in.lines()
+                    //.filter(predicate)
+                    //.map(str -> str.split(" "))
+                    //.filter(a -> a.length == 2)
+                    //.skip(1)
+                    .forEach(out::println);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

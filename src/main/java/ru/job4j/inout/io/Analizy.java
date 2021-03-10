@@ -1,6 +1,8 @@
 package ru.job4j.inout.io;
 
 import java.io.*;
+import java.util.Arrays;
+import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -17,8 +19,8 @@ public class Analizy {
     int indicator = 0; // признак начала и окончания считывания информации (0 - начинаем читать, 1 - заканчиваем)
 
     public void unavailable(String source, String target) {
-        try (BufferedReader in = new BufferedReader(new FileReader(source))) {
-            PrintWriter out = new PrintWriter(new BufferedOutputStream(new FileOutputStream(target)));
+        try (BufferedReader in = new BufferedReader(new FileReader(source));
+            PrintWriter out = new PrintWriter(new BufferedOutputStream(new FileOutputStream(target)))) {
             Predicate<String> predicate = str -> {
                 if ((str.startsWith("400") || str.startsWith("500")) && indicator == 0) {
                     indicator = 1;
@@ -32,10 +34,11 @@ public class Analizy {
 
 
             in.lines()
-                    //.filter(predicate)
-                    //.map(str -> str.split(" "))
+                    .filter(predicate)
+                    .map(str -> str.split(" "))
                     //.filter(a -> a.length == 2)
-                    //.skip(1)
+                    .filter()
+                    //.skip(a[0])
                     .forEach(out::println);
 
         } catch (Exception e) {

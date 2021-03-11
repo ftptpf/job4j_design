@@ -13,10 +13,11 @@ public class Analizy {
     /**
      * Метод находит диапазоны времени, когда сервер не работал.
      * Сервер не работал, если status = 400 или 500.
+     * Диапазон времени не работы сервера считается от стапуса 400-500 до статуса 200-300.
      * @param source имя лог-файла
      * @param target имя файла после анализа
      */
-    int indicator = 0; // признак начала и окончания считывания информации (0 - начинаем читать, 1 - заканчиваем)
+    int indicator = 0; // признак начала и окончания считывания периода работы сервера (0 - начинаем читать, 1 - заканчиваем)
 
     public void unavailable(String source, String target) {
         try (BufferedReader in = new BufferedReader(new FileReader(source));
@@ -31,14 +32,21 @@ public class Analizy {
                 }
                 return false;
             };
+            Predicate<String[]> predicateStringArray = arStr -> {
+                if (arStr.)
+            }
 
 
             in.lines()
                     .filter(predicate)
                     .map(str -> str.split(" "))
-                    //.filter(a -> a.length == 2)
-                    .filter()
-                    //.skip(a[0])
+                    //.map(String::valueOf)
+                    //.filter(predicateStringArray)
+                    //.filter(a -> a.length() > 3)
+                    //.map(a -> Integer.getInteger(a))
+                    //.map(a -> Arrays.stream(a).skip(1))
+                    //.skip(1)
+                    //.collect(Collectors.toMap(a -> a[0], a -> a[1]))
                     .forEach(out::println);
 
         } catch (Exception e) {

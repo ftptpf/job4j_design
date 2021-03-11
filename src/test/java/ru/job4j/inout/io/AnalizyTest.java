@@ -11,7 +11,7 @@ public class AnalizyTest {
 
     @Test
     public void unavailable() throws IOException {
-        //File source = new File("resources/serverlog.txt");
+        // File source = new File("resources/serverlog.txt");
         File target = new File("resources/servernotwork.txt");
         StringBuilder resultFromFile = new StringBuilder();
         try (BufferedReader in = new BufferedReader(new FileReader(target))) {

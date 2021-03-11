@@ -10,7 +10,7 @@ public class Abuse {
         PrintWriter out = new PrintWriter(new BufferedOutputStream(new FileOutputStream(target)))) {
             in.lines()
                     .flatMap(line -> Stream.of(line.split("\\s+")))
-                    .filter(word -> !word.contains(word)).map(word -> word + " ")
+                    .filter(word -> !words.contains(word)).map(word -> word + " ")
                     .forEach(out::print);
         }
     }

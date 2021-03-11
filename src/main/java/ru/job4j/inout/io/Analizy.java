@@ -33,8 +33,9 @@ public class Analizy {
                 return false;
             };
             Predicate<String[]> predicateStringArray = arStr -> {
-                if (arStr.)
-            }
+                //if (arStr.)
+                return true;
+            };
 
 
             in.lines()

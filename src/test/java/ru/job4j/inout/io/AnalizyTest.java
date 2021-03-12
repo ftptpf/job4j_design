@@ -11,15 +11,15 @@ public class AnalizyTest {
 
     @Test
     public void unavailable() throws IOException {
-        // File source = new File("resources/serverlog.txt");
         File target = new File("resources/servernotwork.txt");
         StringBuilder resultFromFile = new StringBuilder();
+        Analizy analizy = new Analizy();
+
+        analizy.unavailable("resources/serverlog.txt", "resources/servernotwork.txt");
+
         try (BufferedReader in = new BufferedReader(new FileReader(target))) {
             in.lines().forEach(resultFromFile::append);
         }
-
-        Analizy analizy = new Analizy();
-        analizy.unavailable("resources/serverlog.txt", "resources/servernotwork.txt");
-        assertThat(resultFromFile.toString(), is("10:57:01; 10:59:01 /r/n 11:01:02;11:02:02"));
+        assertThat(resultFromFile.toString(), is("10:57:01; 10:59:01;11:01:02; 11:02:02;"));
     }
 }

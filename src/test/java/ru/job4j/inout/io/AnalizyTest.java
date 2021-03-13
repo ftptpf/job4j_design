@@ -13,9 +13,10 @@ public class AnalizyTest {
     public void unavailable() throws IOException {
         File target = new File("resources/servernotwork.txt");
         StringBuilder resultFromFile = new StringBuilder();
-        Analizy analizy = new Analizy();
 
-        analizy.unavailable("resources/serverlog.txt", "resources/servernotwork.txt");
+        Analizy analizy = new Analizy();
+        analizy.unavailable("resources/serverlog.txt");
+        analizy.writeToFile("resources/servernotwork.txt");
 
         try (BufferedReader in = new BufferedReader(new FileReader(target))) {
             in.lines().forEach(resultFromFile::append);

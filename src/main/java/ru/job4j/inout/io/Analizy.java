@@ -14,24 +14,32 @@ public class Analizy {
      * @param target имя файла после анализа
      */
     int indicator = 0; // признак начала и окончания считывания периода работы сервера (0 - начинаем читать, 1 - заканчиваем)
+    StringBuilder str = new StringBuilder();
 
-    public void unavailable(String source, String target) {
-        try (BufferedReader in = new BufferedReader(new FileReader(source));
-            PrintWriter out = new PrintWriter(new BufferedOutputStream(new FileOutputStream(target)))) {
 
+    public void unavailable(String source) {
+        try (BufferedReader in = new BufferedReader(new FileReader(source))) {
             in.lines()
                     .forEach(line -> {
                         if ((line.startsWith("400") || line.startsWith("500")) && indicator == 0) {
                             indicator = 1;
-                            out.print(line.substring(4) + "; ");
-
+                            str.append(line.substring(4)).append("; ");
                         }
                         if ((line.startsWith("200") || line.startsWith("300")) && indicator == 1) {
                             indicator = 0;
-                            out.println(line.substring(4) + ";");
+                            str.append(line.substring(4)).append(";").append(System.lineSeparator());
                         }
                             }
                     );
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void writeToFile(String target) {
+        try (PrintWriter out = new PrintWriter(new BufferedOutputStream(new FileOutputStream(target)))) {
+            out.write(String.valueOf(str));
 
         } catch (Exception e) {
             e.printStackTrace();

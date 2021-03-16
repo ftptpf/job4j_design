@@ -7,6 +7,9 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.function.Predicate;
 
+/**
+ * Ищем файлы по по определенному предикату.
+ */
 public class SearchProg {
 
     public static void main(String[] args) throws IOException {

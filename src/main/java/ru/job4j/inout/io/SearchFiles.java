@@ -7,36 +7,74 @@ import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
 import java.util.function.Predicate;
+import static java.nio.file.FileVisitResult.CONTINUE;
+
 
 public class SearchFiles implements FileVisitor<Path> {
-
+    private Predicate<Path> condition;
+    private List<Path> resultListPath;
 
     public SearchFiles(Predicate<Path> condition) {
-
+        this.condition = condition;
     }
 
+    /**
+     * Метод вызывается перед входом в папку.
+     * @param dir
+     * @param attrs
+     * @return
+     * @throws IOException
+     */
     @Override
     public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
-        return null;
+        return CONTINUE;
     }
 
+    /**
+     * Метод вызываается во время доступа к файлу.
+     * Выполняется проверка по условию и аккумулирование информации.
+     * @param file
+     * @param attrs
+     * @return
+     * @throws IOException
+     */
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-        return null;
+        if (condition.test(file)) {
+            resultListPath.add(file);
+        }
+        return CONTINUE;
     }
 
+    /**
+     * Метод вызывается если нет доступа к файлу.
+     * @param file
+     * @param exc
+     * @return
+     * @throws IOException
+     */
     @Override
     public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
-        return null;
+        return CONTINUE;
     }
 
+    /**
+     * Метод вызывается если после посещения папки.
+     * @param dir
+     * @param exc
+     * @return
+     * @throws IOException
+     */
     @Override
     public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
-        return null;
+        return CONTINUE;
     }
 
-
+    /**
+     * Метод выдает собранную информацию.
+     * @return
+     */
     public List<Path> getPaths() {
-        return null;
+        return resultListPath;
     }
 }

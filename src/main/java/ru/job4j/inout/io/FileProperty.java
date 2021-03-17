@@ -2,9 +2,12 @@ package ru.job4j.inout.io;
 
 import java.util.Objects;
 
+/**
+ * Модель данных файла.
+ */
 public class FileProperty {
-    private long size;
-    private String name;
+    private long size; // размер файла
+    private String name; // имя файла
 
     public FileProperty(long size, String name) {
         this.size = size;

@@ -21,11 +21,11 @@ public class Analizy {
         try (BufferedReader in = new BufferedReader(new FileReader(source))) {
             in.lines()
                     .forEach(line -> {
-                        if ((line.startsWith("400") || line.startsWith("500")) && indicator == true) {
+                        if ((line.startsWith("400") || line.startsWith("500")) && indicator) { // && indicator == true
                             indicator = false;
                             str.append(line.substring(4)).append("; ");
                         }
-                        if ((line.startsWith("200") || line.startsWith("300")) && indicator == false) {
+                        if ((line.startsWith("200") || line.startsWith("300")) && !indicator) { // indicator == false
                             indicator = true;
                             str.append(line.substring(4)).append(";").append(System.lineSeparator());
                         }

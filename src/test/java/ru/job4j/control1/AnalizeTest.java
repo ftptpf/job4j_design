@@ -17,7 +17,7 @@ public class AnalizeTest {
         previous.add(new User(1, "Roy"));
         previous.add(new User(2, "Tom"));
         previous.add(new User(3, "Din"));
-        previous.add(new User(4,"Bill"));
+        previous.add(new User(4, "Bill"));
         previous.add(new User(5, "Garri"));
 
         List<User> current = new ArrayList<>();

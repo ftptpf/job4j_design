@@ -11,7 +11,7 @@ public class SimpleLinkedListTest {
 
     @Test
     public void addGetTest() {
-        SimpleLinkedList <Integer> sll = new SimpleLinkedList<>();
+        SimpleLinkedList<Integer> sll = new SimpleLinkedList<>();
         sll.add(12);
         sll.add(13);
         sll.add(14);
@@ -22,7 +22,7 @@ public class SimpleLinkedListTest {
 
     @Test
     public void addIteratorTest() {
-        SimpleLinkedList <Integer> sll = new SimpleLinkedList<>();
+        SimpleLinkedList<Integer> sll = new SimpleLinkedList<>();
         sll.add(12);
         sll.add(13);
         Iterator<Integer> itr = sll.iterator();

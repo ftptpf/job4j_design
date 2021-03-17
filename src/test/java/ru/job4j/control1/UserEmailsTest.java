@@ -40,7 +40,7 @@ public class UserEmailsTest {
 
 
         Map<String, Set<String>> afterMergerUser = new HashMap<>();
-        afterMergerUser.put("user1",Set.of("aaa@bbb.ru", "ups@pisem.net", "lol@mail.ru", "xxx@ya.ru", "foo@gmail.com"));
+        afterMergerUser.put("user1", Set.of("aaa@bbb.ru", "ups@pisem.net", "lol@mail.ru", "xxx@ya.ru", "foo@gmail.com"));
         afterMergerUser.put("user5", Set.of("vasya@pupkin.com", "xyz@pisem.net"));
 
         UserEmails uEmails = new UserEmails();

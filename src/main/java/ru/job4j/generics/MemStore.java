@@ -56,8 +56,12 @@ public final class MemStore<T extends Base> implements Store<T> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         MemStore<?> memStore = (MemStore<?>) o;
         return mem.equals(memStore.mem);
     }

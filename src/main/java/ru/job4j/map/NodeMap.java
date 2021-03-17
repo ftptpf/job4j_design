@@ -27,8 +27,12 @@ public class NodeMap<K, V> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         NodeMap<?, ?> node = (NodeMap<?, ?>) o;
         return key.equals(node.key) && value.equals(node.value);
     }
@@ -40,9 +44,9 @@ public class NodeMap<K, V> {
 
     @Override
     public String toString() {
-        return "NodeMap{" +
-                "key=" + key +
-                ", value=" + value +
-                '}';
+        return "NodeMap{"
+                + "key=" + key
+                + ", value=" + value
+                + '}';
     }
 }

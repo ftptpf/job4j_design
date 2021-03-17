@@ -114,7 +114,7 @@ public class SimpleHashMap<K, V> implements Iterable<NodeMap<K, V>> {
      */
     public int hashIndexPosition(K key) {
         int h;
-        return (key == null) ? 0 : (h = key.hashCode()) % (array.length - 1);
+        return (key == null) ? 0 : (h = key.hashCode()) % (array.length - 1); // (key == null) ? 0 : (h = key.hashCode()) % (array.length - 1)
     }
 
     @Override

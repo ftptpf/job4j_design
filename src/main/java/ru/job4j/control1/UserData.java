@@ -30,8 +30,12 @@ public class UserData {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         UserData users = (UserData) o;
         return name.equals(users.name) && emailSet.equals(users.emailSet);
     }

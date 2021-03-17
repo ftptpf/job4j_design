@@ -87,7 +87,4 @@ public class SimpleLinkedList<E> implements Iterable<E> {
             return lastReturned.item;
         }
     }
-
-
-
 }

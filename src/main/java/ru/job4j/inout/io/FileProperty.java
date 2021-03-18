@@ -6,12 +6,13 @@ import java.util.Objects;
  * Модель данных файла.
  */
 public class FileProperty {
-    private long size; // размер файла
     private String name; // имя файла
+    private long size; // размер файла
 
-    public FileProperty(long size, String name) {
-        this.size = size;
+
+    public FileProperty(String name, long size) {
         this.name = name;
+        this.size = size;
     }
 
     public long getSize() {

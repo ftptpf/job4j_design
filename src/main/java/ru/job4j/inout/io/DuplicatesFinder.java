@@ -17,7 +17,7 @@ public class DuplicatesFinder {
         Files.walkFileTree(Path.of("./"), new DuplicatesVisitor());
     }
 
-    public static Map<FileProperty, List<Path>> findDuplicate(Path start) throws IOException {
+    public Map<FileProperty, List<Path>> findDuplicate(Path start) throws IOException {
         DuplicatesVisitor duplicatesVisitor = new DuplicatesVisitor();
         Files.walkFileTree(start, duplicatesVisitor);
         return duplicatesVisitor.getDuplicatedMap();

@@ -3,7 +3,6 @@ package ru.job4j.inout.io;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +19,6 @@ public class DuplicatesFinder {
     public Map<FileProperty, List<Path>> findDuplicate(Path start) throws IOException {
         DuplicatesVisitor duplicatesVisitor = new DuplicatesVisitor();
         Files.walkFileTree(start, duplicatesVisitor);
-        return duplicatesVisitor.getDuplicatedMap();
+        return duplicatesVisitor.getDuplicatedMap(); // возвращаем map с дубликатами
     }
 }

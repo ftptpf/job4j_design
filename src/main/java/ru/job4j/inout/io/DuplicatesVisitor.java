@@ -14,7 +14,7 @@ import java.util.Map;
 public class DuplicatesVisitor extends SimpleFileVisitor<Path> {
     private Map<FileProperty, List<Path>> mapFiles = new HashMap<>(); // в этот map будем собирать данные по всем файлам, дубликатам и не дубликатам
     /**
-     * Метод вызываается во время доступа к файлу.
+     * Метод вызывается во время доступа к файлу.
      * Собираем данные по всем файлам дубликатам и не дубликатам.
      * @param file
      * @param attrs

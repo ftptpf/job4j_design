@@ -50,9 +50,9 @@ public class FileProperty {
 
     @Override
     public String toString() {
-        return "FileProperty{" +
-                "name='" + name + '\'' +
-                ", size=" + size +
-                '}';
+        return "FileProperty{"
+                + "name='" + name + '\''
+                + ", size=" + size
+                + '}';
     }
 }

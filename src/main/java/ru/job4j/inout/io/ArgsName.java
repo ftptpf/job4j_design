@@ -20,19 +20,14 @@ public class ArgsName {
         }
         for (String str : args) { // берем строку из полученного массива строк
             String[] keyAndParamArray = str.split("=", 2); // делим на две части по знаку "=", получаем новый массив строк
-            if (keyAndParamArray[0].startsWith("-")) { // если правая часть начинается со знака "-"
-                char[] chars = keyAndParamArray[0].toCharArray(); // переводим её в массив символов
-                char[] result = new char[chars.length - 1]; // создаем новый массив символов куда запишем результат, размер уменьшам на 1
-                int index = 0; // задаем индекс по которому у нас находится символ "-"
-                System.arraycopy(chars, index + 1, result, index, chars.length - index -1); // копируем старый массив в новый со смещением вправо отбрасывая "-"
-                keyAndParamArray[0] = new String(result); // перезаписываем значение преобразуя новый массив символов в строку
+            if (validate(keyAndParamArray)) {
+                throw new IllegalArgumentException("Check the source data. Check the source data. Wrong keys and parameters in it.");
             }
-
-            if (keyAndParamArray.length != 2 || keyAndParamArray[0].isEmpty() || keyAndParamArray[1].isEmpty()) {
-                throw new IllegalArgumentException("Check the source data. Wrong keys and parameters in it.");
-            }
-            values.put(keyAndParamArray[0],keyAndParamArray[1]);
+            values.put(keyAndParamArray[0].substring(1),keyAndParamArray[1]);
         }
+    }
+    public static boolean validate(String[] array) {
+        return array.length != 2 || array[0].isEmpty() || array[1].isEmpty();
     }
 
     public static ArgsName of(String[] args) {

@@ -26,6 +26,6 @@ public class Zip {
                 new File("./resources/serverlog.txt"),
                 new File("./resources/serverlog.zip")
         );
-        new Zip().packFiles();
+        //new Zip().packFiles();
     }
 }

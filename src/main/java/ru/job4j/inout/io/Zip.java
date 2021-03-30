@@ -2,6 +2,7 @@ package ru.job4j.inout.io;
 
 import java.io.*;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
@@ -20,20 +21,23 @@ import java.util.zip.ZipOutputStream;
 public class Zip {
     /**
      * Метод архивирует определенную папку, сохраняя всю её структуру.
-     * @param sources директории которые мы хотим архивировать
+     * @param sources лист дирректорий и файлов которые мы хотим архивировать
      * @param target файл в который мы архивируем.
      */
     public void packFiles(List<Path> sources, Path target) {
-        Predicate<Path> predicate = p -> p.toFile().getName().endsWith("java");
-        List<Path> list = new ArrayList<>();
-        try {
-            list = SearchProg.search(target, predicate);
-        } catch (IOException e) {
+        try (ZipOutputStream zipOut = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(target.toFile())))) {
+            for (Path path : sources) {
+                zipOut.putNextEntry(new ZipEntry(path.toString()));
+            }
+
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
+        }
 
-    }
+
 
     /**
      * Метод архивирует один определенный файл.
@@ -54,20 +58,26 @@ public class Zip {
         }
     }
 
-    public static void main(String[] args) {
-        if (args.length == 0) {
+    /**
+     * Метод для проверки и запуска методом класса.
+     * @param args Входные аргументы (-d=c:\project\job4j\ -e=java -o=/resources/project.zip) указываем в настройках файла в Intellije IDEA.
+     */
+    public static void main(String[] args) throws IOException {
+/*        if (args.length == 0) { // выполняем проверку чтобы массив принимаемых аргументов небыл пуст
             throw new IllegalArgumentException("Root folder is null. Usage java -jar dir.jar ROOT_FOLDER.");
-        }
+        }*/
         new Zip().packSingleFile(
                 new File("./resources/serverlog.txt"),
                 new File("./resources/serverlog.zip")
         );
-        ArgsName parameters = ArgsName.of(args);
-        //System.out.println(parameters.get("d"));
-        Predicate<Path> predicate = p -> p.toFile().getName().endsWith(parameters.get("e"));
-
-
-/*        Predicate<Path> pstr = p -> p.toFile().getName().endsWith("java");
-        new Zip().packFiles();*/
+        ArgsName mapArgs = ArgsName.of(args); // создаем map (ключ-значение) из входных параметров
+        // Predicate<Path> predicate = p -> p.toFile().toString().endsWith(mapArgs.get("e")); // условие отбора файлов
+        //Predicate<Path> predicate = path -> path.toFile().isDirectory() || path.endsWith(mapArgs.get("e"));
+        Predicate<Path> predicate = path -> !path.toFile().getName().startsWith("s");
+        Path rootPath = Paths.get(mapArgs.get("d")); // дирректория которую мы будем архивировать
+        List<Path> list = SearchProg.search(rootPath, predicate); // отобранный лист папок и дирректорий
+        Zip zip = new Zip();
+        Path target = Paths.get(mapArgs.get("o")); // zip файл в который будем все архивировать
+        zip.packFiles(list, target); // архивируем дирректорию
     }
 }

@@ -1,10 +1,18 @@
-package ru.job4j.inout.io;
+package ru.job4j.inout.io.encoding;
 
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.List;
 
+/**
+ * Чтение и запись информации в файл с учетом кодировки.
+ */
 public class UsageEncoding {
+    /**
+     * Метод чтения данных.
+     * @param path
+     * @return
+     */
     public String readFile(String path) {
         StringBuilder builder = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new FileReader(path, Charset.forName("WINDOWS-1251")))) {
@@ -18,6 +26,11 @@ public class UsageEncoding {
         return builder.toString();
     }
 
+    /**
+     * Метод записи данных в файл.
+     * @param path
+     * @param data
+     */
     public void writeDataInFile(String path, String data) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(path, Charset.forName("WINDOWS-1251"), true))) {
             bw.write(data + System.lineSeparator());

@@ -21,6 +21,7 @@ public class SearchProgTest {
         List<Path> rsl = SearchProg.search(path, predicate);
         List<Path> list = new ArrayList<>();
         list.add(Paths.get("C:\\projects\\job4j_design\\resources\\serverlog.txt"));
+        list.add(Paths.get("C:\\projects\\job4j_design\\resources\\serverlog.zip"));
         list.add(Paths.get("C:\\projects\\job4j_design\\resources\\servernotwork.txt"));
         assertThat(rsl, is(list));
     }

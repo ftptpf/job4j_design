@@ -24,13 +24,14 @@ public class Zip {
      * @param target файл в который мы архивируем
      */
     public void packFiles(List<Path> sources, Path target) {
-        if (sources.size() == 0) { // выполняем проверку чтобы лист файлов и папок которые мы получили не был пуст
+/*        if (sources.size() == 0) { // выполняем проверку чтобы лист файлов и папок которые мы получили не был пуст
             throw new IllegalArgumentException("Пустой список архивирования папок, файлов.");
-        }
+        }*/
         try (ZipOutputStream zipOut = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(target.toFile())))) {
-            zipOut.putNextEntry(new ZipEntry(target.toString()));
+            //zipOut.putNextEntry(new ZipEntry(target.toString()));
             for (Path path : sources) {
-                try (BufferedInputStream fromFile = new BufferedInputStream(new FileInputStream(path.toString()))) {
+                zipOut.putNextEntry(new ZipEntry(path.toFile().getPath()));
+                try (BufferedInputStream fromFile = new BufferedInputStream(new FileInputStream(path.toFile()))) {
                     zipOut.write(fromFile.readAllBytes());
                 }
             }

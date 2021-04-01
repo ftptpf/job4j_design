@@ -1,8 +1,10 @@
 package ru.job4j.inout.io.encoding;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * 'Консольный чат':
@@ -19,6 +21,7 @@ public class ConsoleChat {
     private static final String STOP = "стоп";
     private static final String CONTINUE = "продолжить";
     private List<String> answerList = new ArrayList<>();
+    private boolean indicator = false; // признак начала и окончания паузы в ответах бота
 
     public ConsoleChat(String path, String botAnswer) {
         this.path = path;
@@ -26,19 +29,47 @@ public class ConsoleChat {
     }
     public void run() {
         arrayBotAnswerCollect();
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
+        if (answerList.size() == 0) {
+            throw new IllegalArgumentException("Пустой лист с ответами бота.");
+        }
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in, StandardCharsets.UTF_8))) {
             String str;
             do {
                 str = br.readLine();
-                //int index =
-                System.out.println(answerList.get(1));
-            } while (!str.equals(STOP));
+                try (BufferedWriter bwQuestions = new BufferedWriter(new FileWriter(path, StandardCharsets.UTF_8, true))) {
+                    bwQuestions.write("Я: --- " + str + System.lineSeparator());
+                         if (!pause(str) && !str.equals(OUT) && !indicator) {
+                             String answer = answerList.get(new Random().nextInt(answerList.size()));
+                             System.out.println(answer);
+                             bwQuestions.write("Бот: - " + answer + System.lineSeparator());
+                         }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } while (!str.equals(OUT));
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
-
+    /**
+     * Метод проверяет введение слов "стоп" - "продолжить",
+     * которые соответственно ставят на паузу либо повторно запускают,
+     * ответы бота из листа.
+     * @param str
+     * @return
+     */
+    public boolean pause(String str) {
+        boolean result = false;
+        if (str.equals(STOP)) {
+            result = true;
+            indicator = true;
+        } else if (str.equals(CONTINUE)) {
+            result = false;
+            indicator = false;
+        }
+        return result;
     }
 
     /**
@@ -47,7 +78,7 @@ public class ConsoleChat {
      */
     public void arrayBotAnswerCollect() {
         try (BufferedReader br = new BufferedReader(new FileReader(botAnswer))) {
-            answerList.add(br.readLine());
+            br.lines().forEach(answerList::add);
         } catch (IOException e) {
             e.printStackTrace();
         }

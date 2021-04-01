@@ -21,7 +21,8 @@ public class ConsoleChat {
     private static final String STOP = "стоп";
     private static final String CONTINUE = "продолжить";
     private List<String> answerList = new ArrayList<>();
-    private boolean indicator = false; // признак начала и окончания паузы в ответах бота
+    private boolean pauseStop = false; // признак начала и окончания паузы в ответах бота
+
 
     public ConsoleChat(String path, String botAnswer) {
         this.path = path;
@@ -36,15 +37,16 @@ public class ConsoleChat {
             String str;
             do {
                 str = br.readLine();
-                try (BufferedWriter bwQuestions = new BufferedWriter(new FileWriter(path, StandardCharsets.UTF_8, true))) {
-                    bwQuestions.write("Я: --- " + str + System.lineSeparator());
-                         if (!pause(str) && !str.equals(OUT) && !indicator) {
-                             String answer = answerList.get(new Random().nextInt(answerList.size()));
-                             System.out.println(answer);
-                             bwQuestions.write("Бот: - " + answer + System.lineSeparator());
-                         }
-                } catch (IOException e) {
-                    e.printStackTrace();
+                try (BufferedWriter bw = new BufferedWriter(new FileWriter(path, StandardCharsets.UTF_8, true))) {
+                    bw.write("Я: --- " + str + System.lineSeparator());
+                    pause(str);
+                    if (!str.equals(OUT)) {
+                        if (!pauseStop) {
+                            String answer = answerList.get(new Random().nextInt(answerList.size()));
+                            System.out.println(answer);
+                            bw.write("Бот: - " + answer + System.lineSeparator());
+                        }
+                    }
                 }
             } while (!str.equals(OUT));
 
@@ -60,16 +62,12 @@ public class ConsoleChat {
      * @param str
      * @return
      */
-    public boolean pause(String str) {
-        boolean result = false;
+    public void pause(String str) {
         if (str.equals(STOP)) {
-            result = true;
-            indicator = true;
+            pauseStop = true;
         } else if (str.equals(CONTINUE)) {
-            result = false;
-            indicator = false;
+            pauseStop = false;
         }
-        return result;
     }
 
     /**

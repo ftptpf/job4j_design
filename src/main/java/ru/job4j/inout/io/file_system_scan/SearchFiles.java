@@ -1,4 +1,4 @@
-package ru.job4j.inout.io;
+package ru.job4j.inout.io.file_system_scan;
 
 import java.io.IOException;
 import java.nio.file.FileVisitResult;

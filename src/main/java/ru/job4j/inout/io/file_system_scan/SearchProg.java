@@ -1,4 +1,4 @@
-package ru.job4j.inout.io;
+package ru.job4j.inout.io.file_system_scan;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -24,6 +24,9 @@ public class SearchProg {
                 .forEach(System.out::println);
     }
     public static List<Path> search(Path root, Predicate<Path> condition) throws IOException {
+        if (!root.toFile().exists()) {
+            throw new IllegalArgumentException("The wrong root directory path.");
+        }
         SearchFiles searcher = new SearchFiles(condition);
         Files.walkFileTree(root, searcher);
         return searcher.getPaths();

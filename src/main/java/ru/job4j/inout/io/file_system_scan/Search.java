@@ -1,4 +1,6 @@
-package ru.job4j.inout.io;
+package ru.job4j.inout.io.file_system_scan;
+
+import ru.job4j.inout.io.PrintFiles;
 
 import java.io.IOException;
 import java.nio.file.*;

@@ -1,4 +1,4 @@
-package ru.job4j.inout.io;
+package ru.job4j.inout.io.named_arguments;
 
 import java.util.HashMap;
 import java.util.Map;

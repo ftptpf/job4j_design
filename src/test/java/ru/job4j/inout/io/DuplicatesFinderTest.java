@@ -5,6 +5,8 @@ import org.junit.Test;
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
+import java.util.Map;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
@@ -25,7 +27,17 @@ public class DuplicatesFinderTest {
                 + "]}";
 
 
-        String str = DuplicatesFinder.findDuplicate(start).toString();
-        assertThat(str, is(resultStr));
+        Map<FileProperty, List<Path>> mapDuplicates = DuplicatesFinder.findDuplicate(start);
+        List<Path> pathList = List.of(one, two);
+
+        /* Выполняем проверку что у нас один ключ и он соответствует определенному значению */
+        assertEquals(1, mapDuplicates.keySet().size());
+        FileProperty fileProperty = new FileProperty("temp.txt", one.toFile().length());
+        assertTrue(mapDuplicates.containsKey(fileProperty));
+
+        /* Выполняем проверку значений и их соответствия */
+        assertEquals(2, mapDuplicates.get(fileProperty).size());
+        assertTrue(mapDuplicates.get(fileProperty).contains(one.toAbsolutePath()));
+        assertTrue(mapDuplicates.get(fileProperty).contains(two.toAbsolutePath()));
     }
 }

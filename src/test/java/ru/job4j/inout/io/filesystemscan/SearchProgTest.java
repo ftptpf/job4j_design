@@ -29,11 +29,7 @@ public class SearchProgTest {
         list.add(one);
         list.add(two);
         list.add(three);
-/*        assertThat(rsl, is(list));
-        assertEquals(rsl, list);*/
 
         assertTrue(rsl.size() == 3 && rsl.containsAll(list));
-
-
     }
 }

@@ -32,7 +32,7 @@ public class SearchProgTest {
 /*        assertThat(rsl, is(list));
         assertEquals(rsl, list);*/
 
-        assertTrue(rsl.size()==3 && rsl.contains(one) && rsl.contains(two) && rsl.contains(three));
+        assertTrue(rsl.size() == 3 && rsl.containsAll(list));
 
 
     }

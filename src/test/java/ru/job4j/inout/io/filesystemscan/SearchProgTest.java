@@ -20,7 +20,7 @@ public class SearchProgTest {
         Path path = Paths.get("resources");
         Predicate<Path> predicate = p -> p.toFile().getName().startsWith("s");
         List<Path> rsl = SearchProg.search(path, predicate);
-        List<Path> list = new LinkedList<>();
+        List<Path> list = new ArrayList<>();
 
         Path one = Paths.get("resources", "serverlog.txt");
         Path two = Paths.get("resources", "serverlog.zip");
@@ -29,8 +29,10 @@ public class SearchProgTest {
         list.add(one);
         list.add(two);
         list.add(three);
-        assertThat(rsl, is(list));
-        assertEquals(rsl, list);
+/*        assertThat(rsl, is(list));
+        assertEquals(rsl, list);*/
+
+        assertTrue(rsl.size()==3 && rsl.contains(one) && rsl.contains(two) && rsl.contains(three));
 
 
     }

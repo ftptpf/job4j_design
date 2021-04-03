@@ -14,8 +14,12 @@ public class DuplicatesFinderTest {
     @Test
     public void main() throws IOException {
         Path start = Paths.get("resources");
-        String resultStr =
-                "{FileProperty{name='temp.txt', size=53}=[C:\\projects\\job4j_design\\resources\\1\\temp.txt, C:\\projects\\job4j_design\\resources\\2\\temp.txt]}";
+        Path one = Path.of("resources", "1", "temp.txt");
+        Path two = Path.of("resources", "2", "temp.txt");
+        /*String resultStr =
+                "{FileProperty{name='temp.txt', size=53}=[C:\\projects\\job4j_design\\resources\\1\\temp.txt, C:\\projects\\job4j_design\\resources\\2\\temp.txt]}";*/
+        String resultStr = "{FileProperty{name='temp.txt', size=53}=[" + one.toAbsolutePath().toString() + ", " + two.toAbsolutePath().toString() +"]}";
+
 
         String str = DuplicatesFinder.findDuplicate(start).toString();
         assertThat(str, is(resultStr));

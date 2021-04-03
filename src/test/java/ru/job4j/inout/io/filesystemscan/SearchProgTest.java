@@ -16,13 +16,17 @@ public class SearchProgTest {
 
     @Test
     public void searchFileS() throws IOException {
-        Path path = Paths.get("C:", "projects", "job4j_design", "resources");
+        Path path = Paths.get("resources");
         Predicate<Path> predicate = p -> p.toFile().getName().startsWith("s");
         List<Path> rsl = SearchProg.search(path, predicate);
         List<Path> list = new ArrayList<>();
-        list.add(Paths.get("C:\\projects\\job4j_design\\resources\\serverlog.txt"));
-        list.add(Paths.get("C:\\projects\\job4j_design\\resources\\serverlog.zip"));
-        list.add(Paths.get("C:\\projects\\job4j_design\\resources\\servernotwork.txt"));
+        Path one = Paths.get("resources", "serverlog.txt");
+        Path two = Paths.get("resources", "serverlog.zip");
+        Path three = Paths.get("resources", "servernotwork.txt");
+
+        list.add(one);
+        list.add(two);
+        list.add(three);
         assertThat(rsl, is(list));
     }
 }

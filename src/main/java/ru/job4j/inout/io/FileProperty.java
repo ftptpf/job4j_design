@@ -52,7 +52,6 @@ public class FileProperty {
     public String toString() {
         return "FileProperty{"
                 + "name='" + name + '\''
-                + ", size=" + size
                 + '}';
     }
 }

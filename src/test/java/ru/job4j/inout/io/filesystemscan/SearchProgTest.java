@@ -27,6 +27,7 @@ public class SearchProgTest {
         list.add(one);
         list.add(two);
         list.add(three);
-        assertThat(rsl, is(list));
+        //assertThat(rsl, is(list));
+        assertEquals(rsl, list);
     }
 }

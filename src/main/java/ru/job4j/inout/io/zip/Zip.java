@@ -1,7 +1,7 @@
 package ru.job4j.inout.io.zip;
 
-import ru.job4j.inout.io.named_arguments.ArgsName;
-import ru.job4j.inout.io.file_system_scan.SearchProg;
+import ru.job4j.inout.io.namedarguments.ArgsName;
+import ru.job4j.inout.io.filesystemscan.SearchProg;
 
 import java.io.*;
 import java.nio.file.Path;

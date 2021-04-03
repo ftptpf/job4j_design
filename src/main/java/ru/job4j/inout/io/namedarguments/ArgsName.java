@@ -1,4 +1,4 @@
-package ru.job4j.inout.io.named_arguments;
+package ru.job4j.inout.io.namedarguments;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +23,7 @@ public class ArgsName {
             if (validate(keyAndParamArray)) {
                 throw new IllegalArgumentException("Check the source data. Check the source data. Wrong keys and parameters in it.");
             }
-            values.put(keyAndParamArray[0].substring(1),keyAndParamArray[1]);
+            values.put(keyAndParamArray[0].substring(1), keyAndParamArray[1]);
         }
     }
     public static boolean validate(String[] array) {

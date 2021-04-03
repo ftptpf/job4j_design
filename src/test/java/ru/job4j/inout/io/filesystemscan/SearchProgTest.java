@@ -1,7 +1,6 @@
-package ru.job4j.inout.io.file_system_scan;
+package ru.job4j.inout.io.filesystemscan;
 
 import org.junit.Test;
-import ru.job4j.inout.io.file_system_scan.SearchProg;
 
 import java.io.IOException;
 import java.nio.file.Path;

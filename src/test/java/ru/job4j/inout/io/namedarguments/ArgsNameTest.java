@@ -1,7 +1,6 @@
-package ru.job4j.inout.io.named_arguments;
+package ru.job4j.inout.io.namedarguments;
 
 import org.junit.Test;
-import ru.job4j.inout.io.named_arguments.ArgsName;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;

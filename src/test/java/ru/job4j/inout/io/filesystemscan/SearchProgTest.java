@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -19,7 +20,8 @@ public class SearchProgTest {
         Path path = Paths.get("resources");
         Predicate<Path> predicate = p -> p.toFile().getName().startsWith("s");
         List<Path> rsl = SearchProg.search(path, predicate);
-        List<Path> list = new ArrayList<>();
+        List<Path> list = new LinkedList<>();
+
         Path one = Paths.get("resources", "serverlog.txt");
         Path two = Paths.get("resources", "serverlog.zip");
         Path three = Paths.get("resources", "servernotwork.txt");
@@ -27,7 +29,9 @@ public class SearchProgTest {
         list.add(one);
         list.add(two);
         list.add(three);
-        //assertThat(rsl, is(list));
+        assertThat(rsl, is(list));
         assertEquals(rsl, list);
+
+
     }
 }

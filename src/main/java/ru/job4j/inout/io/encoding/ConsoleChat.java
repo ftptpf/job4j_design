@@ -2,6 +2,7 @@ package ru.job4j.inout.io.encoding;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -20,7 +21,8 @@ public class ConsoleChat {
     private static final String OUT = "закончить";
     private static final String STOP = "стоп";
     private static final String CONTINUE = "продолжить";
-    private List<String> answerList = new ArrayList<>();
+    private List<String> answerList = new ArrayList<>(); // лист с ответами бота
+    private StringBuilder log = new StringBuilder(); // собираем переписку с ботом перед записью её в файл
     private boolean pauseStop = false; // признак начала и окончания паузы в ответах бота
 
 
@@ -28,6 +30,13 @@ public class ConsoleChat {
         this.path = path;
         this.botAnswer = botAnswer;
     }
+
+    /**
+     * Метод читает данные  которые пользователь вводит в командной строке
+     * и формирует ответ пользователю в командной строке,
+     * случайным образов беря строку с ответ из листа answerList.
+     * Вся переписка записывается в StringBuilder log файл.
+     */
     public void run() {
         arrayBotAnswerCollect();
         if (answerList.size() == 0) {
@@ -37,19 +46,28 @@ public class ConsoleChat {
             String str;
             do {
                 str = br.readLine();
-                try (BufferedWriter bw = new BufferedWriter(new FileWriter(path, StandardCharsets.UTF_8, true))) {
-                    bw.write("Я: --- " + str + System.lineSeparator());
-                    pause(str);
-                    if (!str.equals(OUT)) {
-                        if (!pauseStop) {
-                            String answer = answerList.get(new Random().nextInt(answerList.size()));
-                            System.out.println(answer);
-                            bw.write("Бот: - " + answer + System.lineSeparator());
-                        }
+                log.append("Я: --- ").append(str).append(System.lineSeparator());
+                pause(str);
+                if (!str.equals(OUT)) {
+                    if (!pauseStop) {
+                        String answer = answerList.get(new Random().nextInt(answerList.size()));
+                        System.out.println(answer);
+                        log.append("Бот: - ").append(answer).append(System.lineSeparator());
                     }
                 }
             } while (!str.equals(OUT));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    /**
+     * Метод записывает собранный в StringBuilder log диалог с ботом в файл.
+     */
+    public void writeLogToFile() {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(path, StandardCharsets.UTF_8, true))) {
+            String logString = log.toString();
+            bw.write(logString);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -83,7 +101,11 @@ public class ConsoleChat {
     }
 
     public static void main(String[] args) {
-        ConsoleChat cc = new ConsoleChat("resources/logConsoleChat.txt", "resources/botAnswer.txt");
+        ConsoleChat cc = new ConsoleChat(
+                Paths.get("resources", "logConsoleChat.txt").toString(),
+                Paths.get("resources", "botAnswer.txt").toString());
+        //ConsoleChat cc = new ConsoleChat("resources/logConsoleChat.txt", "resources/botAnswer.txt");
         cc.run();
+        cc.writeLogToFile();
     }
 }

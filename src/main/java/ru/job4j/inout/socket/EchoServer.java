@@ -12,7 +12,7 @@ public class EchoServer {
         try (ServerSocket server = new ServerSocket(9000)) { // создаем сервер по умолчанию localhost порт 9000
             while (!server.isClosed()) { // до тех пор пока сервер не закрыт
                 Socket socket = server.accept(); // переводим сервер в режим ожидания когда к нему обратиться клиент
-                try (OutputStream out = socket.getOutputStream();
+                try (OutputStream out = socket.getOutputStream(); // создает поток от сервера
                      BufferedReader in = new BufferedReader(
                              new InputStreamReader(socket.getInputStream()))) { // создаем поток на чтение данных от клиента
                     String str;

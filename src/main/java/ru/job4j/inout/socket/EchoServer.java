@@ -19,6 +19,8 @@ public class EchoServer {
                     while (!(str = in.readLine()).isEmpty()) { // все прочитанные данные от клиента
                         System.out.println(str); // выводим на консоль
                         if (str.startsWith("GET") && str.contains("Bye")) { // если строка ответа начинается с "GET" и содержит "Bye"
+                            out.write("HTTP/1.1 200 OK".getBytes()); // записываем ответ - "HTTP/1.1 200 OK"
+                            out.write(System.lineSeparator().getBytes()); // записываем перевод строки
                             server.close(); // закрываем сервер
                         }
                     }

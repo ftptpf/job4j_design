@@ -22,7 +22,7 @@ public class ConsoleChat {
     private static final String STOP = "стоп";
     private static final String CONTINUE = "продолжить";
     private List<String> answerList = new ArrayList<>(); // лист с ответами бота
-    private StringBuilder log = new StringBuilder(); // собираем переписку с ботом перед записью её в файл
+    private List<String> logList = new ArrayList<>(); // в лист собираем переписку с ботом перед записью её в файл
     private boolean pauseStop = false; // признак начала и окончания паузы в ответах бота
 
 
@@ -32,7 +32,7 @@ public class ConsoleChat {
     }
 
     /**
-     * Метод читает данные  которые пользователь вводит в командной строке
+     * Метод читает данные которые пользователь вводит в командной строке
      * и формирует ответ пользователю в командной строке,
      * случайным образов беря строку с ответ из листа answerList.
      * Вся переписка записывается в StringBuilder log файл.
@@ -46,13 +46,13 @@ public class ConsoleChat {
             String str;
             do {
                 str = br.readLine();
-                log.append("Я: --- ").append(str).append(System.lineSeparator());
+                logList.add("Я: --- " + str + " " + System.lineSeparator());
                 pause(str);
                 if (!str.equals(OUT)) {
                     if (!pauseStop) {
                         String answer = answerList.get(new Random().nextInt(answerList.size()));
                         System.out.println(answer);
-                        log.append("Бот: - ").append(answer).append(System.lineSeparator());
+                        logList.add("Бот: - " + answer + " " + System.lineSeparator());
                     }
                 }
             } while (!str.equals(OUT));
@@ -62,12 +62,13 @@ public class ConsoleChat {
     }
 
     /**
-     * Метод записывает собранный в StringBuilder log диалог с ботом в файл.
+     * Метод записывает собранный в List<String> logList диалог с ботом в файл.
      */
     public void writeLogToFile() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(path, StandardCharsets.UTF_8, true))) {
-            String logString = log.toString();
-            bw.write(logString);
+            for (String logString : logList) {
+                bw.write(logString);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -104,7 +105,6 @@ public class ConsoleChat {
         ConsoleChat cc = new ConsoleChat(
                 Paths.get("resources", "logConsoleChat.txt").toString(),
                 Paths.get("resources", "botAnswer.txt").toString());
-        //ConsoleChat cc = new ConsoleChat("resources/logConsoleChat.txt", "resources/botAnswer.txt");
         cc.run();
         cc.writeLogToFile();
     }

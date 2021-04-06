@@ -27,12 +27,19 @@ public class EchoServer {
                     String str;
                     while (!(str = in.readLine()).isEmpty()) { // все прочитанные данные от клиента
                         System.out.println(str); // выводим на консоль
-                        if (str.startsWith("GET") && str.contains("Bye")) { // если строка ответа начинается с "GET" и содержит "Bye"
+                        out.write("HTTP/1.1 200 OK".getBytes()); // записываем ответ - "HTTP/1.1 200 OK"
+                        out.write(System.lineSeparator().getBytes()); // записываем перевод строки
+                        if (str.startsWith("GET") && str.contains("Hello")) {
+                            out.write("Hello".getBytes());
+                            break;
+                        } else if (str.startsWith("GET") && str.contains("Exit")) { // если строка ответа начинается с "GET" и содержит "Bye"
                             closeServerWork = true;
+                            break;
+                        } else {
+                            out.write("What".getBytes());
                         }
                     }
-                    out.write("HTTP/1.1 200 OK".getBytes()); // записываем ответ - "HTTP/1.1 200 OK"
-                    out.write(System.lineSeparator().getBytes()); // записываем перевод строки
+
                     if (closeServerWork) { // делаем проверку требуется ли закрыть сервер
                         server.close(); // закрываем сервер
                         closeServerWork = false;

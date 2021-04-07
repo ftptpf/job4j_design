@@ -25,19 +25,22 @@ public class EchoServer {
                      BufferedReader in = new BufferedReader(
                              new InputStreamReader(socket.getInputStream()))) { // создаем поток на чтение данных от клиента
                     String str;
+                    String answer = "Exit";
+
                     while (!(str = in.readLine()).isEmpty()) { // все прочитанные данные от клиента
                         System.out.println(str); // выводим на консоль
-                        out.write("HTTP/1.1 200 OK".getBytes()); // записываем ответ - "HTTP/1.1 200 OK"
-                        out.write(System.lineSeparator().getBytes()); // записываем перевод строки
-                        if (str.startsWith("GET") && str.contains("Hello")) {
-                            out.write("Hello".getBytes());
-                            break;
-                        } else if (str.startsWith("GET") && str.contains("Exit")) { // если строка ответа начинается с "GET" и содержит "Bye"
+                        if (str.startsWith("GET") && str.contains("Exit")) { // если строка ответа начинается с "GET" и содержит "Bye"
                             closeServerWork = true;
-                            break;
+                        } else if (str.startsWith("GET") && str.contains("Hello")) {
+                            answer = "Hello";
                         } else {
-                            out.write("What".getBytes());
+                            answer = "What";
                         }
+                    }
+                    out.write("HTTP/1.1 200 OK".getBytes()); // записываем ответ - "HTTP/1.1 200 OK"
+                    out.write(System.lineSeparator().getBytes()); // записываем перевод строки
+                    if (!answer.equals("Exit")) {
+                        out.write(answer.getBytes());
                     }
 
                     if (closeServerWork) { // делаем проверку требуется ли закрыть сервер

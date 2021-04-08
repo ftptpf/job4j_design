@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Objects;
 
 /**
  * Сервер.
@@ -28,10 +29,14 @@ public class EchoServer {
                 try (OutputStream out = socket.getOutputStream(); // создает поток который будут отправлять ответы от сервера
                      BufferedReader in = new BufferedReader(
                              new InputStreamReader(socket.getInputStream()))) { // создаем поток на чтение данных от клиента
-                    String str = "test"; // строка сообщений от "клиента"
+                    String str = "some text"; // строка сообщений от "клиента"
                     String answer = "Exit"; // контрольная строка
 
-                    while (!(str = in.readLine()).isEmpty()) { // все прочитанные данные от клиента
+                    while (!Objects.requireNonNull(str = in.readLine()).isEmpty()) { // все прочитанные данные от клиента
+/*                        str = in.readLine();
+                        if (str == null) {
+                            continue;
+                        }*/
                         System.out.println(str); // выводим на консоль
                         if (str.startsWith("GET /?msg=") && str.contains("Exit")) { // если строка ответа начинается с "GET" и содержит "Exit"
                             closeServerWork = true;

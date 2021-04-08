@@ -24,23 +24,23 @@ public class EchoServer {
                 try (OutputStream out = socket.getOutputStream(); // создает поток который будут отправлять ответы от сервера
                      BufferedReader in = new BufferedReader(
                              new InputStreamReader(socket.getInputStream()))) { // создаем поток на чтение данных от клиента
-                    String str;
-                    String answer = "Exit";
+                    String str; // строка сообщений от "клиента"
+                    String answer = "Exit"; // контрольная строка
 
                     while (!(str = in.readLine()).isEmpty()) { // все прочитанные данные от клиента
                         System.out.println(str); // выводим на консоль
-                        if (str.startsWith("GET") && str.contains("Exit")) { // если строка ответа начинается с "GET" и содержит "Bye"
+                        if (str.startsWith("GET /?msg=") && str.contains("Exit")) { // если строка ответа начинается с "GET" и содержит "Exit"
                             closeServerWork = true;
-                        } else if (str.startsWith("GET") && str.contains("Hello")) {
+                        } else if (str.startsWith("GET /?msg=") && str.contains("Hello")) { // // если строка ответа начинается с "GET" и содержит "Hello"
                             answer = "Hello";
-                        } else {
+                        } else if (str.startsWith("GET /?msg=")) { // в ином случае
                             answer = "What";
                         }
                     }
                     out.write("HTTP/1.1 200 OK".getBytes()); // записываем ответ - "HTTP/1.1 200 OK"
                     out.write(System.lineSeparator().getBytes()); // записываем перевод строки
-                    if (!answer.equals("Exit")) {
-                        out.write(answer.getBytes());
+                    if (!answer.equals("Exit")) { // если контрольная строка не содержит "Exit"
+                        out.write(answer.getBytes()); // выводим контрольное сообщение на консоль
                     }
 
                     if (closeServerWork) { // делаем проверку требуется ли закрыть сервер

@@ -9,9 +9,13 @@ import java.net.Socket;
 
 /**
  * Сервер.
- * При отправке сообщения клиентом: http://localhost:9000/?msg=Hello
+ * При отправке сообщения браузером-клиентом: http://localhost:9000/?msg=Hello
  * Сервер отвечает:HTTP/1.1 200 OK
- * При отправке сообщения клиентом: http://localhost:9000/?msg=Bye
+ * И выводит в браузере Hello.
+ * При отправке любого сообщения под звездочками (кроме Exit ) браузером-клиентом: http://localhost:9000/?msg=***
+ * Сервер отвечает:HTTP/1.1 200 OK
+ * И выводит в браузере What.
+ * При отправке сообщения клиентом: http://localhost:9000/?msg=Exit
  * Сервер отвечает:HTTP/1.1 200 OK
  * и завершает работу.
  */
@@ -24,7 +28,7 @@ public class EchoServer {
                 try (OutputStream out = socket.getOutputStream(); // создает поток который будут отправлять ответы от сервера
                      BufferedReader in = new BufferedReader(
                              new InputStreamReader(socket.getInputStream()))) { // создаем поток на чтение данных от клиента
-                    String str; // строка сообщений от "клиента"
+                    String str = "test"; // строка сообщений от "клиента"
                     String answer = "Exit"; // контрольная строка
 
                     while (!(str = in.readLine()).isEmpty()) { // все прочитанные данные от клиента
@@ -39,6 +43,7 @@ public class EchoServer {
                     }
                     out.write("HTTP/1.1 200 OK".getBytes()); // записываем ответ - "HTTP/1.1 200 OK"
                     out.write(System.lineSeparator().getBytes()); // записываем перевод строки
+                    out.write(System.lineSeparator().getBytes()); // записываем еще раз перевод строки
                     if (!answer.equals("Exit")) { // если контрольная строка не содержит "Exit"
                         out.write(answer.getBytes()); // выводим контрольное сообщение на консоль
                     }

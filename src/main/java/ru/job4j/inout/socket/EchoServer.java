@@ -1,9 +1,6 @@
 package ru.job4j.inout.socket;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Objects;
@@ -28,15 +25,18 @@ public class EchoServer {
                 Socket socket = server.accept(); // переводим сервер в режим ожидания когда к нему обратиться клиент
                 try (OutputStream out = socket.getOutputStream(); // создает поток который будут отправлять ответы от сервера
                      BufferedReader in = new BufferedReader(
-                             new InputStreamReader(socket.getInputStream()))) { // создаем поток на чтение данных от клиента
+                             new InputStreamReader(socket.getInputStream()));
+                     FileReader fr = new FileReader()) { // создаем поток на чтение данных от клиента
+                    String all;
                     String str = "some text"; // строка сообщений от "клиента"
                     String answer = "Exit"; // контрольная строка
 
-                    while (!Objects.requireNonNull(str = in.readLine()).isEmpty()) { // все прочитанные данные от клиента
-/*                        str = in.readLine();
+                    while (str != null && !str.isEmpty()) { // все прочитанные данные от клиента
+                        str = in.readLine();
+                        all = in.r
                         if (str == null) {
                             continue;
-                        }*/
+                        }
                         System.out.println(str); // выводим на консоль
                         if (str.startsWith("GET /?msg=") && str.contains("Exit")) { // если строка ответа начинается с "GET" и содержит "Exit"
                             closeServerWork = true;

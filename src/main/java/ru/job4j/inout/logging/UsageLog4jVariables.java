@@ -21,6 +21,6 @@ public class UsageLog4jVariables {
         LOG.debug("Address: {} , {}, {}", city, street, flat);
         LOG.debug("Passport: {}", passport);
         LOG.debug("Distance from NY to Krasnoyarsk: {} miles", distance);
-        LOG.debug("The: {} is equals to {}" , ch, p);
+        LOG.debug("The: {} is equals to {}", ch, p);
     }
 }

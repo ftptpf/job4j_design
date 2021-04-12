@@ -3,7 +3,6 @@ package ru.job4j.inout.socket;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Objects;
 
 /**
  * Сервер.
@@ -29,8 +28,7 @@ public class EchoServer {
                     String str = "some text"; // строка сообщений от "клиента"
                     String answer = "Exit"; // контрольная строка
 
-                    while (str != null && !str.isEmpty()) { // все прочитанные данные от клиента
-
+                    while (str != null && !str.isEmpty()) { // пока строка не равна null и не пустая строка
                         if (str.startsWith("GET /?msg=") && str.contains("Exit")) { // если строка ответа начинается с "GET" и содержит "Exit"
                             closeServerWork = true;
                         } else if (str.startsWith("GET /?msg=") && str.contains("Hello")) { // // если строка ответа начинается с "GET" и содержит "Hello"
@@ -38,8 +36,8 @@ public class EchoServer {
                         } else if (str.startsWith("GET /?msg=")) { // в ином случае
                             answer = "What";
                         }
-                        str = in.readLine();
-                        System.out.println(str); // выводим на консоль
+                        str = in.readLine(); // читаем строку в потоке ввода
+                        System.out.println(str); // выводим прочитанную строку на консоль
                     }
                     out.write(("HTTP/1.1 200 OK\r\n\r\n").getBytes()); // записываем ответ - "HTTP/1.1 200 OK" и делаем два перевода строки
 

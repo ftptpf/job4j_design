@@ -7,9 +7,16 @@ import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * Сервер к которому можно обращаться с командной строки, например
+ * curl -i http://localhost:9000/?msg=Hello
+ * Чтобы закрыть сервер отправляем команду
+ * curl -i http://localhost:9000/?msg=Bye
+ */
 public class EchoServerSimple {
     public static void main(String[] args) throws IOException {
         try (ServerSocket server = new ServerSocket(9000)) {
+            boolean closeServerWork = false; // признак закрытия сервера
             while (!server.isClosed()) {
                 Socket socket = server.accept();
                 try (OutputStream out = socket.getOutputStream();
@@ -17,14 +24,17 @@ public class EchoServerSimple {
                     String str;
                     while (!(str = in.readLine()).isEmpty()) {
                         System.out.println(str);
-/*                        if (str.contains("GET /?msg=Bye HTTP/1.1")) {
-
-                        }*/
+                        if (str.startsWith("GET") && str.contains("Bye")) {
+                            closeServerWork = true;
+                        }
                     }
                     out.write(("HTTP/1.1 200 OK\r\n\r\n").getBytes());
+                    if (closeServerWork) {
+                        server.close();
+                        closeServerWork = false;
+                    }
                 }
             }
         }
     }
 }
-

@@ -25,7 +25,7 @@ public class EchoServer {
                 Socket socket = server.accept(); // переводим сервер в режим ожидания когда к нему обратиться клиент
                 try (OutputStream out = socket.getOutputStream(); // создает поток который будут отправлять ответы от сервера
                      BufferedReader in = new BufferedReader(
-                             new InputStreamReader(socket.getInputStream()))){  // создаем поток на чтение данных от клиента
+                             new InputStreamReader(socket.getInputStream()))) {  // создаем поток на чтение данных от клиента
                     String str = "some text"; // строка сообщений от "клиента"
                     String answer = "Exit"; // контрольная строка
 

@@ -25,19 +25,12 @@ public class EchoServer {
                 Socket socket = server.accept(); // переводим сервер в режим ожидания когда к нему обратиться клиент
                 try (OutputStream out = socket.getOutputStream(); // создает поток который будут отправлять ответы от сервера
                      BufferedReader in = new BufferedReader(
-                             new InputStreamReader(socket.getInputStream()));
-                     FileReader fr = new FileReader()) { // создаем поток на чтение данных от клиента
-                    String all;
+                             new InputStreamReader(socket.getInputStream()))){  // создаем поток на чтение данных от клиента
                     String str = "some text"; // строка сообщений от "клиента"
                     String answer = "Exit"; // контрольная строка
 
                     while (str != null && !str.isEmpty()) { // все прочитанные данные от клиента
-                        str = in.readLine();
-                        all = in.r
-                        if (str == null) {
-                            continue;
-                        }
-                        System.out.println(str); // выводим на консоль
+
                         if (str.startsWith("GET /?msg=") && str.contains("Exit")) { // если строка ответа начинается с "GET" и содержит "Exit"
                             closeServerWork = true;
                         } else if (str.startsWith("GET /?msg=") && str.contains("Hello")) { // // если строка ответа начинается с "GET" и содержит "Hello"
@@ -45,10 +38,11 @@ public class EchoServer {
                         } else if (str.startsWith("GET /?msg=")) { // в ином случае
                             answer = "What";
                         }
+                        str = in.readLine();
+                        System.out.println(str); // выводим на консоль
                     }
-                    out.write("HTTP/1.1 200 OK".getBytes()); // записываем ответ - "HTTP/1.1 200 OK"
-                    out.write(System.lineSeparator().getBytes()); // записываем перевод строки
-                    out.write(System.lineSeparator().getBytes()); // записываем еще раз перевод строки
+                    out.write(("HTTP/1.1 200 OK\r\n\r\n").getBytes()); // записываем ответ - "HTTP/1.1 200 OK" и делаем два перевода строки
+
                     if (!answer.equals("Exit")) { // если контрольная строка не содержит "Exit"
                         out.write(answer.getBytes()); // выводим контрольное сообщение на консоль
                     }

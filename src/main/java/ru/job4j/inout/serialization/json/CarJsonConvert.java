@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 
 public class CarJsonConvert {
     public static void main(String[] args) {
-        final Car car = new Car("VW",1990, true, new Engine(100), "Ivan", "Sergey");
+        final Car car = new Car("VW", 1990, true, new Engine(100), "Ivan", "Sergey");
         /* Преобразуем объет Person в json строку */
         final Gson gson = new GsonBuilder().create();
         System.out.println(gson.toJson(car));

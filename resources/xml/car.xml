@@ -1,0 +1,14 @@
+<?xml version="1.1" encoding="UTF-8" ?>
+<!-- Объект автомобиль -->
+<car>
+    <brand>BWM</brand>
+    <year>205</year>
+    <gas>true</gas>
+    <engine>
+        <power>150</power>
+    </engine>
+    <owners>
+        <owner>Igor</owner>
+        <owner>Gena</owner>
+    </owners>
+</car>

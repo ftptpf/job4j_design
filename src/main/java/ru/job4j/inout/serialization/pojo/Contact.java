@@ -3,9 +3,8 @@ package ru.job4j.inout.serialization.pojo;
 import com.sun.xml.txw2.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlAttribute;
 
+@XmlElement(value = "contact")
 
-
-@XmlElelement(value = "contact")
 public class Contact {
 
     @XmlAttribute

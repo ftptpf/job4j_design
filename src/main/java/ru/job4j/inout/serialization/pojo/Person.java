@@ -1,9 +1,6 @@
 package ru.job4j.inout.serialization.pojo;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.*;
 import java.util.Arrays;
 
 @XmlRootElement(name = "person")
@@ -16,6 +13,8 @@ public class Person {
     @XmlAttribute
     private int age;
     private Contact contact;
+    @XmlElementWrapper(name = "statuses")
+    @XmlElement(name = "status")
     private String[] statuses;
 
     public Person() {

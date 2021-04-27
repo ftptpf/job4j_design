@@ -10,10 +10,16 @@ public class Shell {
         list.add(path);
     }
     public String pwd() {
-        if (list.contains("..")) {
+        int lastIndex = list.size() - 1;
+        String last = list.get(lastIndex);
+        if (last.equals("..") || last.equals("/")) {
             result = "/";
-        } else if (list.contains("../root")) {
+        } else if (last.equals("../root")) {
             result = "/root";
+        } else if (list.size() == 2 && (list.get(0).startsWith("/") && list.get(1).startsWith("/"))) {
+            result = list.get(1);
+        } else if (list.size() == 2 && !list.contains("/")) {
+            result = "/" + list.get(0) + "/" + list.get(1);
         }
         return result;
     }

@@ -1,5 +1,7 @@
 package ru.job4j.inout.control;
 
+import java.io.File;
+
 /**
  * Программа поиска файлов в заданном каталоге и подкаталогах.
  * Имя файла может задаваться целиком, по маске, по регулярному выражению(не обязательно).
@@ -14,6 +16,8 @@ package ru.job4j.inout.control;
  */
 public class SearchFilesByCriterion {
     public static void main(String[] args) {
+        //File file = new File();
+
 
     }
 

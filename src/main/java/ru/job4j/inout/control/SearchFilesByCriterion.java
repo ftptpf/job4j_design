@@ -1,6 +1,11 @@
 package ru.job4j.inout.control;
 
-import java.io.File;
+import java.io.IOException;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 
 /**
  * Программа поиска файлов в заданном каталоге и подкаталогах.
@@ -13,13 +18,27 @@ import java.io.File;
  * -o - результат записать в файл.
  * Программа должна записывать результат в файл.
  * В программе должна быть валидация ключей и подсказка.
+ * Для работы с входными аргументами (-d=C:\projects\job4j_design\resources -n=*.txt -t=mask -o=.\resources\logSearchFiles.txt)
+ * которые прописываем в Run Configurations в Intellije IDEA, используем класс ParamNames.
  */
 public class SearchFilesByCriterion {
-    public static void main(String[] args) {
-        //File file = new File();
-
+    public void findFiles () {
 
     }
 
+    public static void main(String[] args) {
+        if (args.length == 0) {
+            throw new IllegalArgumentException("Your parameters is empty. Add it.");
+        }
+        ParamNames pr = ParamNames.of(args);
+    }
+
+/*
+    public static void main(String[] args) {
+        //Files.walkFileTree(Path.of("./"), )
+
+    }*/
+
 }
+// ArgsName - Принимаем массив параметров и разбиваем их на пары: ключ, значение.
 

@@ -22,7 +22,7 @@ import java.nio.file.attribute.BasicFileAttributes;
  * которые прописываем в Run Configurations в Intellije IDEA, используем класс ParamNames.
  */
 public class SearchFilesByCriterion {
-    public void findFiles () {
+    public void findFiles() {
 
     }
 

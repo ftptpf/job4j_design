@@ -16,7 +16,8 @@ SELECT name
 Запрос универсальным, т.е. не зависит от конкретного временного промежутка*/
 SELECT name 
 	FROM product
-	WHERE (EXTRACT(MONTH FROM expired_date) -  EXTRACT(MONTH FROM CURRENT_DATE) = 1);
+	WHERE (EXTRACT(MONTH FROM expired_date) =  EXTRACT(MONTH FROM (CURRENT_DATE + INTERVAL'1 MONTH')));	
+	
 
 /*Запрос выводит самый дорогой продукт.*/
 SELECT name

@@ -25,6 +25,7 @@ public class ParamNames {
             values.put(keyAndParamArray[0].substring(1), keyAndParamArray[1]);
         }
     }
+
     public static boolean validate(String[] array) {
         return array.length != 2 || array[0].isEmpty() || array[1].isEmpty();
     }

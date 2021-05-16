@@ -8,6 +8,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
+import static java.nio.file.FileVisitResult.CONTINUE;
 
 /**
  * Обход и выборка файлов по критериям.
@@ -30,8 +31,12 @@ public class FileFind extends SimpleFileVisitor<Path> {
      */
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-        System.out.println(file.toAbsolutePath());
-        return super.visitFile(file, attrs);
+        if (condition.test(file)) {
+            resultListPath.add(file);
+        }
+        //System.out.println(file.toAbsolutePath());
+        //return super.visitFile(file, attrs);
+        return CONTINUE;
     }
 
     /**

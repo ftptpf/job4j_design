@@ -6,7 +6,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.function.Predicate;
 
 /**
  * Программа поиска файлов в заданном каталоге и подкаталогах.
@@ -34,12 +33,11 @@ public class SearchFilesByCriterion {
         if (!rootPath.toFile().exists()) {
             throw new IllegalArgumentException("The wrong root directory path.");
         }
-        if (!t.equals("mask") || !t.equals("name") || !t.equals("regex")) {
-            throw new IllegalArgumentException("The wrong parameter in \"-t\"");
-
-        }
         if (n.length() < 1) {
             throw new IllegalArgumentException("The wrong parameter in \"-n\"");
+        }
+        if (t.length() < 4) {
+            throw new IllegalArgumentException("The wrong length of \"-t\" parameter");
         }
         FileFind ff = new FileFind(n, t);
         Files.walkFileTree(rootPath, ff);
@@ -68,19 +66,6 @@ public class SearchFilesByCriterion {
         }
     }
 
-/*    public Predicate<Path> predicateChoice(String[] args) {
-        ParamNames pr = ParamNames.of(args); // создаем map (ключ-значение) из входных параметров
-        Predicate<Path> predicate = null;
-        if (pr.get("t").equals("name")) {
-            predicate = p -> p.toFile().getName().equals(pr.get("t"));
-        }
-        if (pr.get("t").equals("mask")) {
-
-        }
-        return predicate;
-    }*/
-
-
     public static void main(String[] args) throws IOException {
         if (args.length == 0) {
             throw new IllegalArgumentException("Your parameters is empty. Check and add it.");
@@ -93,8 +78,8 @@ public class SearchFilesByCriterion {
         String n = pr.get("n");
         String t = pr.get("t");
 
-        Predicate<Path> predicate = p -> p.toFile().getName().matches(pr.get("e")); // условие поиска файлов по регулярному выражению
-        Predicate<Path> predicateType = p -> p.toFile().getName().equals(pr.get("t")); // условие определиния типа поиска
+        // Predicate<Path> predicate = p -> p.toFile().getName().matches(pr.get("e")); // условие поиска файлов по регулярному выражению
+        // Predicate<Path> predicateType = p -> p.toFile().getName().equals(pr.get("t")); // условие определиния типа поиска
 
         SearchFilesByCriterion sfc = new SearchFilesByCriterion();
         List<Path> sourcesList = sfc.findFiles(rootPath, n, t);

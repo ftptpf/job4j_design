@@ -37,25 +37,18 @@ public class FileFind extends SimpleFileVisitor<Path> {
      */
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-        condition = p -> p.toFile().getName().equals("n");
-        if (t.equals("name") && condition.test(file)) {
+        if (t.equals("name") && n.equals(file.toFile().getName())) {
             resultListPath.add(file);
         } else if (t.equals("mask")) {
             String regex = n.replace("*", "(\\w|\\d)+").replace("?", "(\\w|\\d){1}");
-            Pattern pattern = Pattern.compile(regex);
-            Matcher matcher = pattern.matcher(file.toString());
-            if (matcher.find()) {
+            if (Pattern.matches(regex, file.toString())) {
                 resultListPath.add(file);
             }
         } else if (t.equals("regex")) {
-            Pattern pattern = Pattern.compile(n);
-            Matcher matcher = pattern.matcher(file.toString());
-            if (matcher.find()) {
+            if (Pattern.matches(n, file.toFile().getName())) {
                 resultListPath.add(file);
             }
-        } /*else {
-            throw new IllegalArgumentException("The wrong parameter in \"-t\"");*/
-        //}
+        }
         return CONTINUE;
     }
 

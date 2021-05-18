@@ -17,19 +17,17 @@ public class SearchProgTest {
 
     @Test
     public void searchFileS() throws IOException {
-        Path path = Paths.get("resources");
-        Predicate<Path> predicate = p -> p.toFile().getName().startsWith("s");
+        Path path = Paths.get("resources/filesystemscan");
+        Predicate<Path> predicate = p -> p.toFile().getName().startsWith("t");
         List<Path> rsl = SearchProg.search(path, predicate);
         List<Path> list = new ArrayList<>();
 
-        Path one = Paths.get("resources", "serverlog.txt");
-        Path two = Paths.get("resources", "serverlog.zip");
-        Path three = Paths.get("resources", "servernotwork.txt");
+        Path one = Paths.get("resources/filesystemscan", "temp1.txt");
+        Path two = Paths.get("resources/filesystemscan", "temp2.txt");
 
         list.add(one);
         list.add(two);
-        list.add(three);
 
-        assertTrue(rsl.size() == 3 && rsl.containsAll(list));
+        assertTrue(rsl.size() == 2 && rsl.containsAll(list));
     }
 }

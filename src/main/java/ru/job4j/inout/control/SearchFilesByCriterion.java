@@ -78,9 +78,6 @@ public class SearchFilesByCriterion {
         String n = pr.get("n");
         String t = pr.get("t");
 
-        // Predicate<Path> predicate = p -> p.toFile().getName().matches(pr.get("e")); // условие поиска файлов по регулярному выражению
-        // Predicate<Path> predicateType = p -> p.toFile().getName().equals(pr.get("t")); // условие определиния типа поиска
-
         SearchFilesByCriterion sfc = new SearchFilesByCriterion();
         List<Path> sourcesList = sfc.findFiles(rootPath, n, t);
         sfc.saveFiles(sourcesList, targetPath);

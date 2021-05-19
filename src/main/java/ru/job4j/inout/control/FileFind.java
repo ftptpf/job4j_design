@@ -8,7 +8,6 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static java.nio.file.FileVisitResult.CONTINUE;
@@ -40,7 +39,10 @@ public class FileFind extends SimpleFileVisitor<Path> {
         if (t.equals("name") && n.equals(file.toFile().getName())) {
             resultListPath.add(file);
         } else if (t.equals("mask")) {
-            String regex = n.replace("*", "(\\w|\\d)+").replace("?", "(\\w|\\d){1}");
+            String regex = n
+                    .replace("*", "(\\w|\\d)+")
+                    .replace("?", "(\\w|\\d){1}")
+                    .replace(".", "\\.");
             if (Pattern.matches(regex, file.toString())) {
                 resultListPath.add(file);
             }

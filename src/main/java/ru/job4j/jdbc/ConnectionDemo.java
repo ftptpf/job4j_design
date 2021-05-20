@@ -1,29 +1,42 @@
 package ru.job4j.jdbc;
 
+import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-
+/**
+ * Подключение к базе данных.
+ */
 public class ConnectionDemo {
+    private static Path path = Paths.get("resources/app.properties"); // путь к properties файлу
+    private static Properties values = new Properties(); // настройки (properties)
 
-    Properties properties = new Properties();
-
-
-
+    /**
+     * Загрузка из properties файла параметров настроек (url, login, password).
+     */
+    public static void loadProperties() {
+        try (BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(path.toFile()))) {
+            values.load(bufferedInputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
+        loadProperties();
         Class.forName("org.postgresql.Driver");
-        String url = "jdbc:postgresql://localhost:5432/idea_db";
-        String login = "postgres";
-        String password = "password";
+        String url = values.getProperty("db.url");
+        String login = values.getProperty("db.login");
+        String password = values.getProperty("db.password");
         try (Connection connection = DriverManager.getConnection(url, login, password)) {
             DatabaseMetaData metaData = connection.getMetaData();
             System.out.println(metaData.getUserName());
             System.out.println(metaData.getURL());
-
         }
     }
 }

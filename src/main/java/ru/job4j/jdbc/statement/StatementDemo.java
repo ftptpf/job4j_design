@@ -1,4 +1,4 @@
-package ru.job4j.jdbc;
+package ru.job4j.jdbc.statement;
 
 import java.sql.*;
 

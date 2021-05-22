@@ -1,32 +1,37 @@
 package ru.job4j.jdbc.statement;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Properties;
 
 public class TableEditor implements AutoCloseable{
     private Connection connection;
-    private Properties properties;
-    private Path path;
+    private static Properties properties = new Properties();
+    private static Path path = Paths.get("resources/jdbc/app.properties");
 
-    public TableEditor(Properties properties) throws ClassNotFoundException {
+    public TableEditor(Properties properties) throws ClassNotFoundException, SQLException {
         this.properties = properties;
         initConnection();
     }
 
-    private void initConnection() throws ClassNotFoundException {
-        properties = new Properties();
-        path = Paths.get("resources/jdbc/app.properties");
+    public static void loadProperties() {
+        try (BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(path.toFile()))) {
+            properties.load(bufferedInputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void initConnection() throws ClassNotFoundException, SQLException {
+        loadProperties();
         Class.forName("org.postgresql.Driver");
         String url = properties.getProperty("db.url");
         String login = properties.getProperty("db.login");
         String password = properties.getProperty("db.password");
-
-        connection = null;
     }
 
     /**
@@ -34,6 +39,9 @@ public class TableEditor implements AutoCloseable{
      * @param tableName имя таблицы
      */
     public void createTable(String tableName) {
+        try (Connection connectionTab = DriverManager.getConnection(u)) {
+
+        }
 
     }
 

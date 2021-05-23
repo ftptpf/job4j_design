@@ -11,13 +11,16 @@ import java.util.Properties;
 public class TableEditor implements AutoCloseable{
     private Connection connection;
     private static Properties properties = new Properties();
-    private static Path path = Paths.get("resources/jdbc/app.properties");
+    private static Path path = Paths.get("resources/jdbc/tableEditor.properties");
 
     public TableEditor(Properties properties) throws ClassNotFoundException, SQLException {
         this.properties = properties;
         initConnection();
     }
 
+    /**
+     * Загрузка из properties файла параметров настроек (url, login, password).
+     */
     public static void loadProperties() {
         try (BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(path.toFile()))) {
             properties.load(bufferedInputStream);
@@ -26,23 +29,34 @@ public class TableEditor implements AutoCloseable{
         }
     }
 
-    private void initConnection() throws ClassNotFoundException, SQLException {
+    /**
+     *
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
+    private static Connection initConnection() throws ClassNotFoundException, SQLException {
         loadProperties();
         Class.forName("org.postgresql.Driver");
         String url = properties.getProperty("db.url");
         String login = properties.getProperty("db.login");
         String password = properties.getProperty("db.password");
+        return DriverManager.getConnection(url, login, password);
     }
 
     /**
      * Создаем пустую таблицу без столбцов с указанным именем.
      * @param tableName имя таблицы
      */
-    public void createTable(String tableName) {
-        try (Connection connectionTab = DriverManager.getConnection(u)) {
-
+    public void createTable(String tableName) throws SQLException, ClassNotFoundException {
+        try (connection = initConnection()) {
+            try (Statement statement = connection.createStatement()) {
+                String sql = String.format(
+                        "CREATE TABLE %s ();",
+                        tableName
+                );
+                statement.execute(sql);
+            }
         }
-
     }
 
     /**
@@ -107,5 +121,12 @@ public class TableEditor implements AutoCloseable{
         if (connection != null) {
             connection.close();
         }
+    }
+
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+        TableEditor tableEditor = new TableEditor(properties);
+        String tableName = "company";
+        tableEditor.createTable(tableName);
+        System.out.println(tableEditor.getScheme(tableName));
     }
 }

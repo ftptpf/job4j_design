@@ -16,7 +16,7 @@ public class StatementDemo {
             try (Statement statement = connection.createStatement()) {
                 String sql = String.format(
                         "CREATE TABLE IF NOT EXISTS demo_table(%s, %s);",
-                        "ID SERIAL PRIMARY KEY",
+                        "id SERIAL PRIMARY KEY",
                         "name VARCHAR(255)"
                 );
                 statement.execute(sql);
@@ -29,7 +29,7 @@ public class StatementDemo {
     private static String getTableScheme(Connection connection, String tableName) throws SQLException {
         StringBuilder scheme = new StringBuilder();
         DatabaseMetaData metaData = connection.getMetaData();
-        try (ResultSet columns = metaData.getColumns(null, null, "column", "type")) {
+        try (ResultSet columns = metaData.getColumns(null, null, tableName, "type")) {
             scheme.append(String.format("%-15s %-15s%n", "column", "type"));
             while (columns.next()) {
                 scheme.append(String.format("%-15s %-15s%n",

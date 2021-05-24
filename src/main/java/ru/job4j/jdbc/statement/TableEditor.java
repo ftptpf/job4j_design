@@ -15,7 +15,7 @@ public class TableEditor implements AutoCloseable{
 
     public TableEditor(Properties properties) throws ClassNotFoundException, SQLException {
         this.properties = properties;
-        loadProperties();
+        initConnection();
     }
 
     /**
@@ -30,32 +30,30 @@ public class TableEditor implements AutoCloseable{
     }
 
     /**
-     *
+     * Создаем соединение с базой данных.
      * @throws ClassNotFoundException
      * @throws SQLException
      */
-    private Connection initConnection() throws ClassNotFoundException, SQLException {
+    private void initConnection() throws ClassNotFoundException, SQLException {
         loadProperties();
         Class.forName("org.postgresql.Driver");
         String url = properties.getProperty("db.url");
         String login = properties.getProperty("db.login");
         String password = properties.getProperty("db.password");
-        return DriverManager.getConnection(url, login, password);
+        connection = DriverManager.getConnection(url, login, password);
     }
 
     /**
      * Создаем пустую таблицу без столбцов с указанным именем.
      * @param tableName имя таблицы
      */
-    public void createTable(String tableName) throws SQLException, ClassNotFoundException {
-        try (Connection connectionTab = initConnection()) {
-            try (Statement statement = connectionTab.createStatement()) {
-                String sql = String.format(
-                        "CREATE TABLE IF NOT EXISTS %s ();",
-                        tableName
-                );
-                statement.execute(sql);
-            }
+    public void createTable(String tableName) throws SQLException {
+        try (Statement statement = connection.createStatement()) {
+            String sql = String.format(
+                    "CREATE TABLE IF NOT EXISTS %s ();",
+                    tableName
+            );
+            statement.execute(sql);
         }
     }
 
@@ -63,15 +61,13 @@ public class TableEditor implements AutoCloseable{
      * Удаляем таблицу по указанному имени.
      * @param tableName имя таблицы
      */
-    public void dropTable(String tableName) throws SQLException, ClassNotFoundException {
-        try (Connection connectionTab = initConnection()) {
-            try (Statement statement = connectionTab.createStatement()) {
-                String sql = String.format(
-                        "DROP TABLE IF EXISTS %s;",
-                        tableName
-                );
-                statement.execute(sql);
-            }
+    public void dropTable(String tableName) throws SQLException {
+        try (Statement statement = connection.createStatement()) {
+            String sql = String.format(
+                    "DROP TABLE IF EXISTS %s;",
+                    tableName
+            );
+            statement.execute(sql);
         }
     }
 
@@ -82,16 +78,14 @@ public class TableEditor implements AutoCloseable{
      * @param type тип
      */
     public void addColumn(String tableName, String columnName, String type) throws SQLException, ClassNotFoundException {
-        try (Connection connectionTab = initConnection()) {
-            try (Statement statement = connectionTab.createStatement()) {
-                String sql = String.format(
-                        "ALTER TABLE %s ADD COLUMN IF NOT EXISTS %s %s;",
-                        tableName,
-                        columnName,
-                        type
-                );
-                statement.execute(sql);
-            }
+        try (Statement statement = connection.createStatement()) {
+            String sql = String.format(
+                    "ALTER TABLE %s ADD COLUMN IF NOT EXISTS %s %s;",
+                    tableName,
+                    columnName,
+                    type
+            );
+            statement.execute(sql);
         }
     }
 
@@ -100,18 +94,15 @@ public class TableEditor implements AutoCloseable{
      * @param tableName имя таблицы
      * @param columnName имя колонки
      */
-    public void dropColumn(String tableName, String columnName) throws SQLException, ClassNotFoundException {
-        try (Connection connectionTab = initConnection()) {
-            try (Statement statement = connectionTab.createStatement()) {
-                String sql = String.format(
-                        "ALTER TABLE %s DROP COLUMN IF EXISTS %s;",
-                        tableName,
-                        columnName
-                );
-                statement.execute(sql);
-            }
+    public void dropColumn(String tableName, String columnName) throws SQLException {
+        try (Statement statement = connection.createStatement()) {
+            String sql = String.format(
+                    "ALTER TABLE %s DROP COLUMN IF EXISTS %s;",
+                    tableName,
+                    columnName
+            );
+            statement.execute(sql);
         }
-
     }
 
     /**
@@ -120,17 +111,15 @@ public class TableEditor implements AutoCloseable{
      * @param columnName имя колонки
      * @param newColumnName новое имя колонки
      */
-    public void renameColumn(String tableName, String columnName, String newColumnName) throws SQLException, ClassNotFoundException {
-        try (Connection connectionTab = initConnection()) {
-            try (Statement statement = connectionTab.createStatement()) {
-                String sql = String.format(
-                        "ALTER TABLE %s RENAME COLUMN %s TO %s;",
-                        tableName,
-                        columnName,
-                        newColumnName
-                );
-                statement.execute(sql);
-            }
+    public void renameColumn(String tableName, String columnName, String newColumnName) throws SQLException {
+        try (Statement statement = connection.createStatement()) {
+            String sql = String.format(
+                    "ALTER TABLE %s RENAME COLUMN %s TO %s;",
+                    tableName,
+                    columnName,
+                    newColumnName
+            );
+            statement.execute(sql);
         }
     }
 
@@ -147,11 +136,29 @@ public class TableEditor implements AutoCloseable{
             scheme.append(String.format("%-15s %-15s%n", "column", "type"));
             while (columns.next()) {
                 scheme.append(String.format("%-15s %-15s%n",
-                        columns.getString("COLUMNS_NAME"),
+                        columns.getString("COLUMN_NAME"),
                         columns.getString("TYPE_NAME")));
             }
         }
         return scheme.toString();
+    }
+
+    /**
+     * Выясняем существует ли таблица.
+     * @param tableName имя таблицы
+     * @return true - если таблица существует, false - если таблицы нет
+     * @throws SQLException
+     */
+    public boolean ifTableExist(String tableName) throws SQLException {
+        try (Statement statement = connection.createStatement()) {
+            String sql = String.format(
+                    "SELECT EXISTS " +
+                            "(SELECT * FROM information_schema.tables " +
+                            "WHERE table_name = %s);",
+                    tableName
+            );
+            return statement.execute(sql);
+        }
     }
 
     @Override
@@ -161,10 +168,10 @@ public class TableEditor implements AutoCloseable{
         }
     }
 
-    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+/*    public static void main(String[] args) throws SQLException, ClassNotFoundException {
         TableEditor tableEditor = new TableEditor(properties);
-        String tableName = "company";
+        String tableName = "sample_table";
         tableEditor.createTable(tableName);
         System.out.println(tableEditor.getScheme(tableName));
-    }
+    }*/
 }

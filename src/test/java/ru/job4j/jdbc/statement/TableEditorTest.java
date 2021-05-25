@@ -97,8 +97,8 @@ public class TableEditorTest {
     public void dropTable() {
         try {
             TableEditor tableEditor = new TableEditor(new Properties());
-            String tableName = "sample_table";
             tableEditor.createTable(tableName);
+            tableEditor.addColumn(tableName, secondColumnName, type);
             tableEditor.dropTable(tableName);
             assertFalse(tableEditor.ifTableExist(tableName));
         } catch (ClassNotFoundException | SQLException e) {

@@ -8,7 +8,7 @@ import java.nio.file.Paths;
 import java.sql.*;
 import java.util.Properties;
 
-public class TableEditor implements AutoCloseable{
+public class TableEditor implements AutoCloseable {
     private Connection connection;
     private static Properties properties = new Properties();
     private static Path path = Paths.get("resources/jdbc/tableEditor.properties");
@@ -48,13 +48,12 @@ public class TableEditor implements AutoCloseable{
      * @param tableName имя таблицы
      */
     public void createTable(String tableName) throws SQLException {
-        try (Statement statement = connection.createStatement()) {
-            String sql = String.format(
-                    "CREATE TABLE IF NOT EXISTS %s ();",
-                    tableName
-            );
-            statement.execute(sql);
-        }
+        stringStatementExecute(
+                String.format(
+                        "CREATE TABLE IF NOT EXISTS %s ();",
+                        tableName
+                )
+        );
     }
 
     /**
@@ -62,13 +61,12 @@ public class TableEditor implements AutoCloseable{
      * @param tableName имя таблицы
      */
     public void dropTable(String tableName) throws SQLException {
-        try (Statement statement = connection.createStatement()) {
-            String sql = String.format(
-                    "DROP TABLE IF EXISTS %s;",
-                    tableName
-            );
-            statement.execute(sql);
-        }
+        stringStatementExecute(
+                String.format(
+                        "DROP TABLE IF EXISTS %s;",
+                        tableName
+                )
+        );
     }
 
     /**
@@ -78,15 +76,14 @@ public class TableEditor implements AutoCloseable{
      * @param type тип
      */
     public void addColumn(String tableName, String columnName, String type) throws SQLException, ClassNotFoundException {
-        try (Statement statement = connection.createStatement()) {
-            String sql = String.format(
-                    "ALTER TABLE %s ADD COLUMN IF NOT EXISTS %s %s;",
-                    tableName,
-                    columnName,
-                    type
-            );
-            statement.execute(sql);
-        }
+        stringStatementExecute(
+                String.format(
+                        "ALTER TABLE %s ADD COLUMN IF NOT EXISTS %s %s;",
+                        tableName,
+                        columnName,
+                        type
+                )
+        );
     }
 
     /**
@@ -95,14 +92,13 @@ public class TableEditor implements AutoCloseable{
      * @param columnName имя колонки
      */
     public void dropColumn(String tableName, String columnName) throws SQLException {
-        try (Statement statement = connection.createStatement()) {
-            String sql = String.format(
-                    "ALTER TABLE %s DROP COLUMN IF EXISTS %s;",
-                    tableName,
-                    columnName
-            );
-            statement.execute(sql);
-        }
+        stringStatementExecute(
+                String.format(
+                        "ALTER TABLE %s DROP COLUMN IF EXISTS %s;",
+                        tableName,
+                        columnName
+                )
+        );
     }
 
     /**
@@ -112,13 +108,23 @@ public class TableEditor implements AutoCloseable{
      * @param newColumnName новое имя колонки
      */
     public void renameColumn(String tableName, String columnName, String newColumnName) throws SQLException {
+        stringStatementExecute(
+                String.format(
+                        "ALTER TABLE %s RENAME COLUMN %s TO %s;",
+                        tableName,
+                        columnName,
+                        newColumnName
+                )
+        );
+    }
+
+    /**
+     * Вспомогательный матод выполнения SQL оперций.
+     * @param sql сторока c SQL скриптом
+     * @throws SQLException
+     */
+    public void stringStatementExecute(String sql) throws SQLException {
         try (Statement statement = connection.createStatement()) {
-            String sql = String.format(
-                    "ALTER TABLE %s RENAME COLUMN %s TO %s;",
-                    tableName,
-                    columnName,
-                    newColumnName
-            );
             statement.execute(sql);
         }
     }
@@ -144,20 +150,22 @@ public class TableEditor implements AutoCloseable{
     }
 
     /**
-     * Выясняем существует ли таблица.
+     * Проверяем существует ли таблица.
      * @param tableName имя таблицы
      * @return true - если таблица существует, false - если таблицы нет
      * @throws SQLException
      */
     public boolean ifTableExist(String tableName) throws SQLException {
-        try (Statement statement = connection.createStatement()) {
-            String sql = String.format(
-                    "SELECT EXISTS " +
-                            "(SELECT * FROM information_schema.tables " +
-                            "WHERE table_name = %s);",
-                    tableName
-            );
-            return statement.execute(sql);
+        boolean isExist = false;
+        try (PreparedStatement pStatement = connection.prepareStatement(
+                "SELECT EXISTS (SELECT * FROM information_schema.tables WHERE table_name = ?);")) {
+            pStatement.setString(1, tableName);
+            try (ResultSet result = pStatement.executeQuery()) {
+                if (result.next()) {
+                    isExist = result.getBoolean("EXISTS");
+                }
+            }
+            return isExist;
         }
     }
 
@@ -167,11 +175,4 @@ public class TableEditor implements AutoCloseable{
             connection.close();
         }
     }
-
-/*    public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        TableEditor tableEditor = new TableEditor(properties);
-        String tableName = "sample_table";
-        tableEditor.createTable(tableName);
-        System.out.println(tableEditor.getScheme(tableName));
-    }*/
 }

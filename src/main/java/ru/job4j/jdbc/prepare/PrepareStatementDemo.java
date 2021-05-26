@@ -43,7 +43,7 @@ public class PrepareStatementDemo {
         try (PreparedStatement pStatement =
                 connection.prepareStatement("UPDATE cities SET name = ?, population = ? WHERE id = ?")) {
             pStatement.setString(1, city.getName());
-            pStatement.setInt(2, city.getId());
+            pStatement.setInt(2, city.getPopulation());
             pStatement.setInt(3, city.getId());
             result = pStatement.executeUpdate() > 0;
 
@@ -83,5 +83,19 @@ public class PrepareStatementDemo {
             e.printStackTrace();
         }
         return cities;
+    }
+
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+        City oneCity = new City(1, "NY", 25_000_000);
+        City twoCity = new City(2, "Moscow", 15_000_000);
+        PrepareStatementDemo ps = new PrepareStatementDemo();
+        // ps.insert(oneCity);
+        // ps.insert(twoCity);
+        ps.delete(1);
+        ps.update(twoCity);
+        List<City> list = ps.findAll();
+        for (City city : list) {
+            System.out.println(city);
+        }
     }
 }

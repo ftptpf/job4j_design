@@ -13,6 +13,10 @@ public class ParamNames {
         return values.get(key);
     }
 
+    /**
+     * Каждую строку полученного массива строк делим на "ключ - значение" и заносив в map
+     * @param args массив строк
+     */
     private void parse(String[] args) {
         if (args.length < 1) {
             throw new IllegalArgumentException("Check the source data. It's empty.");
@@ -26,6 +30,13 @@ public class ParamNames {
         }
     }
 
+    /**
+     * Выполняем проверку что при разделении создан корректный промежуточный массив "ключ - значение":
+     * разделение произошло на два элемента
+     * не содержит пустые значения
+     * @param array массив строк после разделения на "ключ - значение"
+     * @return boolean
+     */
     public static boolean validate(String[] array) {
         return array.length != 2 || array[0].isEmpty() || array[1].isEmpty();
     }

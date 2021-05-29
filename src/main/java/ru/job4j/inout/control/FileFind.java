@@ -29,8 +29,8 @@ public class FileFind extends SimpleFileVisitor<Path> {
     /**
      * Метод вызываается во время доступа к файлу.
      * Выполняется проверка по условию и аккумулирование информации.
-     * @param file
-     * @param attrs
+     * @param file путь к файлу
+     * @param attrs атрибуты файла
      * @return
      * @throws IOException
      */

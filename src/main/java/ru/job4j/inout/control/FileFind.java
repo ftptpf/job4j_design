@@ -53,6 +53,15 @@ public class FileFind extends SimpleFileVisitor<Path> {
         }
         return CONTINUE;
     }
+    public static Predicate<Path> getSearchCondition(String mask) {
+        Predicate<Path> pathPredicate = new Predicate<Path>() {
+            @Override
+            public boolean test(Path path) {
+                return false;
+            }
+        };
+        return pathPredicate;
+    }
 
     /**
      * Метод выдает собранную информацию.

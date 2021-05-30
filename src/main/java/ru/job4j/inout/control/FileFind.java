@@ -16,7 +16,7 @@ import static java.nio.file.FileVisitResult.CONTINUE;
  * Обход и выборка файлов по критериям.
  */
 public class FileFind extends SimpleFileVisitor<Path> {
-    private Predicate<Path> condition; // условие проверки по имени файла
+    //private static Predicate<Path> condition; // условие проверки по имени файла
     private List<Path> resultListPath = new ArrayList<>(); // собранные данные
     private String n; // имя файла, маска, либо регулярное выражение.
     private String t; // тип поиска: mask искать по маске, name по полному совпадение имени, regex по регулярному выражению.
@@ -58,7 +58,7 @@ public class FileFind extends SimpleFileVisitor<Path> {
     }
 
     /**
-     * Условие отбора фалов.
+     * Условие отбора файлов.
      * @param type тип поиска: mask искать по маске, name по полному совпадение имени, regex по регулярному выражению.
      * @param name имя файла, маска, либо регулярное выражение.
      * @return
@@ -67,6 +67,7 @@ public class FileFind extends SimpleFileVisitor<Path> {
         Predicate<Path> pathPredicate = new Predicate<Path>() {
             @Override
             public boolean test(Path path) {
+                if (type.equals("name"))
                 return false;
             }
         };

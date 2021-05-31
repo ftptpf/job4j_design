@@ -1,11 +1,1 @@
-C:\projects\job4j_design\resources\1\temp.txt
-C:\projects\job4j_design\resources\2\temp.txt
-C:\projects\job4j_design\resources\botAnswer.txt
-C:\projects\job4j_design\resources\filesystemscan\example.txt
-C:\projects\job4j_design\resources\filesystemscan\temp1.txt
-C:\projects\job4j_design\resources\filesystemscan\temp2.txt
-C:\projects\job4j_design\resources\logConsoleChat.txt
-C:\projects\job4j_design\resources\logSearchFiles.txt
-C:\projects\job4j_design\resources\serverlog.txt
-C:\projects\job4j_design\resources\servernotwork.txt
 C:\projects\job4j_design\resources\text.txt

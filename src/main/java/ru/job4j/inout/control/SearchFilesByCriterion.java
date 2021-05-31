@@ -17,7 +17,15 @@ import java.util.List;
  * -t - тип поиска: mask искать по маске, name по полному совпадение имени, regex по регулярному выражению.
  * -o - результат записать в файл.
  * Программа записывает результат в файл. В программе реализована валидация ключей и подсказки.
- * Для работы с входными аргументами (-d=C:\projects\job4j_design\resources -n=*.txt -t=mask -o=.\resources\logSearchFiles.txt)
+ * Для работы с входными аргументами
+ * MASK
+ * -d=C:\projects\job4j_design\resources -n=*.txt -t=mask -o=.\resources\logSearchFiles.txt
+ * -d=C:\projects\job4j_design\resources -n=tem?.txt -t=mask -o=.\resources\logSearchFiles.txt
+ * REGEX
+ * -d=C:\projects\job4j_design\resources -n=\w*\.txt -t=regex -o=.\resources\logSearchFiles.txt
+ * -d=C:\projects\job4j_design\resources -n=\w*\.properties -t=regex -o=.\resources\logSearchFiles.txt
+ * NAME
+ * -d=C:\projects\job4j_design\resources -n=text.txt -t=name -o=.\resources\logSearchFiles.txt
  * которые прописываем в Run Configurations в Intellije IDEA, используем класс ParamNames.
  */
 public class SearchFilesByCriterion {

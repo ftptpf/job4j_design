@@ -16,7 +16,6 @@ import static java.nio.file.FileVisitResult.CONTINUE;
  * Обход и выборка файлов по критериям.
  */
 public class FileFind extends SimpleFileVisitor<Path> {
-    private Predicate<Path> condition; // условие проверки по имени файла
     private List<Path> resultListPath = new ArrayList<>(); // собранные данные
     private String n; // имя файла, маска, либо регулярное выражение.
     private String t; // тип поиска: mask искать по маске, name по полному совпадение имени, regex по регулярному выражению.
@@ -39,21 +38,6 @@ public class FileFind extends SimpleFileVisitor<Path> {
         if (getSearchCondition(t, n).test(file)) {
             resultListPath.add(file);
         }
-/*        if (t.equals("name") && n.equals(file.toFile().getName())) {
-            resultListPath.add(file);
-        } else if (t.equals("mask")) {
-            String regex = n
-                    .replace("*", "(\\w|\\d)+")
-                    .replace("?", "(\\w|\\d){1}")
-                    .replace(".", "\\.");
-            if (Pattern.matches(regex, file.toString())) {
-                resultListPath.add(file);
-            }
-        } else if (t.equals("regex")) {
-            if (Pattern.matches(n, file.toFile().getName())) {
-                resultListPath.add(file);
-            }
-        }*/
         return CONTINUE;
     }
 
@@ -67,7 +51,19 @@ public class FileFind extends SimpleFileVisitor<Path> {
         Predicate<Path> pathPredicate = new Predicate<Path>() {
             @Override
             public boolean test(Path path) {
-                return false;
+                String regex = name;
+                String pathString = path.toFile().getName();
+                switch(type) {
+                    case ("name"):
+                    case ("regex"):
+                        break;
+                    case ("mask"):
+                        regex = name
+                                .replace("*", "(\\w|\\d)+")
+                                .replace("?", "(\\w|\\d){1}")
+                                .replace(".", "\\.");
+                }
+                return Pattern.matches(regex, pathString);
             }
         };
         return pathPredicate;

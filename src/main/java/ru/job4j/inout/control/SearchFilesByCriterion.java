@@ -31,7 +31,7 @@ import java.util.List;
 public class SearchFilesByCriterion {
     /**
      * Поиск файлов по заданным условиям.
-     * @param rootPath директрия начала поиска
+     * @param rootPath директория начала поиска
      * @param n имя файла, маска, либо регулярное выражение
      * @param t mask - искать по маске, name - по полному совпадение имени, regex - по регулярному выражению.
      * @return лист с найденными файлами

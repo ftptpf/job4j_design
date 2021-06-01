@@ -53,8 +53,11 @@ public class FileFind extends SimpleFileVisitor<Path> {
             public boolean test(Path path) {
                 String regex = name;
                 String pathString = path.toFile().getName();
-                switch(type) {
+                switch (type) {
                     case ("name"):
+                        regex = '^' + name
+                                .replace(".", "\\.");
+                        break;
                     case ("regex"):
                         break;
                     case ("mask"):
@@ -62,6 +65,9 @@ public class FileFind extends SimpleFileVisitor<Path> {
                                 .replace("*", "(\\w|\\d)+")
                                 .replace("?", "(\\w|\\d){1}")
                                 .replace(".", "\\.");
+                    default:
+                        throw new IllegalArgumentException("Non correct type of search. Should be: name, mask or regex.");
+                        //break;
                 }
                 return Pattern.matches(regex, pathString);
             }

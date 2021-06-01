@@ -1,0 +1,6 @@
+/*Создаем таблицу для спама*/
+CREATE TABLE spam_db(
+	id SERIAL PRIMARY KEY,
+	name VARCHAR(128),
+	email VARCHAR(128)
+);

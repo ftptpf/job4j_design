@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 /**
@@ -28,10 +29,15 @@ public class ImportDB {
     public List<User> load() throws IOException {
         List<User> users = new ArrayList<>();
         try (BufferedReader rd = new BufferedReader(new FileReader(dump))) {
-            Map<String, String> map = new HashMap<>();
-            String[] array  = rd.lines()
-                    .forEach(str -> Arrays.stream(str.split(";", 2))
-                            .collect(Collectors.flatMapping(s -> s[0], )));
+            //Map<String, String> map = new HashMap<>();
+            //Collector
+            users = rd.lines()
+                    .forEach(string -> Arrays.stream(string.split(";"), 0, 1)
+                            .map(s -> s[0], s -> s[1])
+                            .collect(Collectors.toList()));
+                    //.map(users.add(new User("1", "1"))));
+                    //.forEach(str -> Arrays.stream(str.split(";", 2))
+                    //        .collect(Collectors.flatMapping(s -> s[0], )));
                     //.map(str -> str.split(";", 2))
                             //.collect(Collectors.toMap(s -> s[0], s -> s[1]));
             //String[] strings = rd.lines().forEach(str -> str.split(";", 2)));

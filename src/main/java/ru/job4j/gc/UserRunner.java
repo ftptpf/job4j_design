@@ -17,7 +17,10 @@ public class UserRunner {
 
     public static void main(String[] args) {
         info();
-        for (int i = 0; i < 7000; i++) {
+        User vika = new User(1, "Vika", "Petrova");
+        new User(2, "Sveta", "Nikolaeva");
+        vika = null;
+        for (int i = 3; i < 7000; i++) {
             new User(i, "Olga", "Ivanova");
         }
         info();

@@ -1,5 +1,6 @@
 package ru.job4j.gc.reference;
 
+import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,13 +8,14 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Пример реализации слабых ссылок (Weak Reference).
- * Объекты, на которые ссылаются слабые ссылки удаляются GC сразу, если на них нет сильных или безопасных ссылок.
+ * Объекты, на которые ссылаются слабые - удаляются GC сразу, если на них нет сильных или безопасных ссылок.
  * Корректное использование этого типа ссылок аналогично безопасным.
  */
 public class WeakDemo {
     public static void main(String[] args) throws InterruptedException {
-        example1();
+        // example1();
         // example2();
+        example3();
     }
 
     /**
@@ -37,7 +39,7 @@ public class WeakDemo {
 
     /**
      * Пример №2
-     * Создаем объект вообще без сильных ссылки. При вызове сборщика мусора они все удаляются.
+     * Создаем объекты вообще без сильных ссылок. При вызове сборщика мусора они все удаляются.
      * @throws InterruptedException
      */
     private static void example2() throws InterruptedException {
@@ -52,5 +54,31 @@ public class WeakDemo {
         }
         System.gc();
         TimeUnit.SECONDS.sleep(3);
+    }
+
+    /**
+     * Пример №3
+     * После удаления, объект временно можно получить из ReferenceQueue.
+     * Но если закомментируем явный вызов сборщика мусора, то мы увидим, что в очереди еще нет ничего,
+     * т.к. само удаление еще не произошло
+     * @throws InterruptedException
+     */
+    private static void example3() throws InterruptedException {
+        Object object = new Object() {
+            @Override
+            protected void finalize() {
+                System.out.println("Removed");
+            }
+        };
+        ReferenceQueue<Object> queue = new ReferenceQueue<>();
+        WeakReference<Object> weak = new WeakReference<>(object, queue);
+        object = null;
+
+        System.gc();
+
+        TimeUnit.SECONDS.sleep(3);
+        System.out.println("from link " + weak.get());
+        System.out.println("from queue " + queue.poll());
+
     }
 }

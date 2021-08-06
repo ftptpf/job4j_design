@@ -7,30 +7,83 @@ import java.util.List;
 
 /**
  * Пример безопасной работы с SoftReference и WeakReference.
+ * Размер heap установлен 4мБ с помощью ключей -Xmx4m -Xms4m
  */
 public class SoftWeakReference {
     public static void main(String[] args) {
-        //exampleSafeSoft();
+        // exampleSafeSoft();
         exampleSafeWeak();
     }
 
+    /**
+     * Работа Soft Reference.
+     */
     private static void exampleSafeSoft() {
-        List<SoftReference<String>> softReferenceList = new ArrayList<>();
-        for (int i = 0; i < 100_000; i++) {
-            softReferenceList.add(new SoftReference<>(String.valueOf(System.currentTimeMillis())));
-            if (softReferenceList.get(i) != null) {
-                System.out.println(softReferenceList.get(i));
+        int mustBe = 0;
+        List<SoftReference<String>> softList = new ArrayList<>();
+        for (int i = 0; i < 40_000; i++) {
+            softList.add(new SoftReference<>("Type_" + i));
+            if (("Type_" + i).endsWith("10")) {
+                mustBe++;
             }
         }
+        int count = 0;
+        int pr = 0;
+
+        for (SoftReference<String> str : softList) {
+            if (str.get() != null) {
+                count++;
+                if (str.get().endsWith("10")) {
+                    System.out.println(str.get());
+                    pr++;
+                }
+            }
+        }
+        double result = 0;
+        if (count != 0) {
+            result = (double) count / softList.size();
+        }
+        System.out.println(" --- Soft example --- ");
+        System.out.println("Number printed objects: " + pr);
+        System.out.println("Must be printed objects: " + mustBe);
+        System.out.println("Live soft objects: " + count);
+        System.out.println("Soft List size: " + softList.size());
+        System.out.println("Soft line object - to Total soft object: " + result);
     }
 
+    /**
+     * Работа Weak Reference
+     */
     private static void exampleSafeWeak() {
-        String str = "Hello!";
-        WeakReference<String> stringWeakReference = new WeakReference<String>(str);
-        str = null;
-        if (stringWeakReference != null) {
-            System.gc();
-            System.out.println(stringWeakReference.get());
+        int mustBe = 0;
+        List<WeakReference<String>> softList = new ArrayList<>();
+        for (int i = 0; i < 47_000; i++) {
+            softList.add(new WeakReference<>("Type_" + i));
+            if (("Type_" + i).endsWith("10")) {
+                mustBe++;
+            }
         }
+            int count = 0;
+            int pr = 0;
+
+            for (WeakReference<String> str : softList) {
+                if (str.get() != null) {
+                    count++;
+                    if (str.get().endsWith("10")) {
+                        System.out.println(str.get());
+                        pr++;
+                    }
+                }
+            }
+            double result = 0;
+            if (count != 0) {
+                result = (double) count / softList.size();
+            }
+            System.out.println(" --- Weak example --- ");
+            System.out.println("Number printed objects: " + pr);
+            System.out.println("Must be printed objects: " + mustBe);
+            System.out.println("Live weak objects: " + count);
+            System.out.println("Weak List size: " + softList.size());
+            System.out.println("Weak line object - to Total weak object: " + result);
     }
 }

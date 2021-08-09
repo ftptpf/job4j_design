@@ -1,23 +1,15 @@
 package ru.job4j.gc.cache;
 
-/** Конкретный классс создатель (реализация абстрактного класса создателя).
+/** Конкретный класс создатель (реализация абстрактного класса создателя).
  * Программа считывает текстовые файлы из системы и выдает текст при запросе имени файла.
  * Если в кеше файла нет. Кеш должен загрузить себе данные. По умолчанию в кеше нет ни одного файла.
- * Текстовые файл лежать в одной директории. Пример. Names.txt, Address.txt - файлы в системе.
+ * Текстовые файлы лежать в одной директории. Пример. Names.txt, Address.txt - файлы в системе.
  * При запросе по ключу Names.txt - кеш должен вернуть содержимое файла Names.txt.
  */
 public class DirFileCache extends AbstractCache<String, String> {
-    private String cachingDir;
+    private final String cachingDir;
 
     public DirFileCache(String cachingDir) {
-        this.cachingDir = cachingDir;
-    }
-
-    public String getCachingDir() {
-        return cachingDir;
-    }
-
-    public void setCachingDir(String cachingDir) {
         this.cachingDir = cachingDir;
     }
 

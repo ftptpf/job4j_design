@@ -10,16 +10,26 @@ import java.util.Scanner;
  * - получить содержимое файла из кэша
  */
 public class Emulator {
-    public void init(Scanner scanner, AbstractCache<String, String> cache) {
+    static String cachingDir = "gc";
+
+    public void init(Scanner scanner, AbstractCache<String, String> fileCache) {
         boolean run = true;
         while (run) {
             showMenu();
+            System.out.println("Current directory relative path is : " + cachingDir);
             System.out.println("Select menu number: ");
             int select = Integer.parseInt(scanner.nextLine());
-            if (select != 3) {
+            if (select == 0 ) {
                 System.out.println("User chose: " + select);
-            } else {
+            } else if (select == 1) {
+                System.out.println("For load file contents into cache please enter file name: ");
+            } else if (select == 2) {
+                System.out.println("For get file contents from cache please enter file name:");
+            } else  if (select == 3) {
+                System.out.println("Program exit ...");
                 run = false;
+            } else {
+                System.out.println("You chose the wrong menu number. Please try again.");
             }
         }
     }
@@ -38,7 +48,7 @@ public class Emulator {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        AbstractCache<String, String> cache = new DirFileCache("/");
-        new Emulator().init(scanner, cache);
+        AbstractCache<String, String> fileCache = new DirFileCache(cachingDir);
+        new Emulator().init(scanner, fileCache);
     }
 }

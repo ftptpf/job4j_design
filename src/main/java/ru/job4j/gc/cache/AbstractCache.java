@@ -24,17 +24,18 @@ public abstract class AbstractCache<K, V> {
 
     /**
      * Извлекаем данные из кеша по ключу.
-     * Задаем ключ получения объекта кеша и в случае если его нет в памяти,
-     * загружаем объект в кеш.
+     * По ключу получаем объект из кеша,
+     * в случае если его нет в памяти - загружаем объект в кеш.
      * @param key ключ
      * @return объект
      */
     public V get(K key) {
-        //V result = cache.getOrDefault(key, )
-        if (!cache.containsKey(key)) {
-            load(key);
+        V result = cache.getOrDefault(key, null).get(); // по ключ возвращаем либо объект из кеша, либо null если ранее в кеш объект небыл загружен
+        if (result == null) { // если объета в кеше небыло
+            result = load(key); // загружаем объект
+            put(key,result); // и помещаем его в кеш
         }
-        return cache.get(key).get();
+        return result;
     }
 
     /**

@@ -20,11 +20,20 @@ public class Emulator {
             System.out.println("Select menu number: ");
             int select = Integer.parseInt(scanner.nextLine());
             if (select == 0) {
-                System.out.println("User chose: " + select);
+                System.out.println("Please chose directory:");
+                cachingDir = scanner.nextLine();
+                fileCache = new DirFileCache(cachingDir);
+                System.out.println("I have a new directory.");
             } else if (select == 1) {
                 System.out.println("For load file contents into cache please enter file name: ");
+                String key = scanner.nextLine();
+                fileCache.load(key);
+                System.out.println("File content loaded into cache");
             } else if (select == 2) {
                 System.out.println("For get file contents from cache please enter file name:");
+                String key = scanner.nextLine();
+                System.out.println("Below you can see file contents: ");
+                System.out.println(fileCache.get(key));
             } else  if (select == 3) {
                 System.out.println("Program exit ...");
                 run = false;

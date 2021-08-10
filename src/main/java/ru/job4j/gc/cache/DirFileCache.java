@@ -1,10 +1,8 @@
 package ru.job4j.gc.cache;
 
-import javax.annotation.processing.FilerException;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.stream.Collectors;
 
 /** Конкретный класс создатель (реализация абстрактного класса создателя).
  * Программа считывает текстовые файлы из системы и выдает текст при запросе имени файла.

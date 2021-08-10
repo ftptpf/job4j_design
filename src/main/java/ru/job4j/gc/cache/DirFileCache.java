@@ -1,5 +1,11 @@
 package ru.job4j.gc.cache;
 
+import javax.annotation.processing.FilerException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.stream.Collectors;
+
 /** Конкретный класс создатель (реализация абстрактного класса создателя).
  * Программа считывает текстовые файлы из системы и выдает текст при запросе имени файла.
  * Если в кеше файла нет. Кеш должен загрузить себе данные. По умолчанию в кеше нет ни одного файла.
@@ -20,6 +26,13 @@ public class DirFileCache extends AbstractCache<String, String> {
      */
     @Override
     protected String load(String key) {
-        return cachingDir.concat(key);
+        String result = "";
+        Path path = Path.of(cachingDir, key); // путь к файлу в текущей директории
+        try {
+            result = Files.readAllLines(path).toString(); // считываем все строки файла
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 }

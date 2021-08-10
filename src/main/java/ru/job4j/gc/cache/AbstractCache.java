@@ -24,10 +24,16 @@ public abstract class AbstractCache<K, V> {
 
     /**
      * Извлекаем данные из кеша по ключу.
+     * Задаем ключ получения объекта кеша и в случае если его нет в памяти,
+     * загружаем объект в кеш.
      * @param key ключ
      * @return объект
      */
     public V get(K key) {
+        //V result = cache.getOrDefault(key, )
+        if (!cache.containsKey(key)) {
+            load(key);
+        }
         return cache.get(key).get();
     }
 

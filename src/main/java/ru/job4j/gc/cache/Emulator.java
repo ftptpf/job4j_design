@@ -10,7 +10,7 @@ import java.util.Scanner;
  * - получить содержимое файла из кэша
  */
 public class Emulator {
-    static String cachingDir = "gc";
+    static String cachingDir = "resources/gc";
 
     public void init(Scanner scanner, AbstractCache<String, String> fileCache) {
         boolean run = true;
@@ -19,7 +19,7 @@ public class Emulator {
             System.out.println("Current directory relative path is : " + cachingDir);
             System.out.println("Select menu number: ");
             int select = Integer.parseInt(scanner.nextLine());
-            if (select == 0 ) {
+            if (select == 0) {
                 System.out.println("User chose: " + select);
             } else if (select == 1) {
                 System.out.println("For load file contents into cache please enter file name: ");
@@ -43,7 +43,6 @@ public class Emulator {
         for (int i = 0; i < menu.length; i++) {
             System.out.println(i + ". " + menu[i]);
         }
-
     }
 
     public static void main(String[] args) {

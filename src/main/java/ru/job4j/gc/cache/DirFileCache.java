@@ -3,6 +3,7 @@ package ru.job4j.gc.cache;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.stream.Collectors;
 
 /** Конкретный класс создатель (реализация абстрактного класса создателя).
  * Программа считывает текстовые файлы из системы и выдает текст при запросе имени файла.
@@ -27,7 +28,8 @@ public class DirFileCache extends AbstractCache<String, String> {
         String result = "";
         Path path = Path.of(cachingDir, key); // путь к файлу в текущей директории
         try {
-            result = Files.readAllLines(path).toString(); // считываем все строки файла
+            result = Files.lines(path)
+                    .collect(Collectors.joining("\n")); // считываем все строки файла
         } catch (IOException e) {
             e.printStackTrace();
         }

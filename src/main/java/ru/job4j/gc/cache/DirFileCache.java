@@ -29,7 +29,7 @@ public class DirFileCache extends AbstractCache<String, String> {
         Path path = Path.of(cachingDir, key); // путь к файлу в текущей директории
         try {
             result = Files.lines(path)
-                    .collect(Collectors.joining("\n")); // считываем все строки файла
+                    .collect(Collectors.joining(System.lineSeparator())); // считываем все строки файла
         } catch (IOException e) {
             e.printStackTrace();
         }

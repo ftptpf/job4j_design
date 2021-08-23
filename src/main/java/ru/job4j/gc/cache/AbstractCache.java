@@ -30,7 +30,7 @@ public abstract class AbstractCache<K, V> {
      * @return объект
      */
     public V get(K key) {
-        V result = cache.getOrDefault(key, new SoftReference<>(null)).get(); // по ключ возвращаем либо объект из кеша, либо null если ранее в кеш объект небыл загружен
+        V result = cache.getOrDefault(key, new SoftReference<>(null)).get(); // по ключ возвращаем либо объект из кеша, либо null если ранее в кеш объект не был загружен
         if (result == null) { // если объекта в кеше не было
             result = load(key); // загружаем объект
             put(key, result); // и помещаем его в кеш

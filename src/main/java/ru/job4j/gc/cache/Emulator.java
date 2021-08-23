@@ -25,7 +25,7 @@ public class Emulator {
         while (run) {
             showMenu();
             System.out.println("Current directory relative path is : " + cachingDir);
-            System.out.println("Select menu number: ");
+            System.out.println("Select menu number 0, 1, 2 or 3:");
             int select = Integer.parseInt(scanner.nextLine());
             if (select == 0) { // выбираем кешируемую директорию
                 System.out.println("Please chose directory:");
@@ -36,7 +36,7 @@ public class Emulator {
             } else if (select == 1) { // выбираем файл для загрузки в кеш
                 System.out.println("For load file contents into cache please enter file name: ");
                 String key = scanner.nextLine();
-                if (isFileExist(key)) {
+                if (fileSet.contains(key)) {
                     fileCache.load(key);
                     System.out.println("File content loaded into cache");
                 } else {
@@ -45,7 +45,7 @@ public class Emulator {
             } else if (select == 2) { // получаем содержимое файла из кеша
                 System.out.println("For get file contents from cache please enter file name:");
                 String key = scanner.nextLine();
-                if (isFileExist(key)) {
+                if (fileSet.contains(key)) {
                     System.out.println("Below you can see file contents: ");
                     System.out.println(fileCache.get(key));
                 } else {
@@ -61,20 +61,11 @@ public class Emulator {
     }
 
     /**
-     * Проверяем существует ли файл в текущей директории.
-     * @param key имя файла
-     * @return boolean
-     */
-    private boolean isFileExist(String key) {
-        return fileSet.contains(key);
-    }
-
-    /**
      * Загружаем имена файлов директории.
      */
     private void loadToFileSet() {
         try {
-            fileSet = Files.walk(Path.of(cachingDir))
+            fileSet = Files.walk(Path.of(cachingDir), 1)
                     .filter(Files::isRegularFile)
                     .map(Path::getFileName)
                     .map(Path::toString)

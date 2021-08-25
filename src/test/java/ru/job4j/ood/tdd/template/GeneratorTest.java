@@ -1,5 +1,6 @@
 package ru.job4j.ood.tdd.template;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -9,28 +10,44 @@ import static org.junit.Assert.*;
 
 public class GeneratorTest {
 
-    @Test
+    //@Test
+    @Ignore
     public void produce() {
         Generator generator = new QuestionGenerator();
         String template = "I am a ${name}, Who are ${subject}? ";
-        String name = "Petr Arsentev";
-        String subject = "you";
         Map<String, String> map = new HashMap<>();
-        map.put(name, subject);
-        String result = generator.produce(template,map);
+        map.put("name", "Ivan Ivanov");
+        map.put("subject", "you");
+        String result = generator.produce(template, map);
         assertEquals("I am a Petr Arsentev, Who are you?", result);
     }
 
-    @Test(expected = Exception.class)
+    /**
+     * Тест учитывает что в шаблоне есть ключи, которых нет в карте и кидает исключение.
+     */
+    //@Test(expected = Exception.class)
+    @Ignore
+    public void moreKeyInTemplate() {
+        Generator generator = new QuestionGenerator();
+        String template = "I am a ${name}, Who are ${subject}? I live in ${city}.";
+        Map<String, String> map = new HashMap<>();
+        map.put("name", "Ivan Ivanov");
+        map.put("subject", "you");
+        String result = generator.produce(template, map);
+    }
+
+    /**
+     * Тест учитывает что в карте есть лишние ключи и кидает исключение.
+     */
+    //@Test(expected = Exception.class)
+    @Ignore
     public void mapHasMoreKey() {
         Generator generator = new QuestionGenerator();
-        String template = "I am a ${name}, Who are ${subject}? ";
+        String template = "I am a ${name}, Who are ${subject}?";
         Map<String, String> map = new HashMap<>();
-        map.put("Petr Arsentev", "you");
-        map.put("Ivan Ivanov", "they");
-        String result = generator.produce(template,map);
-        assertEquals("I am a Petr Arsentev, Who are you?", result);
+        map.put("name", "Ivan Ivanov");
+        map.put("subject", "you");
+        map.put("city", "Brest");
+        String result = generator.produce(template, map);
     }
-
-
 }

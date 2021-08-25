@@ -1,7 +1,6 @@
 package ru.job4j.ood.tdd.cinema;
 
 import org.junit.Test;
-import ru.job4j.ood.tdd.cinema.*;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -28,5 +27,14 @@ public class CinemaTest {
         cinema.add(new Session3D());
         List<Session> sessions = cinema.find(session -> true);
         assertThat(sessions, is(Arrays.asList(new Session3D())));
+    }
+
+    @Test
+    public void checkSizeAfterAddSession() {
+        Cinema cinema = new Cinema3D();
+        List<Session> sessions = cinema.find(session -> true);
+        assertThat(0, is(sessions.size()));
+        sessions.add(new Session3D());
+        assertThat(1, is(sessions.size()));
     }
 }

@@ -1,5 +1,6 @@
 package ru.job4j.ood.tdd.cinema;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -12,6 +13,7 @@ import static org.junit.Assert.*;
 public class CinemaTest {
 
     @Test
+    @Ignore
     public void buy() {
         Account account = new AccountCinema();
         Cinema cinema = new Cinema3D();
@@ -22,6 +24,7 @@ public class CinemaTest {
     }
 
     @Test
+    @Ignore
     public void find() {
         Cinema cinema = new Cinema3D();
         cinema.add(new Session3D());
@@ -30,11 +33,34 @@ public class CinemaTest {
     }
 
     @Test
+    @Ignore
     public void checkSizeAfterAddSession() {
         Cinema cinema = new Cinema3D();
         List<Session> sessions = cinema.find(session -> true);
         assertThat(0, is(sessions.size()));
         sessions.add(new Session3D());
         assertThat(1, is(sessions.size()));
+    }
+
+    @Test(expected = Exception.class)
+    @Ignore
+    public void siteIsBusy() {
+        Account account1 = new AccountCinema();
+        Account account2 = new AccountCinema();
+        Cinema cinema = new Cinema3D();
+        Calendar date = Calendar.getInstance();
+        date.set(2020, 10, 10, 23, 00);
+        Ticket ticket1 = cinema.buy(account1, 1, 1, date);
+        Ticket ticket2 = cinema.buy(account2, 1, 1, date);
+    }
+
+    @Test(expected = Exception.class)
+    @Ignore
+    public void dateIsWrong() {
+        Account account = new AccountCinema();
+        Cinema cinema = new Cinema3D();
+        Calendar date = Calendar.getInstance();
+        date.set(2020, 10, 10, 23, 00);
+
     }
 }

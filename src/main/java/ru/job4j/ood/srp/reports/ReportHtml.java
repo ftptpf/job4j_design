@@ -13,6 +13,21 @@ public class ReportHtml implements Report {
     }
     @Override
     public String generate(Predicate<Employee> filter) {
-        return null;
+        StringBuilder text = new StringBuilder();
+        text.append("<table>");
+        text.append("<tr><th>Name</th><th>Hired</th><th>Fired</th><th>Salary</th></tr>");
+        for (Employee employee : store.findBy(filter)) {
+            text.append("<tr><td>")
+                    .append(employee.getName())
+                    .append("</td><td>")
+                    .append(employee.getHired())
+                    .append("</td><td>")
+                    .append(employee.getFired())
+                    .append("</td><td>")
+                    .append(employee.getSalary())
+                    .append("</td></tr>");
+        }
+        text.append("</table>");
+        return text.toString();
     }
 }

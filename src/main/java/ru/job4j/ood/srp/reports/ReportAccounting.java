@@ -6,11 +6,12 @@ import java.util.function.Predicate;
  * Отчет для бухгалтерии с измененным видом зарплаты. Зарплата в евро. 1 евро = 90,05 руб.
  */
 public class ReportAccounting implements Report {
-    public static final double EURO = 90.05;
+    private double euro;
     private Store store;
 
-    public ReportAccounting(Store store) {
+    public ReportAccounting(Store store, double euro) {
         this.store = store;
+        this.euro = euro;
     }
 
     @Override
@@ -21,7 +22,7 @@ public class ReportAccounting implements Report {
             text.append(employee.getName()).append(";")
                     .append(employee.getHired()).append(";")
                     .append(employee.getFired()).append(";")
-                    .append(employee.getSalary() / EURO).append(";")
+                    .append((employee.getSalary() / euro)).append(";")
                     .append(System.lineSeparator());
         }
         return text.toString();

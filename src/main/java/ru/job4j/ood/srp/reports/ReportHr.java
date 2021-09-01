@@ -22,6 +22,7 @@ public class ReportHr implements Report {
         text.append("Name; Salary;");
         Comparator<Employee> salaryComparator = (o2, o1) -> Double.compare(o1.getSalary(), o2.getSalary());
         Set<Employee> employeeSet = new TreeSet<>(salaryComparator);
+        employeeSet.addAll(store.findBy(filter));
         for (Employee employee : employeeSet) {
             text.append(employee.getName()).append(";")
                     .append(employee.getSalary()).append(";")

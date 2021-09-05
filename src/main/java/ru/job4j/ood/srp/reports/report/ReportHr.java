@@ -1,19 +1,24 @@
-package ru.job4j.ood.srp.reports;
+package ru.job4j.ood.srp.reports.report;
+
+import ru.job4j.ood.srp.reports.Employee;
+import ru.job4j.ood.srp.reports.format.OutputFormat;
+import ru.job4j.ood.srp.reports.store.Store;
 
 import java.util.Comparator;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 /**
  * Отчет для HR c выводом сотрудников в порядке убывания зарплаты и без полей даты найма и увольнения.
  */
 public class ReportHr implements Report {
     private Store store;
+    private OutputFormat format;
 
-    public ReportHr(Store store) {
+    public ReportHr(Store store, OutputFormat format) {
         this.store = store;
+        this.format = format;
     }
 
     @Override

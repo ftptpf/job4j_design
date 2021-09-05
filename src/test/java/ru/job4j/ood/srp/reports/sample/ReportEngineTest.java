@@ -1,7 +1,9 @@
-package ru.job4j.ood.srp.reports;
+package ru.job4j.ood.srp.reports.sample;
 
-import org.junit.Ignore;
 import org.junit.Test;
+import ru.job4j.ood.srp.reports.Employee;
+import ru.job4j.ood.srp.reports.report.Report;
+import ru.job4j.ood.srp.reports.store.MemStore;
 
 import java.util.Calendar;
 

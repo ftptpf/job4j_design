@@ -1,5 +1,7 @@
 package ru.job4j.ood.srp.reports;
 
+import ru.job4j.ood.srp.reports.report.Report;
+
 import java.util.function.Predicate;
 
 public class EmployeeReport {

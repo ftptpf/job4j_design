@@ -4,10 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import ru.job4j.ood.srp.reports.format.FormatTxt;
 import ru.job4j.ood.srp.reports.format.OutputFormat;
-import ru.job4j.ood.srp.reports.report.Report;
-import ru.job4j.ood.srp.reports.report.ReportAccounting;
-import ru.job4j.ood.srp.reports.report.ReportHr;
-import ru.job4j.ood.srp.reports.report.ReportHtml;
+import ru.job4j.ood.srp.reports.report.*;
 import ru.job4j.ood.srp.reports.store.MemStore;
 
 import java.util.Calendar;
@@ -34,7 +31,7 @@ public class EmployeeReportTest {
     }
 
     @Test
-    public void reportForHrInTextFormat() {
+    public void reportForHr() {
         OutputFormat formatTxt = new FormatTxt();
         Report report = new ReportHr(store, formatTxt);
         employeeReport.setReport(report);
@@ -73,46 +70,6 @@ public class EmployeeReportTest {
         assertThat(expect.toString(), is(employeeReport.makeReport(employee -> employee.getSalary() >= 7000)));
     }
 
-/*    @Test
-    public void reportForAccountingJson() {
-        double currencyRate = 100;
-        String currencyName = "Euro";
-        employeeReport.setReport(new ReportAccounting(store, currencyRate, currencyName));
-        StringBuilder expect = new StringBuilder()
-                .append("Name; Hired; Fired; Salary in " + currencyName + ";")
-                .append(employee1.getName()).append(";")
-                .append(employee1.getHired()).append(";")
-                .append(employee1.getFired()).append(';')
-                .append(employee1.getSalary() / currencyRate).append(";")
-                .append(System.lineSeparator())
-                .append(employee3.getName()).append(";")
-                .append(employee3.getHired()).append(";")
-                .append(employee3.getFired()).append(';')
-                .append(employee3.getSalary() / currencyRate).append(";")
-                .append(System.lineSeparator());
-        assertThat(expect.toString(), is(employeeReport.makeReport(employee -> employee.getSalary() >= 7000)));
-    }
-
-    @Test
-    public void reportForAccountingXml() {
-        double euroToday = 100;
-        String currencyName = "Euro";
-        employeeReport.setReport(new ReportAccounting(store, euroToday, currencyName));
-        StringBuilder expect = new StringBuilder()
-                .append("Name; Hired; Fired; Salary in Euro;")
-                .append(employee1.getName()).append(";")
-                .append(employee1.getHired()).append(";")
-                .append(employee1.getFired()).append(';')
-                .append(employee1.getSalary() / euroToday).append(";")
-                .append(System.lineSeparator())
-                .append(employee3.getName()).append(";")
-                .append(employee3.getHired()).append(";")
-                .append(employee3.getFired()).append(';')
-                .append(employee3.getSalary() / euroToday).append(";")
-                .append(System.lineSeparator());
-        assertThat(expect.toString(), is(employeeReport.makeReport(employee -> employee.getSalary() >= 7000)));
-    }*/
-
     @Test
     public void reportForHtml() {
         employeeReport.setReport(new ReportHtml(store));
@@ -129,6 +86,25 @@ public class EmployeeReportTest {
                 .append(employee3.getFired())
                 .append("</td><td>7000.0</td></tr>")
                 .append("</table>");
+        assertThat(expect.toString(), is(employeeReport.makeReport(employee -> employee.getSalary() <= 7000)));
+    }
+
+    @Test
+    public void reportForJson() {
+        employeeReport.setReport(new ReportJson(store));
+        StringBuilder expect = new StringBuilder()
+                .append("{\"employees\":")
+                .append("[{\"name\":\"Denis\",")
+                .append(employee2.getHired())
+                .append("</td><td>")
+                .append(employee2.getFired())
+                .append("</td><td>5000.0</td></tr>")
+                .append("<tr><td>Oleg</td><td>")
+                .append(employee3.getHired())
+                .append("</td><td>")
+                .append(employee3.getFired())
+                .append("</td><td>7000.0</td></tr>")
+                .append("}");
         assertThat(expect.toString(), is(employeeReport.makeReport(employee -> employee.getSalary() <= 7000)));
     }
 }

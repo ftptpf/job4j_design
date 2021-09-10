@@ -5,7 +5,7 @@ import ru.job4j.ood.srp.reports.Employee;
 import ru.job4j.ood.srp.reports.report.Report;
 import ru.job4j.ood.srp.reports.store.MemStore;
 
-import java.util.Calendar;
+import java.time.LocalDate;
 
 import static org.junit.Assert.*;
 import static org.hamcrest.Matchers.is;
@@ -15,7 +15,7 @@ public class ReportEngineTest {
     @Test
     public void whenOldGenerated() {
         MemStore store = new MemStore();
-        Calendar now = Calendar.getInstance();
+        LocalDate now = LocalDate.now();
         Employee worker = new Employee("Ivan", now, now, 100);
         store.add(worker);
         Report engine = new ReportEngine(store);

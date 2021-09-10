@@ -7,6 +7,9 @@ import ru.job4j.ood.srp.reports.format.OutputFormat;
 import ru.job4j.ood.srp.reports.report.*;
 import ru.job4j.ood.srp.reports.store.MemStore;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Calendar;
 
 import static org.hamcrest.core.Is.is;
@@ -21,9 +24,9 @@ public class EmployeeReportTest {
     @Before
     public void initObjects() {
         store = new MemStore();
-        employee1 = new Employee("Anna", Calendar.getInstance(), Calendar.getInstance(), 10000);
-        employee2 = new Employee("Denis", Calendar.getInstance(), Calendar.getInstance(), 5000);
-        employee3 = new Employee("Oleg", Calendar.getInstance(), Calendar.getInstance(), 7000);
+        employee1 = new Employee("Anna", LocalDate.now(), LocalDate.now(), 10000);
+        employee2 = new Employee("Denis", LocalDate.now(), LocalDate.now(), 5000);
+        employee3 = new Employee("Oleg", LocalDate.now(), LocalDate.now(), 7000);
         store.add(employee1);
         store.add(employee2);
         store.add(employee3);
@@ -92,19 +95,35 @@ public class EmployeeReportTest {
     @Test
     public void reportForJson() {
         employeeReport.setReport(new ReportJson(store));
+        // LocalDate denisHired = employee2.getHired();
+        ///LocalDate denisHiredLocalDate = LocalDateTime.ofInstant(denisHired.toInstant(),denisHired.getTimeZone().toZoneId()).toLocalDate();
+        //LocalTime denisHiredLocalTime = LocalDateTime.ofInstant(denisHired.toInstant(),denisHired.getTimeZone().toZoneId()).toLocalTime();
+
         StringBuilder expect = new StringBuilder()
-                .append("{\"employees\":")
-                .append("[{\"name\":\"Denis\",")
+                .append("{\"employees\":[")
+                .append("{\"name\":\"Denis\",\"hired\":")
                 .append(employee2.getHired())
-                .append("</td><td>")
+                .append("\"fired\"")
                 .append(employee2.getFired())
-                .append("</td><td>5000.0</td></tr>")
-                .append("<tr><td>Oleg</td><td>")
+/*                .append("{\"year\":")
+                .append(denisHiredLocalDate.getYear())
+                .append(",\"month\":")
+                .append(denisHiredLocalDate.getMonthValue())
+                .append(",\"dayOfMonth\":")
+                .append(denisHiredLocalDate.getDayOfMonth())
+                .append("},\"hourOfDay\":")
+                .append(denisHiredLocalTime.getHour())
+                .append("},\"minute\":")
+                .append(denisHiredLocalTime.getMinute())
+                .append("},\"second\":")
+                .append(denisHiredLocalTime.getSecond())*/
+                .append("}\"salary\":5000.0},")
+                .append("{\"name\":\"Oleg\",\"hired\":")
                 .append(employee3.getHired())
-                .append("</td><td>")
+                .append("\"fired\"")
                 .append(employee3.getFired())
-                .append("</td><td>7000.0</td></tr>")
-                .append("}");
+                .append("\"salary\":7000.0},")
+                .append("]}");
         assertThat(expect.toString(), is(employeeReport.makeReport(employee -> employee.getSalary() <= 7000)));
     }
 }

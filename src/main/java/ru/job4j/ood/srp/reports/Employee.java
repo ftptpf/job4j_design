@@ -1,15 +1,15 @@
 package ru.job4j.ood.srp.reports;
 
-import java.util.Calendar;
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class Employee {
     private String name;
-    private Calendar hired;
-    private Calendar fired;
+    private LocalDate hired;
+    private LocalDate fired;
     private double salary;
 
-    public Employee(String name, Calendar hired, Calendar fired, double salary) {
+    public Employee(String name, LocalDate hired, LocalDate fired, double salary) {
         this.name = name;
         this.hired = hired;
         this.fired = fired;
@@ -24,19 +24,19 @@ public class Employee {
         this.name = name;
     }
 
-    public Calendar getHired() {
+    public LocalDate getHired() {
         return hired;
     }
 
-    public void setHired(Calendar hired) {
+    public void setHired(LocalDate hired) {
         this.hired = hired;
     }
 
-    public Calendar getFired() {
+    public LocalDate getFired() {
         return fired;
     }
 
-    public void setFired(Calendar fired) {
+    public void setFired(LocalDate fired) {
         this.fired = fired;
     }
 

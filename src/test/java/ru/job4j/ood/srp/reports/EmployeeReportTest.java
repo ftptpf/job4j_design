@@ -2,14 +2,11 @@ package ru.job4j.ood.srp.reports;
 
 import org.junit.Before;
 import org.junit.Test;
-import ru.job4j.ood.srp.reports.format.FormatTxt;
-import ru.job4j.ood.srp.reports.format.OutputFormat;
 import ru.job4j.ood.srp.reports.report.*;
 import ru.job4j.ood.srp.reports.store.MemStore;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import javax.xml.bind.JAXBException;
+import java.io.IOException;
 import java.util.Calendar;
 
 import static org.hamcrest.core.Is.is;
@@ -24,9 +21,9 @@ public class EmployeeReportTest {
     @Before
     public void initObjects() {
         store = new MemStore();
-        employee1 = new Employee("Anna", LocalDate.now(), LocalDate.now(), 10000);
-        employee2 = new Employee("Denis", LocalDate.now(), LocalDate.now(), 5000);
-        employee3 = new Employee("Oleg", LocalDate.now(), LocalDate.now(), 7000);
+        employee1 = new Employee("Anna", Calendar.getInstance(), Calendar.getInstance(), 10000);
+        employee2 = new Employee("Denis", Calendar.getInstance(), Calendar.getInstance(), 5000);
+        employee3 = new Employee("Oleg", Calendar.getInstance(), Calendar.getInstance(), 7000);
         store.add(employee1);
         store.add(employee2);
         store.add(employee3);
@@ -34,9 +31,8 @@ public class EmployeeReportTest {
     }
 
     @Test
-    public void reportForHr() {
-        OutputFormat formatTxt = new FormatTxt();
-        Report report = new ReportHr(store, formatTxt);
+    public void reportForHr() throws JAXBException, IOException {
+        Report report = new ReportHr(store);
         employeeReport.setReport(report);
         StringBuilder expect = new StringBuilder()
                 .append("Name; Salary;")
@@ -53,7 +49,7 @@ public class EmployeeReportTest {
     }
 
     @Test
-    public void reportForAccounting() {
+    public void reportForAccounting() throws JAXBException, IOException {
         double euroToday = 100;
         String currencyName = "Euro";
         Report report = new ReportAccounting(store, euroToday, currencyName);
@@ -74,7 +70,7 @@ public class EmployeeReportTest {
     }
 
     @Test
-    public void reportForHtml() {
+    public void reportForHtml() throws JAXBException, IOException {
         employeeReport.setReport(new ReportHtml(store));
         StringBuilder expect = new StringBuilder()
                 .append("<table><tr><th>Name</th><th>Hired</th><th>Fired</th><th>Salary</th></tr>")
@@ -93,37 +89,75 @@ public class EmployeeReportTest {
     }
 
     @Test
-    public void reportForJson() {
+    public void reportForJson() throws JAXBException, IOException {
         employeeReport.setReport(new ReportJson(store));
-        // LocalDate denisHired = employee2.getHired();
-        ///LocalDate denisHiredLocalDate = LocalDateTime.ofInstant(denisHired.toInstant(),denisHired.getTimeZone().toZoneId()).toLocalDate();
-        //LocalTime denisHiredLocalTime = LocalDateTime.ofInstant(denisHired.toInstant(),denisHired.getTimeZone().toZoneId()).toLocalTime();
-
         StringBuilder expect = new StringBuilder()
-                .append("{\"employees\":[")
-                .append("{\"name\":\"Denis\",\"hired\":")
-                .append(employee2.getHired())
-                .append("\"fired\"")
-                .append(employee2.getFired())
-/*                .append("{\"year\":")
-                .append(denisHiredLocalDate.getYear())
+                .append("[{\"name\":\"Denis\",\"hired\":")
+                .append("{\"year\":")
+                .append(employee2.getHired().get(Calendar.YEAR))
                 .append(",\"month\":")
-                .append(denisHiredLocalDate.getMonthValue())
+                .append(employee2.getHired().get(Calendar.MONTH))
                 .append(",\"dayOfMonth\":")
-                .append(denisHiredLocalDate.getDayOfMonth())
-                .append("},\"hourOfDay\":")
-                .append(denisHiredLocalTime.getHour())
-                .append("},\"minute\":")
-                .append(denisHiredLocalTime.getMinute())
-                .append("},\"second\":")
-                .append(denisHiredLocalTime.getSecond())*/
-                .append("}\"salary\":5000.0},")
+                .append(employee2.getHired().get(Calendar.DATE))
+                .append(",\"hourOfDay\":")
+                .append(employee2.getHired().get(Calendar.HOUR_OF_DAY))
+                .append(",\"minute\":")
+                .append(employee2.getHired().get(Calendar.MINUTE))
+                .append(",\"second\":")
+                .append(employee2.getHired().get(Calendar.SECOND))
+                .append("},\"fired\":")
+                .append("{\"year\":")
+                .append(employee2.getFired().get(Calendar.YEAR))
+                .append(",\"month\":")
+                .append(employee2.getFired().get(Calendar.MONTH))
+                .append(",\"dayOfMonth\":")
+                .append(employee2.getFired().get(Calendar.DATE))
+                .append(",\"hourOfDay\":")
+                .append(employee2.getFired().get(Calendar.HOUR_OF_DAY))
+                .append(",\"minute\":")
+                .append(employee2.getFired().get(Calendar.MINUTE))
+                .append(",\"second\":")
+                .append(employee2.getFired().get(Calendar.SECOND))
+                .append("},\"salary\":5000.0},")
                 .append("{\"name\":\"Oleg\",\"hired\":")
-                .append(employee3.getHired())
-                .append("\"fired\"")
-                .append(employee3.getFired())
-                .append("\"salary\":7000.0},")
-                .append("]}");
-        assertThat(expect.toString(), is(employeeReport.makeReport(employee -> employee.getSalary() <= 7000)));
+                .append("{\"year\":")
+                .append(employee3.getHired().get(Calendar.YEAR))
+                .append(",\"month\":")
+                .append(employee3.getHired().get(Calendar.MONTH))
+                .append(",\"dayOfMonth\":")
+                .append(employee3.getHired().get(Calendar.DATE))
+                .append(",\"hourOfDay\":")
+                .append(employee3.getHired().get(Calendar.HOUR_OF_DAY))
+                .append(",\"minute\":")
+                .append(employee3.getHired().get(Calendar.MINUTE))
+                .append(",\"second\":")
+                .append(employee3.getHired().get(Calendar.SECOND))
+                .append("},\"fired\":")
+                .append("{\"year\":")
+                .append(employee3.getFired().get(Calendar.YEAR))
+                .append(",\"month\":")
+                .append(employee3.getFired().get(Calendar.MONTH))
+                .append(",\"dayOfMonth\":")
+                .append(employee3.getFired().get(Calendar.DATE))
+                .append(",\"hourOfDay\":")
+                .append(employee3.getFired().get(Calendar.HOUR_OF_DAY))
+                .append(",\"minute\":")
+                .append(employee3.getFired().get(Calendar.MINUTE))
+                .append(",\"second\":")
+                .append(employee3.getFired().get(Calendar.SECOND))
+                .append("},\"salary\":7000.0}]");
+        assertThat(employeeReport.makeReport(employee -> employee.getSalary() <= 7000), is(expect.toString()));
+    }
+
+    @Test
+    public void reportForXml() throws JAXBException, IOException {
+        employeeReport.setReport(new ReportXml(store));
+        StringBuilder expect = new StringBuilder()
+                .append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n")
+                .append("<employee>\n    ")
+                .append("<name>Denis</name>\n    ")
+                .append("<salary>5000.0</salary>\n")
+                .append("</employee>\n");
+        assertEquals(employeeReport.makeReport(employee -> employee.getSalary() == 5000), expect.toString());
     }
 }

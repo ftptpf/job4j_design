@@ -1,7 +1,6 @@
 package ru.job4j.ood.srp.reports.report;
 
 import ru.job4j.ood.srp.reports.Employee;
-import ru.job4j.ood.srp.reports.format.OutputFormat;
 import ru.job4j.ood.srp.reports.store.Store;
 
 import java.util.Comparator;
@@ -14,11 +13,9 @@ import java.util.function.Predicate;
  */
 public class ReportHr implements Report {
     private Store store;
-    private OutputFormat format;
 
-    public ReportHr(Store store, OutputFormat format) {
+    public ReportHr(Store store) {
         this.store = store;
-        this.format = format;
     }
 
     @Override

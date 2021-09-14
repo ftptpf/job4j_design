@@ -1,15 +1,24 @@
 package ru.job4j.ood.srp.reports;
 
-import java.time.LocalDate;
+import javax.xml.bind.annotation.*;
+import java.util.Calendar;
 import java.util.Objects;
 
+@XmlRootElement(name = "employee")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Employee {
     private String name;
-    private LocalDate hired;
-    private LocalDate fired;
+    @XmlTransient
+    private Calendar hired;
+    @XmlTransient
+    private Calendar fired;
     private double salary;
 
-    public Employee(String name, LocalDate hired, LocalDate fired, double salary) {
+    public Employee() {
+
+    }
+
+    public Employee(String name, Calendar hired, Calendar fired, double salary) {
         this.name = name;
         this.hired = hired;
         this.fired = fired;
@@ -24,19 +33,19 @@ public class Employee {
         this.name = name;
     }
 
-    public LocalDate getHired() {
+    public Calendar getHired() {
         return hired;
     }
 
-    public void setHired(LocalDate hired) {
+    public void setHired(Calendar hired) {
         this.hired = hired;
     }
 
-    public LocalDate getFired() {
+    public Calendar getFired() {
         return fired;
     }
 
-    public void setFired(LocalDate fired) {
+    public void setFired(Calendar fired) {
         this.fired = fired;
     }
 

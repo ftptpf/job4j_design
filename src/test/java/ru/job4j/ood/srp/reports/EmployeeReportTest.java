@@ -5,8 +5,6 @@ import org.junit.Test;
 import ru.job4j.ood.srp.reports.report.*;
 import ru.job4j.ood.srp.reports.store.MemStore;
 
-import javax.xml.bind.JAXBException;
-import java.io.IOException;
 import java.util.Calendar;
 
 import static org.hamcrest.core.Is.is;
@@ -31,7 +29,7 @@ public class EmployeeReportTest {
     }
 
     @Test
-    public void reportForHr() throws JAXBException, IOException {
+    public void reportForHr() {
         Report report = new ReportHr(store);
         employeeReport.setReport(report);
         StringBuilder expect = new StringBuilder()
@@ -49,7 +47,7 @@ public class EmployeeReportTest {
     }
 
     @Test
-    public void reportForAccounting() throws JAXBException, IOException {
+    public void reportForAccounting() {
         double euroToday = 100;
         String currencyName = "Euro";
         Report report = new ReportAccounting(store, euroToday, currencyName);
@@ -70,7 +68,7 @@ public class EmployeeReportTest {
     }
 
     @Test
-    public void reportForHtml() throws JAXBException, IOException {
+    public void reportForHtml() {
         employeeReport.setReport(new ReportHtml(store));
         StringBuilder expect = new StringBuilder()
                 .append("<table><tr><th>Name</th><th>Hired</th><th>Fired</th><th>Salary</th></tr>")
@@ -89,7 +87,7 @@ public class EmployeeReportTest {
     }
 
     @Test
-    public void reportForJson() throws JAXBException, IOException {
+    public void reportForJson() {
         employeeReport.setReport(new ReportJson(store));
         StringBuilder expect = new StringBuilder()
                 .append("[{\"name\":\"Denis\",\"hired\":")
@@ -150,7 +148,7 @@ public class EmployeeReportTest {
     }
 
     @Test
-    public void reportForXml() throws JAXBException, IOException {
+    public void reportForXml() {
         employeeReport.setReport(new ReportXml(store));
         StringBuilder expect = new StringBuilder()
                 .append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n")

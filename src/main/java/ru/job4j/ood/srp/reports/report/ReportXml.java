@@ -18,21 +18,25 @@ public class ReportXml  implements Report {
     }
 
     @Override
-    public String generate(Predicate<Employee> filter) throws JAXBException, IOException {
-        // Получаем контекст для доступа к АПИ
-        JAXBContext context = JAXBContext.newInstance(Employee.class);
-        // Создаем сериализатор
-        Marshaller marshaller = context.createMarshaller();
-        // Указываем, что нам нужно форматирование
-        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-        String xml = "";
-        try (StringWriter writer = new StringWriter()) {
-            // Сериализуем
-            for (Employee employee : store.findBy(filter)) {
-                marshaller.marshal(employee, writer);
-                xml = writer.getBuffer().toString();
+    public String generate(Predicate<Employee> filter) {
+        try {
+            // Получаем контекст для доступа к API
+            JAXBContext context = JAXBContext.newInstance(Employee.class);
+            // Создаем сериализатор
+            Marshaller marshaller = context.createMarshaller();
+            // Указываем, что нам нужно форматирование
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            String xml = "";
+            try (StringWriter writer = new StringWriter()) {
+                // Сериализуем
+                for (Employee employee : store.findBy(filter)) {
+                    marshaller.marshal(employee, writer);
+                    xml = writer.getBuffer().toString();
+                }
             }
-        }
-        return xml;
+            return xml;
+        } catch (IOException | JAXBException e) {
+            throw new RuntimeException("The problem in serialization XML report", e);
+            }
     }
 }

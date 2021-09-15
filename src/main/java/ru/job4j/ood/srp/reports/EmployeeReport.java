@@ -1,9 +1,6 @@
 package ru.job4j.ood.srp.reports;
 
 import ru.job4j.ood.srp.reports.report.Report;
-
-import javax.xml.bind.JAXBException;
-import java.io.IOException;
 import java.util.function.Predicate;
 
 public class EmployeeReport {
@@ -13,7 +10,7 @@ public class EmployeeReport {
         this.report = report;
     }
 
-    public String makeReport(Predicate<Employee> filter) throws JAXBException, IOException {
+    public String makeReport(Predicate<Employee> filter) {
         return report.generate(filter);
     }
 }

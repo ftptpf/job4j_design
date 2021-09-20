@@ -16,33 +16,20 @@ public class ControlQuality {
 
 
     public void moveToStorage(Food food) {
-        storageWarehouse.setProductList(food);
-        storageShop.setProductList(food);
-        storageTrash.setProductList(food);
+        storageWarehouse.setFoodList(food);
+        storageShop.setFoodList(food);
+        storageTrash.setFoodList(food);
     }
 
-    public List<Food> getFromWarehouse() {
-        return storageWarehouse.getProductList();
+    public List<Food> getFoodListFromWarehouse() {
+        return storageWarehouse.getFoodList();
     }
 
-    public List<Food> getFromShop() {
-        return storageShop.getProductList();
+    public List<Food> getFoodListFromShop() {
+        return storageShop.getFoodList();
     }
 
-    public List<Food> getFromTrash() {
-        return storageTrash.getProductList();
+    public List<Food> getFoodListFromTrash() {
+        return storageTrash.getFoodList();
     }
-
-
-
-
-
-/*    private float getPercentage(Food food) {
-        Period periodProductValidity = Period.between(food.getCreateDate(), food.getExpiryDate());
-        int daysFromCreateToExpiry = periodProductValidity.getDays();
-        Period periodFromCreateTillNow = Period.between(food.getCreateDate(), LocalDate.now());
-        int daysFromCreateTillNow = periodFromCreateTillNow.getDays();
-        return (float) (daysFromCreateTillNow * 100 / daysFromCreateToExpiry);
-
-    }*/
 }

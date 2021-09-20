@@ -7,7 +7,6 @@ import ru.job4j.ood.lsp.products.product.Meat;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -16,75 +15,107 @@ public class ControlQualityTest {
     private LocalDate meat1ExpiryDate, meat1CreateDate;
     private LocalDate meat2ExpiryDate, meat2CreateDate;
     private LocalDate meat3ExpiryDate, meat3CreateDate;
-    Food meat1, meat2, meat3;
-    ControlQuality controlQuality;
+    private LocalDate meat4ExpiryDate, meat4CreateDate;
+
+    private Food meatToWarehouse, meatToShop, meatToShopDiscount, meatToTrash;
+    private ControlQuality controlQuality;
 
     @Before
     public void initObjects() {
         today = LocalDate.now();
         meat1CreateDate = today.minusDays(1);
         meat1ExpiryDate = today.plusDays(10);
+        meatToWarehouse = new Meat("red", meat1CreateDate, meat1ExpiryDate, new BigDecimal(50), 0);
         meat2CreateDate = today.minusDays(10);
         meat2ExpiryDate = today.plusDays(10);
+        meatToShop = new Meat("red", meat2CreateDate, meat2ExpiryDate, new BigDecimal(50), 0);
         meat3CreateDate = today.minusDays(4);
         meat3ExpiryDate = today.plusDays(10);
-        meat1 = new Meat("red", meat1CreateDate, meat1ExpiryDate, new BigDecimal(50), 0);
-        meat2 = new Meat("red", meat2CreateDate, meat2ExpiryDate, new BigDecimal(50), 0);
-        meat3 = new Meat("red", meat3CreateDate, meat3ExpiryDate, new BigDecimal(50), 0);
+        meatToShopDiscount = new Meat("red", meat3CreateDate, meat3ExpiryDate, new BigDecimal(50), 0);
+        meat4CreateDate = today.minusDays(10);
+        meat4ExpiryDate = today.minusDays(1);
+        meatToTrash = new Meat("red", meat4CreateDate, meat4ExpiryDate, new BigDecimal(50), 0);
         controlQuality = new ControlQuality();
     }
 
 
     @Test
     public void moveToWarehouse() {
-        controlQuality.moveToStorage(meat1);
+        controlQuality.moveToStorage(meatToWarehouse);
         StringBuilder expected = new StringBuilder()
                 .append("[Food{name='")
-                .append(controlQuality.getFromWarehouse().get(0).getName())
+                .append(controlQuality.getFoodListFromWarehouse().get(0).getName())
                 .append("', expiryDate=")
-                .append(controlQuality.getFromWarehouse().get(0).getCreateDate())
-                .append("");
-        assertEquals(expected.toString(), controlQuality.getFromWarehouse());
-        assertEquals(expected.toString(), controlQuality.getFromShop());
-        assertEquals(expected.toString(), controlQuality.getFromTrash());
+                .append(controlQuality.getFoodListFromWarehouse().get(0).getExpiryDate())
+                .append(", createDate=")
+                .append(controlQuality.getFoodListFromWarehouse().get(0).getCreateDate())
+                .append(", price=")
+                .append(controlQuality.getFoodListFromWarehouse().get(0).getPrice())
+                .append(", discount=")
+                .append(controlQuality.getFoodListFromWarehouse().get(0).getDiscount())
+                .append("}]");
+        assertEquals(expected.toString(), controlQuality.getFoodListFromWarehouse().toString());
+        assertTrue(controlQuality.getFoodListFromShop().isEmpty());
+        assertTrue(controlQuality.getFoodListFromTrash().isEmpty());
     }
 
     @Test
     public void moveToShop() {
-
+        controlQuality.moveToStorage(meatToShop);
+        StringBuilder expected = new StringBuilder()
+                .append("[Food{name='")
+                .append(controlQuality.getFoodListFromShop().get(0).getName())
+                .append("', expiryDate=")
+                .append(controlQuality.getFoodListFromShop().get(0).getExpiryDate())
+                .append(", createDate=")
+                .append(controlQuality.getFoodListFromShop().get(0).getCreateDate())
+                .append(", price=")
+                .append(controlQuality.getFoodListFromShop().get(0).getPrice())
+                .append(", discount=")
+                .append(controlQuality.getFoodListFromShop().get(0).getDiscount())
+                .append("}]");
+        assertEquals(expected.toString(), controlQuality.getFoodListFromShop().toString());
+        assertTrue(controlQuality.getFoodListFromWarehouse().isEmpty());
+        assertTrue(controlQuality.getFoodListFromTrash().isEmpty());
     }
 
     @Test
     public void moveToShopDiscount() {
-
+        controlQuality.moveToStorage(meatToShopDiscount);
+        StringBuilder expected = new StringBuilder()
+                .append("[Food{name='")
+                .append(controlQuality.getFoodListFromShop().get(0).getName())
+                .append("', expiryDate=")
+                .append(controlQuality.getFoodListFromShop().get(0).getExpiryDate())
+                .append(", createDate=")
+                .append(controlQuality.getFoodListFromShop().get(0).getCreateDate())
+                .append(", price=")
+                .append(controlQuality.getFoodListFromShop().get(0).getPrice())
+                .append(", discount=")
+                .append(controlQuality.getFoodListFromShop().get(0).getDiscount())
+                .append("}]");
+        assertEquals(expected.toString(), controlQuality.getFoodListFromShop().toString());
+        assertTrue(controlQuality.getFoodListFromWarehouse().isEmpty());
+        assertTrue(controlQuality.getFoodListFromTrash().isEmpty());
     }
 
     @Test
     public void moveToTrash() {
-
+        controlQuality.moveToStorage(meatToTrash);
+        StringBuilder expected = new StringBuilder()
+                .append("[Food{name='")
+                .append(controlQuality.getFoodListFromTrash().get(0).getName())
+                .append("', expiryDate=")
+                .append(controlQuality.getFoodListFromTrash().get(0).getExpiryDate())
+                .append(", createDate=")
+                .append(controlQuality.getFoodListFromTrash().get(0).getCreateDate())
+                .append(", price=")
+                .append(controlQuality.getFoodListFromTrash().get(0).getPrice())
+                .append(", discount=")
+                .append(controlQuality.getFoodListFromTrash().get(0).getDiscount())
+                .append("}]");
+        assertEquals(expected.toString(), controlQuality.getFoodListFromTrash().toString());
+        assertTrue(controlQuality.getFoodListFromWarehouse().isEmpty());
+        assertTrue(controlQuality.getFoodListFromShop().isEmpty());
     }
-
-
-
-    // ---------------
-
-    // ControlQuality содержит List хранилищ... и содержит два публичных метода,
-    // один добавляет хранилище, а именно интерфейс хранилища в List,
-    // а второй метод проверяет "качество" и возвращает какому же хранилищу принадлежит данный продукт
-
-
-    // Я стратегию использовал создав интерфейс IStorage в котором был метод проверки соответствия продукта на текущую дату boolean isSuitable(IFood food, Date currentDate);
-    // и в ControlQuality вызывал этот метод, а в каждом конкретном хранилище реализовывал проверку соответствия
-
-    // ----------------
-
-    // у нас есть много разных тиаов хранилищь, у нас есть много разных разновидностей еды, и унас есть контроль качества
-    // ну все просто.. контроль качества проверяет еду на срок годности
-
-    // ----------------
-    // Получается, что у каждого storage будет метод, пытающийся принять в себя продукт
-    // и тогда прогоняя food через все storage они будут добавляться куда-то в зависимости от условий, описанных в каждом из storage
-
-    // Ага, это и есть паттерн стратегия, т.к. ты вынес принятие решений из основного потока в объекты storage.
-    // Плюсы - нет простыни if, можешь создать новый storage и передавать в метод без изменения самого метода
 }

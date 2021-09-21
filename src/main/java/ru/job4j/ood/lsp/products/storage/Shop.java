@@ -13,9 +13,10 @@ public class Shop implements Storage {
 
     @Override
     public void setFoodList(Food food) {
-        if (Percentage.getPercentage(food) >= 25 && Percentage.getPercentage(food) <= 75) {
+        float percentage = Percentage.getPercentage(food);
+        if (percentage >= 25.0 && percentage <= 75.0) {
             storageShop.add(food);
-        } else if (Percentage.getPercentage(food) > 75 && Percentage.getPercentage(food) <= 100) {
+        } else if (percentage > 75.0 && percentage <= 100.0) {
             food.setDiscount(discount);
             storageShop.add(food);
         }

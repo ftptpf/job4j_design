@@ -12,7 +12,8 @@ public class Trash implements Storage {
 
     @Override
     public void setFoodList(Food food) {
-        if (Percentage.getPercentage(food) > 100) {
+        float percentage = Percentage.getPercentage(food);
+        if (percentage > 100.0) {
             storageTrash.add(food);
         }
     }

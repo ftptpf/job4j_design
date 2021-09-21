@@ -13,12 +13,18 @@ public class ControlQuality {
     private Storage storageWarehouse = new Warehouse();
     private Storage storageShop = new Shop();
     private Storage storageTrash = new Trash();
+    private List<Food> listFood;
 
+    public ControlQuality(List<Food> listFood) {
+        this.listFood = listFood;
+    }
 
-    public void moveToStorage(Food food) {
-        storageWarehouse.setFoodList(food);
-        storageShop.setFoodList(food);
-        storageTrash.setFoodList(food);
+    public void moveToStorage(List<Food> listFood) {
+        for (Food food : listFood) {
+            storageWarehouse.setFoodList(food);
+            storageShop.setFoodList(food);
+            storageTrash.setFoodList(food);
+        }
     }
 
     public List<Food> getFoodListFromWarehouse() {

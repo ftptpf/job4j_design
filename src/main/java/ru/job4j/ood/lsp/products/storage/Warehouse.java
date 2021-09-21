@@ -12,7 +12,8 @@ public class Warehouse implements Storage {
 
     @Override
     public void setFoodList(Food food) {
-        if (Percentage.getPercentage(food) < 25) {
+        float percentage = Percentage.getPercentage(food);
+        if (percentage < 25.0) {
             storageWarehouse.add(food);
         }
     }

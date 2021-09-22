@@ -4,6 +4,10 @@ import org.junit.Before;
 import org.junit.Test;
 import ru.job4j.ood.lsp.products.product.Food;
 import ru.job4j.ood.lsp.products.product.Meat;
+import ru.job4j.ood.lsp.products.storage.Shop;
+import ru.job4j.ood.lsp.products.storage.Storage;
+import ru.job4j.ood.lsp.products.storage.Trash;
+import ru.job4j.ood.lsp.products.storage.Warehouse;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -20,6 +24,8 @@ public class ControlQualityTest {
     private LocalDate meat4ExpiryDate, meat4CreateDate;
 
     private Food meatToWarehouse, meatToShop, meatToShopDiscount, meatToTrash;
+    private Storage storageWarehouse, storageShop, storageTrash;
+    private List<Storage> listStorage;
     private ControlQuality controlQuality;
     private List<Food> listFood;
 
@@ -38,12 +44,19 @@ public class ControlQualityTest {
         meat4CreateDate = today.minusDays(10);
         meat4ExpiryDate = today.minusDays(1);
         meatToTrash = new Meat("bad meat - expiration date has expired", meat4CreateDate, meat4ExpiryDate, new BigDecimal(50), 0);
+        storageWarehouse = new Warehouse();
+        storageShop = new Shop();
+        storageTrash = new Trash();
+        listStorage = new ArrayList<>();
+        listStorage.add(storageWarehouse);
+        listStorage.add(storageShop);
+        listStorage.add(storageTrash);
         listFood = new ArrayList<>();
         listFood.add(meatToWarehouse);
         listFood.add(meatToShop);
         listFood.add(meatToShopDiscount);
         listFood.add(meatToTrash);
-        controlQuality = new ControlQuality(listFood);
+        controlQuality = new ControlQuality(listStorage);
     }
 
     @Test

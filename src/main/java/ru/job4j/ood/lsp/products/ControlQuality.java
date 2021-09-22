@@ -1,41 +1,35 @@
 package ru.job4j.ood.lsp.products;
 
 import ru.job4j.ood.lsp.products.product.Food;
-import ru.job4j.ood.lsp.products.storage.Shop;
 import ru.job4j.ood.lsp.products.storage.Storage;
-import ru.job4j.ood.lsp.products.storage.Trash;
-import ru.job4j.ood.lsp.products.storage.Warehouse;
 
 import java.util.List;
 
 
 public class ControlQuality {
-    private Storage storageWarehouse = new Warehouse();
-    private Storage storageShop = new Shop();
-    private Storage storageTrash = new Trash();
-    private List<Food> listFood;
+    private List<Storage> listStorage;
 
-    public ControlQuality(List<Food> listFood) {
-        this.listFood = listFood;
+    public ControlQuality(List<Storage> listStorage) {
+        this.listStorage = listStorage;
     }
 
     public void moveToStorage(List<Food> listFood) {
         for (Food food : listFood) {
-            storageWarehouse.setFoodList(food);
-            storageShop.setFoodList(food);
-            storageTrash.setFoodList(food);
+            for (Storage storage : listStorage) {
+                storage.setFoodList(food);
+            }
         }
     }
 
     public List<Food> getFoodListFromWarehouse() {
-        return storageWarehouse.getFoodList();
+        return listStorage.get(0).getFoodList();
     }
 
     public List<Food> getFoodListFromShop() {
-        return storageShop.getFoodList();
+        return listStorage.get(1).getFoodList();
     }
 
     public List<Food> getFoodListFromTrash() {
-        return storageTrash.getFoodList();
+        return listStorage.get(2).getFoodList();
     }
 }

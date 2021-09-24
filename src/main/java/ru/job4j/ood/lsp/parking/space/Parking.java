@@ -9,5 +9,6 @@ public interface Parking {
     void setParkingSize(int parkingSize);
     boolean setAutoOnParking(Auto auto);
     List<Auto> getInfoAboutAutoOnParking();
+    int getFreeSpace();
 
 }

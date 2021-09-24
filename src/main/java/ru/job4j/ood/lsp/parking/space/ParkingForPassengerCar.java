@@ -12,7 +12,6 @@ public class ParkingForPassengerCar implements Parking {
     // Задаем размер парковки
     @Override
     public void setParkingSize(int parkingSize) {
-
     }
     // Паркуем автомобиль
     @Override
@@ -23,5 +22,10 @@ public class ParkingForPassengerCar implements Parking {
     @Override
     public List<Auto> getInfoAboutAutoOnParking() {
         return null;
+    }
+    // Получаем информацию о количестве свободного места на парковке
+    @Override
+    public int getFreeSpace() {
+        return 0;
     }
 }

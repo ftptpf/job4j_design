@@ -5,7 +5,18 @@ import java.util.Objects;
 public class Auto {
     int carSize;
 
+    public Auto() {
+    }
+
     public Auto(int carSize) {
+        this.carSize = carSize;
+    }
+
+    public int getCarSize() {
+        return carSize;
+    }
+
+    public void setCarSize(int carSize) {
         this.carSize = carSize;
     }
 

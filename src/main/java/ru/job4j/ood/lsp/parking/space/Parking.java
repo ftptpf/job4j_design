@@ -6,8 +6,7 @@ import java.util.List;
 
 public interface Parking {
 
-    void setParkingSize(int parkingSize);
-    boolean setAutoOnParking(Auto auto);
+    boolean parkingAuto(Auto auto);
     List<Auto> getInfoAboutAutoOnParking();
     int getFreeSpace();
 

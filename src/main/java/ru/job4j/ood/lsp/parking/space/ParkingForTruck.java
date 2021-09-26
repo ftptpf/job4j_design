@@ -2,30 +2,51 @@ package ru.job4j.ood.lsp.parking.space;
 
 import ru.job4j.ood.lsp.parking.auto.Auto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Парковка грузовых автомобилей.
  */
 public class ParkingForTruck implements Parking {
+    private int freeSpace;
+    private List<Auto> trackList = new ArrayList<>();
 
-    // Задаем размер парковки
-    @Override
-    public void setParkingSize(int parkingSize) {
+    public ParkingForTruck(int parkingSize) {
+        this.freeSpace = parkingSize;
     }
-    // Паркуем автомобиль
+
+    /**
+     * Паркуем автомобиль
+     * @param auto
+     * @return
+     */
     @Override
-    public boolean setAutoOnParking(Auto auto) {
-        return false;
+    public boolean parkingAuto(Auto auto) {
+        boolean result = false;
+        if (auto.getCarSize() > 1 && freeSpace >= 1) {
+            trackList.add(auto);
+            freeSpace = freeSpace - 1;
+            result = true;
+        }
+        return result;
     }
-    // Получаем информацию о запаркованных автомобилях
+
+    /**
+     * Список запаркованных автомобилей
+     * @return
+     */
     @Override
     public List<Auto> getInfoAboutAutoOnParking() {
-        return null;
+        return trackList;
     }
-    // Получаем информацию о количестве свободного места на парковке
+
+    /**
+     * Получаем информацию о количестве свободного места на парковке
+     * @return
+     */
     @Override
     public int getFreeSpace() {
-        return 0;
+        return freeSpace;
     }
 }

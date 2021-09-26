@@ -1,7 +1,6 @@
 package ru.job4j.ood.lsp.parking;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import ru.job4j.ood.lsp.parking.auto.Auto;
 import ru.job4j.ood.lsp.parking.auto.PassengerCar;
@@ -32,6 +31,7 @@ public class ParkingPlaceTest {
         passengerCar3 = new PassengerCar();
         passengerCar4 = new PassengerCar();
         passengerCar5 = new PassengerCar();
+        truckSize = 2;
         truck1 = new Truck(truckSize);
         truck2 = new Truck(truckSize);
         truck3 = new Truck(truckSize);
@@ -42,52 +42,47 @@ public class ParkingPlaceTest {
         listAuto = new ArrayList<>();
         listAuto.addAll(listPassengerCar);
         listAuto.addAll(listTruck2);
-        parkingForPassengerCar = new ParkingForPassengerCar();
-        parkingForTruck = new ParkingForTruck();
-        truckSize = 2;
     }
 
     @Test
-    @Ignore
     public void enoughSpaceOnEachParking() {
-        parkingForPassengerCar.setParkingSize(10);
-        parkingForTruck.setParkingSize(6);
+        parkingForPassengerCar = new ParkingForPassengerCar(10);
+        parkingForTruck = new ParkingForTruck(6);
         parkingPlace = new ParkingPlace(parkingForPassengerCar, parkingForTruck); // passenger cars = 5, trucks = 5
         assertTrue(parkingPlace.parkingAuto(listAuto));
-        assertTrue(parkingPlace.getInfoFromPassengerCarParking().size() <= parkingForPassengerCar.getInfoAboutAutoOnParking().size());
-        assertTrue(parkingPlace.getInfoFromTruckParking().size() <= parkingForTruck.getInfoAboutAutoOnParking().size());
+        assertTrue(parkingForPassengerCar.getFreeSpace() > 0);
+        assertTrue(parkingForTruck.getFreeSpace() > 0);
     }
 
     @Test
-    @Ignore
     public void enoughSpaceButSumTrucksParkingOnPassengerPlaces() {
-        parkingForPassengerCar.setParkingSize(10);
-        parkingForTruck.setParkingSize(3);
+        parkingForPassengerCar = new ParkingForPassengerCar(10);
+        parkingForTruck = new ParkingForTruck(3);
         parkingPlace = new ParkingPlace(parkingForPassengerCar, parkingForTruck); // passenger cars = 5, trucks = 5
         assertTrue(parkingPlace.parkingAuto(listAuto));
-        assertEquals(parkingPlace.getInfoFromTruckParking().size(), parkingForTruck.getInfoAboutAutoOnParking().size());
-        assertTrue(parkingPlace.getInfoFromPassengerCarParking().contains(new Truck(2)));
+        assertEquals(1, parkingForPassengerCar.getFreeSpace());
+        assertEquals(0, parkingForTruck.getFreeSpace());
     }
 
     @Test
-    @Ignore
     public void notEnoughSpaceOnParkingForTrucks() {
-        parkingForPassengerCar.setParkingSize(6);
-        parkingForTruck.setParkingSize(3);
+        parkingForPassengerCar = new ParkingForPassengerCar(6);
+        parkingForTruck = new ParkingForTruck(3);
         parkingPlace = new ParkingPlace(parkingForPassengerCar, parkingForTruck); // passenger cars = 5, trucks = 5
         assertFalse(parkingPlace.parkingAuto(listAuto));
     }
 
     @Test
-    @Ignore
     public void truckParkingOnTwoPassengersPlaces() {
-        parkingForPassengerCar.setParkingSize(5 + truckSize); // parking size = 5 + 2
-        parkingForTruck.setParkingSize(5);
+        parkingForPassengerCar = new ParkingForPassengerCar(5 + truckSize);
+        parkingForTruck = new ParkingForTruck(5);
         parkingPlace = new ParkingPlace(parkingForPassengerCar, parkingForTruck); // passenger cars = 5, trucks = 5
         assertTrue(parkingPlace.parkingAuto(listAuto));
         assertEquals(truckSize, parkingForPassengerCar.getFreeSpace());
-        parkingForTruck.setParkingSize(4);
+        parkingForPassengerCar = new ParkingForPassengerCar(5 + truckSize);
+        parkingForTruck = new ParkingForTruck(4);
         parkingPlace = new ParkingPlace(parkingForPassengerCar, parkingForTruck); // passenger cars = 5, trucks = 5
+        assertTrue(parkingPlace.parkingAuto(listAuto));
         assertEquals(0, parkingForPassengerCar.getFreeSpace());
     }
 }

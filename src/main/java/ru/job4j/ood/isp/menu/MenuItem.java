@@ -1,5 +1,7 @@
 package ru.job4j.ood.isp.menu;
 
+import ru.job4j.ood.isp.menu.action.Action;
+
 import java.util.List;
 
 public class MenuItem {

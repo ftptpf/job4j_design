@@ -8,12 +8,11 @@ public class MenuItem {
     private String name;
     private List<MenuItem> childrenList;
     private MenuItem parent;
-    Action action;
+    private Action action;
 
-    public MenuItem(String name, List<MenuItem> childrenList, MenuItem parent, Action action) {
+    public MenuItem(String name, List<MenuItem> childrenList, Action action) {
         this.name = name;
         this.childrenList = childrenList;
-        this.parent = parent;
         this.action = action;
     }
 

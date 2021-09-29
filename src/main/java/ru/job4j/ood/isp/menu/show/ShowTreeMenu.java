@@ -12,13 +12,17 @@ public class ShowTreeMenu implements ShowMenu {
     }
 
     @Override
-    public void showMenu() {
-        for (MenuItem menuItem : list) {
+    public void showMenu(List<MenuItem> listMenu) {
+        for (MenuItem menuItem : listMenu) {
             String result = menuItem.getName();
             System.out.println(result);
             while (!menuItem.getChildrenList().isEmpty()) {
-                showMenu();
+                showMenu(listMenu);
             }
         }
     }
+
+/*    public void printMenu(List<MenuItem> list) {
+        String result =
+    }*/
 }

@@ -22,4 +22,9 @@ public class Warehouse implements Storage {
     public List<Food> getFoodList() {
         return storageWarehouse;
     }
+
+    @Override
+    public void clear() {
+        storageWarehouse.clear();
+    }
 }

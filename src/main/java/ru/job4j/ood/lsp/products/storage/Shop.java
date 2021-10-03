@@ -26,4 +26,9 @@ public class Shop implements Storage {
     public List<Food> getFoodList() {
         return storageShop;
     }
+
+    @Override
+    public void clear() {
+        storageShop.clear();
+    }
 }

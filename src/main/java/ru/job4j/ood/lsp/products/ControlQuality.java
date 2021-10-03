@@ -3,6 +3,7 @@ package ru.job4j.ood.lsp.products;
 import ru.job4j.ood.lsp.products.product.Food;
 import ru.job4j.ood.lsp.products.storage.Storage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -19,6 +20,27 @@ public class ControlQuality {
                 storage.setFoodList(food);
             }
         }
+    }
+
+    public List<Food> collectAllProducts() {
+        List<Food> list = new ArrayList<>();
+        list.addAll(getFoodListFromShop());
+        list.addAll(getFoodListFromWarehouse());
+        list.addAll(getFoodListFromTrash());
+        clearStorage();
+        return list;
+    }
+
+    public void clearStorage() {
+        if (!listStorage.isEmpty()) {
+            for (Storage storage : listStorage) {
+                storage.clear();
+            }
+        }
+    }
+
+    public void resort(List<Food> list) {
+        moveToStorage(list);
     }
 
     public List<Food> getFoodListFromWarehouse() {

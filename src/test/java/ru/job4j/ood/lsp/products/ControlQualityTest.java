@@ -57,11 +57,11 @@ public class ControlQualityTest {
         listFood.add(meatToShopDiscount);
         listFood.add(meatToTrash);
         controlQuality = new ControlQuality(listStorage);
+        controlQuality.moveToStorage(listFood);
     }
 
     @Test
     public void moveToWarehouse() {
-        controlQuality.moveToStorage(listFood);
         StringBuilder expected = new StringBuilder()
                 .append("[Food{name='")
                 .append(controlQuality.getFoodListFromWarehouse().get(0).getName())
@@ -79,7 +79,6 @@ public class ControlQualityTest {
 
     @Test
     public void moveToShop() {
-        controlQuality.moveToStorage(listFood);
         StringBuilder expected = new StringBuilder()
                 .append("[Food{name='")
                 .append(controlQuality.getFoodListFromShop().get(0).getName())
@@ -108,7 +107,6 @@ public class ControlQualityTest {
 
     @Test
     public void moveToTrash() {
-        controlQuality.moveToStorage(listFood);
         StringBuilder expected = new StringBuilder()
                 .append("[Food{name='")
                 .append(controlQuality.getFoodListFromTrash().get(0).getName())
@@ -122,5 +120,14 @@ public class ControlQualityTest {
                 .append(controlQuality.getFoodListFromTrash().get(0).getDiscount())
                 .append("}]");
         assertEquals(expected.toString(), controlQuality.getFoodListFromTrash().toString());
+    }
+
+    @Test
+    public void resortAllProducts() {
+        listFood = controlQuality.collectAllProducts();
+        controlQuality.resort(listFood);
+        moveToShop();
+        moveToWarehouse();
+        moveToTrash();
     }
 }

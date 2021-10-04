@@ -24,9 +24,9 @@ public class ControlQuality {
 
     public List<Food> collectAllProducts() {
         List<Food> list = new ArrayList<>();
-        list.addAll(getFoodListFromShop());
-        list.addAll(getFoodListFromWarehouse());
-        list.addAll(getFoodListFromTrash());
+        for (Storage storage : listStorage) {
+            list.addAll(storage.getFoodList());
+        }
         clearStorage();
         return list;
     }

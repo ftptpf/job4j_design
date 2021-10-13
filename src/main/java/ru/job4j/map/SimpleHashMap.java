@@ -83,7 +83,7 @@ public class SimpleHashMap<K, V> implements Iterable<NodeMap<K, V>> {
             int resizeCount = 0;
 
             for (NodeMap<K, V> nod : tempArray) {
-                if (Objects.nonNull(nod)) { //
+                if (Objects.nonNull(nod)) {
                     int hashIndex = hashIndexPosition(nod.getKey());
                     if (Objects.isNull(newNodeArray[hashIndex])) {
                         newNodeArray[hashIndex] = nod;

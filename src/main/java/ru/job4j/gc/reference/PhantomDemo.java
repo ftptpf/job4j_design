@@ -25,8 +25,12 @@ public class PhantomDemo {
             this.name = name;
         }
 
+        /**
+         * Переопределяем get(), чтобы проконтролировать что удаляется наш ресурс.
+         * @return
+         */
         @Override
-        public String get() { // переопределяем get(), чтобы проконтролировать что удаляется наш ресурс
+        public String get() {
             return name;
         }
     }

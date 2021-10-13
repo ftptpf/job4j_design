@@ -7,8 +7,8 @@ package ru.job4j.ood.isp.wrong;
  * Решением будет создание отдельных интерфейсов для Economy и Business классов.
  */
 public interface AircraftPassenger {
-    void stewardessCall(); // вызов стюардессы
-    void chooseFood(); // выбор еды
-    void chooseAlcohol(); // выбор алкоголя
-    void chooseSpecialFood(); //выбор еды из специального меню
+    void stewardessCall();
+    void chooseFood();
+    void chooseAlcohol();
+    void chooseSpecialFood();
 }

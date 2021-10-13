@@ -14,11 +14,14 @@ import static java.nio.file.FileVisitResult.CONTINUE;
 
 /**
  * Обход и выборка файлов по критериям.
+ * resultListPath - собранные данные
+ * n - имя файла, маска, либо регулярное выражение
+ * t - тип поиска: mask искать по маске, name по полному совпадение имени, regex по регулярному выражению
  */
 public class FileFind extends SimpleFileVisitor<Path> {
-    private List<Path> resultListPath = new ArrayList<>(); // собранные данные
-    private String n; // имя файла, маска, либо регулярное выражение.
-    private String t; // тип поиска: mask искать по маске, name по полному совпадение имени, regex по регулярному выражению.
+    private List<Path> resultListPath = new ArrayList<>();
+    private String n;
+    private String t;
 
     public FileFind(String n, String t) {
         this.n = n;
@@ -67,7 +70,6 @@ public class FileFind extends SimpleFileVisitor<Path> {
                                 .replace(".", "\\.");
                     default:
                         throw new IllegalArgumentException("Non correct type of search. Should be: name, mask or regex.");
-                        //break;
                 }
                 return Pattern.matches(regex, pathString);
             }

@@ -89,8 +89,6 @@ public class PrepareStatementDemo {
         City oneCity = new City(1, "NY", 25_000_000);
         City twoCity = new City(2, "Moscow", 15_000_000);
         PrepareStatementDemo ps = new PrepareStatementDemo();
-        // ps.insert(oneCity);
-        // ps.insert(twoCity);
         ps.delete(1);
         ps.update(twoCity);
         List<City> list = ps.findAll();

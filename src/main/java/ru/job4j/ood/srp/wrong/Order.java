@@ -10,19 +10,22 @@ public class Order {
     }
 
     private void receiveOrder(int id, String type, int price) {
-
     }
 
+    /**
+     * Проверяем получены ли деньги. Начинаем выполнять заказ. Отправляем подтверждение на email.
+     * @return
+     */
     private boolean startFulfillOrder() {
         if (checkMoney()) {
-            // начинаем выполнять заказ
             sendConfirmation();
         }
         return true;
     }
 
+    /**
+     * Отправляем сообщение заказчику на email.
+     */
     private void sendConfirmation() {
-        // отправляем сообщение заказчику на email
-
     }
 }

@@ -16,8 +16,8 @@ import java.util.stream.Collectors;
  * - получить содержимое файла из кэша
  */
 public class Emulator {
-    static String cachingDir = "resources/gc"; // текущая директория
-    private Set<String> fileSet = new HashSet<>(); // сет файлов текущей директории
+    static String cachingDir = "resources/gc";
+    private Set<String> fileSet = new HashSet<>();
 
     public void init(Scanner scanner, AbstractCache<String, String> fileCache) {
         loadToFileSet();
@@ -27,13 +27,13 @@ public class Emulator {
             System.out.println("Current directory relative path is : " + cachingDir);
             System.out.println("Select menu number 0, 1, 2 or 3:");
             int select = Integer.parseInt(scanner.nextLine());
-            if (select == 0) { // выбираем кешируемую директорию
+            if (select == 0) {
                 System.out.println("Please chose directory:");
                 cachingDir = scanner.nextLine();
                 fileCache = new DirFileCache(cachingDir);
                 loadToFileSet();
                 System.out.println("You have a new directory.");
-            } else if (select == 1) { // выбираем файл для загрузки в кеш
+            } else if (select == 1) {
                 System.out.println("For load file contents into cache please enter file name: ");
                 String key = scanner.nextLine();
                 if (fileSet.contains(key)) {
@@ -42,7 +42,7 @@ public class Emulator {
                 } else {
                     System.out.println("Please type the correct file name.");
                 }
-            } else if (select == 2) { // получаем содержимое файла из кеша
+            } else if (select == 2) {
                 System.out.println("For get file contents from cache please enter file name:");
                 String key = scanner.nextLine();
                 if (fileSet.contains(key)) {
@@ -51,7 +51,7 @@ public class Emulator {
                 } else {
                     System.out.println("Please type the correct file name.");
                 }
-            } else  if (select == 3) { // завершаем программу
+            } else  if (select == 3) {
                 System.out.println("Program exit ...");
                 run = false;
             } else {

@@ -5,9 +5,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+/**
+ * data - вложенные итераторы
+ * cursor - текущий итератор
+ * @param <T>
+ */
 public class FlatMapIter<T> implements Iterator<T> {
-    private final Iterator<Iterator<T>> data; // вложенные итераторы
-    private Iterator<T> cursor = Collections.emptyIterator(); // текущий итератор
+    private final Iterator<Iterator<T>> data;
+    private Iterator<T> cursor = Collections.emptyIterator();
 
     public FlatMapIter(Iterator<Iterator<T>> data) {
         this.data = data;
@@ -22,7 +27,7 @@ public class FlatMapIter<T> implements Iterator<T> {
     }
 
     /**
-     * Метод последовательно возвращает числа из вложенных мтераторов
+     * Метод последовательно возвращает числа из вложенных итераторов
      * @return
      */
     @Override

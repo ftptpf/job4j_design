@@ -9,10 +9,12 @@ import java.util.*;
 
 /**
  * Из текстового файла переносим данные в postgreSQL.
+ * cfg - файл где хранятся параметры базы данных
+ * dump - текстовый файл который мы парсим
  */
 public class ImportDB {
-    private Properties cfg; // файл где хранятся параметры базы данных
-    private String dump; // текстовый файл который мы парсим
+    private Properties cfg;
+    private String dump;
 
     public ImportDB(Properties cfg, String dump) {
         this.cfg = cfg;

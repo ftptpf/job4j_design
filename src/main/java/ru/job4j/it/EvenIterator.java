@@ -40,20 +40,20 @@ public class EvenIterator implements Iterator<Integer> {
 
     /**
      * Метод ищет следующее четное число в массиве.
+     * index = position
+     * rsl - индекс результат
+     * Если число под индексом i четное - возвращаем этот индекс как результат.
      * @param index на вход получает текущий индекс.
-     * @return возвращает индекс ближайшей четной позиции, если её нет - возвращает -1.
+     * @return возвращает индекс ближайшей четной позиции, если её нет - возвращает -1 (значит метод не нашел после position четных чисел)
      */
-    public int findEven(int index) { // index = position
-        int rsl = -1; // индекс результат
+    public int findEven(int index) {
+        int rsl = -1;
         for (int i = index; i < numbers.length; i++) {
-            if (numbers[i] % 2 == 0) { // если число под индексом i четное
-                rsl = i; // возвращаем этот индекс как результат
+            if (numbers[i] % 2 == 0) {
+                rsl = i;
                 break;
             }
         }
-        return rsl; // если вернется -1, значит метод не нашел после position четных чисел
+        return rsl;
     }
 }
-
-// boolean hasNext(): возвращает true, если в коллекции имеется следующий элемент, иначе возвращает false
-// E next(): возвращает текущий элемент и переходит к следующему, если такого нет, то генерируется исключение NoSuchElementException

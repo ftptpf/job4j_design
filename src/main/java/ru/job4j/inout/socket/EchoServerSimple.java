@@ -16,7 +16,7 @@ import java.net.Socket;
 public class EchoServerSimple {
     public static void main(String[] args) throws IOException {
         try (ServerSocket server = new ServerSocket(9000)) {
-            boolean closeServerWork = false; // признак закрытия сервера
+            boolean closeServerWork = false;
             while (!server.isClosed()) {
                 Socket socket = server.accept();
                 try (OutputStream out = socket.getOutputStream();

@@ -31,7 +31,7 @@ public class MaxMinTest {
     public void checkMaxStringResult() {
         MaxMin checkMax = new MaxMin();
         List<String> list = List.of("text", "and", "support", "a");
-        Comparator<String> stringComparator = String::compareTo; // Lexicographically
+        Comparator<String> stringComparator = String::compareTo; /** Lexicographically */
         String result = checkMax.max(list, stringComparator);
         assertThat(result, is("text"));
     }
@@ -39,7 +39,7 @@ public class MaxMinTest {
     public void checkMinStringResult() {
         MaxMin checkMin = new MaxMin();
         List<String> list = List.of("text", "and", "support", "a");
-        Comparator<String> stringComparator = String::compareTo; // Lexicographically
+        Comparator<String> stringComparator = String::compareTo; /** Lexicographically */
         String result = checkMin.min(list, stringComparator);
         assertThat(result, is("a"));
     }

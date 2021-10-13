@@ -19,13 +19,17 @@ public class Generics {
         gen.printObject(second);
         gen.printObject(third);
 
-        // gen.printBoundedWildCard(first); - Animal попадает за пределы верхнего ограничения Predator
+        /**
+         * gen.printBoundedWildCard(first); - Animal попадает за пределы верхнего ограничения Predator
+         */
         gen.printBoundedWildCard(second);
         gen.printBoundedWildCard(third);
 
         gen.printLowerBoundedWildCard(first);
         gen.printLowerBoundedWildCard(second);
-        // gen.printLowerBoundedWildCard(third); - Tiger попадает за пределы нижнего ограничения Predator
+        /**
+         * gen.printLowerBoundedWildCard(third); - Tiger попадает за пределы нижнего ограничения Predator
+         */
     }
 
     /**

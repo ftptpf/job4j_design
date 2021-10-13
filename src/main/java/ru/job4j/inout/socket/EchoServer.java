@@ -22,36 +22,45 @@ import java.net.Socket;
 public class EchoServer {
     private static final Logger LOG = LoggerFactory.getLogger(EchoServer.class.getName());
 
+    /**
+     * Создаем сервер по умолчанию localhost порт 9000.
+     * closeServerWork - признак закрытия сервера
+     * До тех пор пока сервер не закрыт, переводим сервер в режим ожидания когда к нему обратиться клиент.
+     * Создает поток который будут отправлять ответы от сервера.
+     * Создаем поток на чтение данных от клиента.
+     * str - строка сообщений от "клиента"
+     * answer - контрольная строка
+     * @param args
+     */
     public static void main(String[] args) {
-        try (ServerSocket server = new ServerSocket(9000)) { // создаем сервер по умолчанию localhost порт 9000
-            boolean closeServerWork = false; // признак закрытия сервера
-            while (!server.isClosed()) { // до тех пор пока сервер не закрыт
-                Socket socket = server.accept(); // переводим сервер в режим ожидания когда к нему обратиться клиент
-                try (OutputStream out = socket.getOutputStream(); // создает поток который будут отправлять ответы от сервера
+        try (ServerSocket server = new ServerSocket(9000)) {
+            boolean closeServerWork = false;
+            while (!server.isClosed()) {
+                Socket socket = server.accept();
+                try (OutputStream out = socket.getOutputStream();
                      BufferedReader in = new BufferedReader(
-                             new InputStreamReader(socket.getInputStream()))) {  // создаем поток на чтение данных от клиента
-                    String str = "some text"; // строка сообщений от "клиента"
-                    String answer = "Exit"; // контрольная строка
+                             new InputStreamReader(socket.getInputStream()))) {
+                    String str = "some text";
+                    String answer = "Exit";
 
-                    while (str != null && !str.isEmpty()) { // пока строка не равна null и не пустая строка
-                        if (str.startsWith("GET /?msg=") && str.contains("Exit")) { // если строка ответа начинается с "GET" и содержит "Exit"
+                    while (str != null && !str.isEmpty()) {
+                        if (str.startsWith("GET /?msg=") && str.contains("Exit")) {
                             closeServerWork = true;
-                        } else if (str.startsWith("GET /?msg=") && str.contains("Hello")) { // // если строка ответа начинается с "GET" и содержит "Hello"
+                        } else if (str.startsWith("GET /?msg=") && str.contains("Hello")) {
                             answer = "Hello";
-                        } else if (str.startsWith("GET /?msg=")) { // в ином случае
+                        } else if (str.startsWith("GET /?msg=")) {
                             answer = "What";
                         }
-                        str = in.readLine(); // читаем строку в потоке ввода
-                        System.out.println(str); // выводим прочитанную строку на консоль
+                        str = in.readLine();
+                        System.out.println(str);
                     }
-                    out.write(("HTTP/1.1 200 OK\r\n\r\n").getBytes()); // записываем ответ - "HTTP/1.1 200 OK" и делаем два перевода строки
+                    out.write(("HTTP/1.1 200 OK\r\n\r\n").getBytes());
 
-                    if (!answer.equals("Exit")) { // если контрольная строка не содержит "Exit"
-                        out.write(answer.getBytes()); // выводим контрольное сообщение на консоль
+                    if (!answer.equals("Exit")) {
+                        out.write(answer.getBytes());
                     }
-
-                    if (closeServerWork) { // делаем проверку требуется ли закрыть сервер
-                        server.close(); // закрываем сервер
+                    if (closeServerWork) {
+                        server.close();
                         closeServerWork = false;
                     }
                 }

@@ -6,28 +6,34 @@ import java.util.NoSuchElementException;
 
 /**
  * Организация односвязного списка.
+ * head - первый нод
+ * modCount - счетчик изменений
  * @param <T>
  */
 public class ForwardLinked<T> implements Iterable<T> {
-    private Node<T> head; // первый нод
-    private int modCount = 0; // счетчик изменений
+    private Node<T> head;
+    private int modCount = 0;
 
     /**
      * Метод добавляет указанный элемент (value) в конец списка.
+     * Создаем новый нод, если первый нод (head) пустой -  инициализируем первый нод новым нодом.
+     * Создаем новый нод, пока у нового нода ссылка на следующий нод не станет равна null (не дошли до конца списка) -
+     * идем по цепочке, переприсваивая ноды next значениями последующих нодов, доходим до конца списка.
+     * В предпоследнем элементе делаем ссылку на "новый" последний элемент.
      * @param value
      */
     public void add(T value) {
-        Node<T> node = new Node<>(value, null); // создаем новый нод
-        if (head == null) { // если первый нод (head) пустой
-            head = node; // инициализируем первый нод новым нодом
+        Node<T> node = new Node<>(value, null);
+        if (head == null) {
+            head = node;
             modCount++;
             return;
         }
-        Node<T> tail = head; // создаем новый нод
-        while (tail.next != null) { // пока у нового нода ссылка на следующий нод не станет равна null (не дошли до конца списка)
-            tail = tail.next; // идем по цепочке, переприсваивая ноды next значениями последующих нодов, доходим до конца списка
+        Node<T> tail = head;
+        while (tail.next != null) {
+            tail = tail.next;
         }
-        tail.next = node; // в предпоследнем элементе делаем ссылку на "новый" последний элемент
+        tail.next = node;
         modCount++;
     }
 
@@ -44,27 +50,31 @@ public class ForwardLinked<T> implements Iterable<T> {
 
     /**
      * Метод удаляет первый элемент списка.
-     * @return
+     * @return обнуление ссылки первого нода (head) на следующий за ним нод
      */
     public T deleteFirst() {
         Node<T> f = head;
         if (f == null) {
             throw new NoSuchElementException();
         }
-        return unlinkFirst(f); // обнуление ссылки первого нода (head) на следующий за ним нод
+        return unlinkFirst(f);
     }
 
     /**
      * Метод обнуляет значение и ссылку первого нода
+     * element - присваиваем значение первого нода
+     * next - второй нод (следующий после head)
+     * Обнуляем значение первого нода head. Обнуляем ссылку первого нода head на следующий за ним нод.
+     * Инициализируем первый нод (head) вторым нодом (next), т.е. второй нод становится первым.
      * @param f
      * @return
      */
     private T unlinkFirst(Node<T> f) {
-        final T element = f.value; // присваиваем значение первого нода
-        final Node<T> next = f.next; // next - второй нод (следующий после head)
-        f.value = null; // обнуляем значение первого нода head
-        f.next = null; // обнуляем ссылку первого нода head на следующий за ним нод
-        head = next; // инициализируем первый нод (head) вторым нодом (next), т.е. второй нод становится первым
+        final T element = f.value;
+        final Node<T> next = f.next;
+        f.value = null;
+        f.next = null;
+        head = next;
         modCount++;
         return element;
     }
@@ -77,16 +87,24 @@ public class ForwardLinked<T> implements Iterable<T> {
         return head == null;
     }
 
+    /**
+     * curNode - текущий нод, инициализируем первым нодом (head)
+     * preNode - предыдущий нод
+     * nextNode - последующий нод
+     * Пока текущий нод содержит какое либо значение - инициализируем следующий нод.
+     * В текущем ноде делаем ссылку на предыдущий. Предыдущий нод нод инициализируем текущим.
+     * Текущий нод инициализируем последующим, сдвигаемся по списку.
+     */
     public void revert() {
-        Node<T> curNode = head; // текущий нод, инициализируем первым нодом (head)
-        Node<T> preNode = null; // предыдущий нод
-        Node<T> nextNode = null; // последующий нод
+        Node<T> curNode = head;
+        Node<T> preNode = null;
+        Node<T> nextNode = null;
 
-        while (curNode != null) { // пока текущий нод содержит какое либо значение
-            nextNode = curNode.next; // инициализируем следуюший нод
-            curNode.next = preNode; // в текущем ноде делаем ссылку на предыдущий
-            preNode = curNode; // предыдущий нод нод инициализируем текущим
-            curNode = nextNode; // текущий нод инициализируем последуюшим, сдвигаемся по списку
+        while (curNode != null) {
+            nextNode = curNode.next;
+            curNode.next = preNode;
+            preNode = curNode;
+            curNode = nextNode;
         }
         head = preNode;
         modCount++;

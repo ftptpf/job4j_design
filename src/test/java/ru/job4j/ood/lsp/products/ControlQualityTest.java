@@ -100,7 +100,7 @@ public class ControlQualityTest {
                 .append(", price=")
                 .append(controlQuality.getFoodListFromShop().get(1).getPrice())
                 .append(", discount=")
-                .append(controlQuality.getFoodListFromShop().get(1).getDiscount()) // discount=20.0
+                .append(controlQuality.getFoodListFromShop().get(1).getDiscount()) /** discount=20.0 */
                 .append("}]");
         assertEquals(expected.toString(), controlQuality.getFoodListFromShop().toString());
     }

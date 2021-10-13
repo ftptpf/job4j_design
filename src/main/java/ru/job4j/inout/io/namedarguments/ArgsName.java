@@ -18,8 +18,8 @@ public class ArgsName {
         if (args.length < 1) {
             throw new IllegalArgumentException("Check the source data. It's empty.");
         }
-        for (String str : args) { // берем строку из полученного массива строк
-            String[] keyAndParamArray = str.split("=", 2); // делим на две части по знаку "=", получаем новый массив строк
+        for (String str : args) {
+            String[] keyAndParamArray = str.split("=", 2);
             if (validate(keyAndParamArray)) {
                 throw new IllegalArgumentException("Check the source data. Check the source data. Wrong keys and parameters in it.");
             }

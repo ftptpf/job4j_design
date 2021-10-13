@@ -7,6 +7,8 @@ public class ListUtils {
 
     /**
      * Метод вставляет значение перед индексом.
+     * Пока в листе есть следующее элементы, если индекс следующего элемента при вызове next будет равен index,
+     * добавляем элемент (value) между элементами вызываемыми next() и previous(), т.е. перед index.
      * @param list
      * @param index
      * @param value
@@ -15,17 +17,19 @@ public class ListUtils {
     public static <T> void addBefore(List<T> list, int index, T value) {
         Objects.checkIndex(index, list.size());
         ListIterator<T> i = list.listIterator();
-        while (i.hasNext()) { // пока в листе есть следующее элементы
-            if (i.nextIndex() == index) { // если индекс следующего элемента при вызове next будет равен index
-                i.add(value); // добавляем элемент (value) между элементами вызываемыми next() и previous(), т.е. перед index
+        while (i.hasNext()) {
+            if (i.nextIndex() == index) {
+                i.add(value);
                 break;
             }
-            i.next(); // переходим к следующему элементу списка
+            i.next();
         }
     }
 
     /**
      * Метод вставляет значение после индекса.
+     * Пока в листе есть следующее элементы, если индекс предыдущего элемента при вызове previous будет равен index,
+     * добавляем элемент (value) между элементами вызываемыми next() и previous(), т.е. после index.
      * @param list
      * @param index
      * @param value
@@ -34,12 +38,12 @@ public class ListUtils {
     public static <T> void addAfter(List<T> list, int index, T value) {
         Objects.checkIndex(index, list.size());
         ListIterator<T> i = list.listIterator();
-        while (i.hasNext()) { // пока в листе есть следующее элементы
-            if (i.previousIndex() == index) { // если индекс предыдущего элемента при вызове previous будет равен index
-                i.add(value); // добавляем элемент (value) между элементами вызываемыми next() и previous(), т.е. после index
+        while (i.hasNext()) {
+            if (i.previousIndex() == index) {
+                i.add(value);
                 break;
             }
-            i.next(); // переходим к следующему элементу списка
+            i.next();
         }
     }
 

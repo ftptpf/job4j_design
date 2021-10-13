@@ -47,23 +47,4 @@ public class UserEmailsTest {
         Map<String, Set<String>> mrUsers = uEmails.merge(users);
         assertThat(mrUsers, is(afterMergerUser));
     }
-
-/*    @Test
-    public void mergerUser() {
-        List<UserData> users = new ArrayList<>();
-        users.add(new UserData("user1", Arrays.asList("xxx@ya.ru", "foo@gmail.com", "lol@mail.ru")));
-        users.add(new UserData("user2", Arrays.asList("foo@gmail.com", "ups@pisem.net")));
-        users.add(new UserData("user3", Arrays.asList("xyz@pisem.net", "vasya@pupkin.com")));
-        users.add(new UserData("user4", Arrays.asList("ups@pisem.net", "aaa@bbb.ru")));
-        users.add(new UserData("user5", Arrays.asList("xyz@pisem.net")));
-
-        UserEmails userEmails = new UserEmails();
-        //userEmails.mergerUser(users);
-
-        List<UserData> mergerUsers = new ArrayList<>();
-        mergerUsers.add(new UserData("user1", Arrays.asList("xxx@ya.ru", "foo@gmail.com", "lol@mail.ru", "ups@pisem.net", "aaa@bbb.ru")));
-        mergerUsers.add(new UserData("user3", Arrays.asList("xyz@pisem.net", "vasya@pupkin.com")));
-
-        assertThat(userEmails, is(mergerUsers));
-    }*/
 }

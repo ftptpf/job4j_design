@@ -8,10 +8,12 @@ import java.util.stream.Collectors;
 
 /**
  * Читаем файл конфигурации.
+ * path - путь к файлу "конфигурации" с которого берем данные
+ * values -  хранит "ключ-значение"
  */
 public class Config {
-    private final String path; // Путь к файлу "конфигурации" с которого берем данные.
-    private Map<String, String> values = new HashMap<>(); // Хранит "ключ-значение".
+    private final String path;
+    private Map<String, String> values = new HashMap<>();
 
     public Config(final String path) {
         this.path = path;
@@ -26,13 +28,12 @@ public class Config {
         try (BufferedReader in = new BufferedReader(new FileReader(path))) {
             Predicate<String> predicateStartsWith = s -> !s.startsWith("#");
             values = in.lines()
-                    .filter(predicateStartsWith) // отфильтровываем строки-комментарии
-                    .map(str -> str.split("="))//из разделенной по знаку "=" строки формируем массив строк
-                    .filter(a -> a.length == 2) // массив строк состоящий из двух элементов
+                    .filter(predicateStartsWith)
+                    .map(str -> str.split("="))
+                    .filter(a -> a.length == 2)
                     .collect(Collectors.toMap(
                             s -> s[0],
-                            s -> s[1])); // собираем в Map
-
+                            s -> s[1]));
         } catch (Exception e) {
             e.printStackTrace();
         }

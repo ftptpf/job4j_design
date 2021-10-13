@@ -8,16 +8,20 @@ import java.util.Objects;
 
 /**
  * Класс - универсальная обертка над массивом.
+ * DEFAULT_CAPACITY - константа начального размера массива
+ * cursor - счетчик в итераторе
+ * count - счетчик размера массива переданных значений
+ * mod - счетчик модификаций
  * @param <T>
  */
 public class SimpleArray<T> implements Iterable<T> {
 
     private T[] array;
-    private static final int DEFAULT_CAPACITY = 10; // константа начального размера массива
+    private static final int DEFAULT_CAPACITY = 10;
     T sl;
-    int cursor; // счетчик в итераторе
-    int count = 0; // счетчик размера массива переданых значений
-    int mod = 0; // счетчик модификаций
+    int cursor;
+    int count = 0;
+    int mod = 0;
 
     public SimpleArray(int cellIncome) {
         if (cellIncome > 0) {

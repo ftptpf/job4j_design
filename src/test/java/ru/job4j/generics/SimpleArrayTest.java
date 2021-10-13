@@ -74,7 +74,7 @@ public class SimpleArrayTest {
         it.remove(1);
         assertThat(it.get(0), is(1));
         assertThat(it.get(1), is(3));
-        assertNull(it.get(2)); // --- java.lang.IndexOutOfBoundsException: Index 2 out of bounds for length 2
+        assertNull(it.get(2)); /** --- java.lang.IndexOutOfBoundsException: Index 2 out of bounds for length 2 */
     }
 
     @Test (expected = IndexOutOfBoundsException.class)
@@ -82,7 +82,7 @@ public class SimpleArrayTest {
         SimpleArray<Integer> it = new SimpleArray<>(0);
         it.add(10);
         assertThat(it.get(0), is(10));
-        assertNull(it.get(1)); // --- java.lang.IndexOutOfBoundsException: Index 1 out of bounds for length 1
+        assertNull(it.get(1)); /** --- java.lang.IndexOutOfBoundsException: Index 1 out of bounds for length 1 */
     }
 
     @Test

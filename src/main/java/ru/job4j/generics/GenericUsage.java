@@ -8,7 +8,6 @@ public class GenericUsage {
         list.add("first");
         list.add("second");
         list.add("third");
-        //list.add(new Person("name", 21, new Date(367000980980L)));
         System.out.println("Количество элементов в списке: " + list.size());
         for (int i = 0; i < list.size(); i++) {
             String s = (String) list.get(i);

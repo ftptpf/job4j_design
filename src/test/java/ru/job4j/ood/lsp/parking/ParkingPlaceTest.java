@@ -48,7 +48,7 @@ public class ParkingPlaceTest {
     public void enoughSpaceOnEachParking() {
         parkingForPassengerCar = new ParkingForPassengerCar(10);
         parkingForTruck = new ParkingForTruck(6);
-        parkingPlace = new ParkingPlace(parkingForPassengerCar, parkingForTruck); // passenger cars = 5, trucks = 5
+        parkingPlace = new ParkingPlace(parkingForPassengerCar, parkingForTruck);
         assertTrue(parkingPlace.parkingAuto(listAuto));
         assertTrue(parkingForPassengerCar.getFreeSpace() > 0);
         assertTrue(parkingForTruck.getFreeSpace() > 0);
@@ -58,7 +58,7 @@ public class ParkingPlaceTest {
     public void enoughSpaceButSumTrucksParkingOnPassengerPlaces() {
         parkingForPassengerCar = new ParkingForPassengerCar(10);
         parkingForTruck = new ParkingForTruck(3);
-        parkingPlace = new ParkingPlace(parkingForPassengerCar, parkingForTruck); // passenger cars = 5, trucks = 5
+        parkingPlace = new ParkingPlace(parkingForPassengerCar, parkingForTruck);
         assertTrue(parkingPlace.parkingAuto(listAuto));
         assertEquals(1, parkingForPassengerCar.getFreeSpace());
         assertEquals(0, parkingForTruck.getFreeSpace());
@@ -68,7 +68,7 @@ public class ParkingPlaceTest {
     public void notEnoughSpaceOnParkingForTrucks() {
         parkingForPassengerCar = new ParkingForPassengerCar(6);
         parkingForTruck = new ParkingForTruck(3);
-        parkingPlace = new ParkingPlace(parkingForPassengerCar, parkingForTruck); // passenger cars = 5, trucks = 5
+        parkingPlace = new ParkingPlace(parkingForPassengerCar, parkingForTruck);
         assertFalse(parkingPlace.parkingAuto(listAuto));
     }
 
@@ -76,12 +76,12 @@ public class ParkingPlaceTest {
     public void truckParkingOnTwoPassengersPlaces() {
         parkingForPassengerCar = new ParkingForPassengerCar(5 + truckSize);
         parkingForTruck = new ParkingForTruck(5);
-        parkingPlace = new ParkingPlace(parkingForPassengerCar, parkingForTruck); // passenger cars = 5, trucks = 5
+        parkingPlace = new ParkingPlace(parkingForPassengerCar, parkingForTruck);
         assertTrue(parkingPlace.parkingAuto(listAuto));
         assertEquals(truckSize, parkingForPassengerCar.getFreeSpace());
         parkingForPassengerCar = new ParkingForPassengerCar(5 + truckSize);
         parkingForTruck = new ParkingForTruck(4);
-        parkingPlace = new ParkingPlace(parkingForPassengerCar, parkingForTruck); // passenger cars = 5, trucks = 5
+        parkingPlace = new ParkingPlace(parkingForPassengerCar, parkingForTruck);
         assertTrue(parkingPlace.parkingAuto(listAuto));
         assertEquals(0, parkingForPassengerCar.getFreeSpace());
     }

@@ -4,13 +4,17 @@ import java.util.*;
 
 /**
  * Упрощенная реализация ArrayList, динамического списка на массиве.
+ * container - массив элементов
+ * DEFAULT_CAPACITY - константа начальной емкости массива
+ * modCount - счетчик изменений
+ * size - количество добавленных в массив элементов
  * @param <T>
  */
 public class SimpleArrayList<T> implements Iterable<T> {
-    Object[] container; // массив элементов
-    private static final int DEFAULT_CAPACITY = 10; // константа начальной емкости массива
-    private int modCount = 0; // счетчик изменений
-    private int size; // колличество добавленных в массив элементов
+    Object[] container;
+    private static final int DEFAULT_CAPACITY = 10;
+    private int modCount = 0;
+    private int size;
 
     public SimpleArrayList() {
         this.container = new Object[DEFAULT_CAPACITY];

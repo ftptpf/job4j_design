@@ -3,28 +3,37 @@ package ru.job4j.list;
 import java.util.*;
 
 /**
- * Упрощенная реалиация LinkedList.
+ * Упрощенная реализация LinkedList.
+ * first - первый нод
+ * last - последний нод
+ * modCount - счетчик изменений
+ * size - количество добавленных в массив элементов
  * @param <E>
  */
 public class SimpleLinkedList<E> implements Iterable<E> {
-    private Node<E> first; // первый нод
-    private Node<E> last; // последний нод
-    private int modCount = 0; // счетчик изменений
-    private int size = 0; // колличество добавленных в массив элементов
+    private Node<E> first;
+    private Node<E> last;
+    private int modCount = 0;
+    private int size = 0;
 
     /**
      * Метод добавляет указанный элемент (model) в конец списка.
+     * Создаем новый нод и размещаем его в конец списка.
+     * Последний нод инициализируем новым нодом.
+     * Если список был пустым, первый нод инициализируем новым нодом.
+     * В ином случае в предыдущий нод записываем ссылку на последующий новый последний нод.
+     *
      * @param value
      * @return
      */
     public boolean add(E value) {
         final Node<E> l = last;
-        final Node<E> newNode = new Node<>(l, value, null); // создаем новый нод и размещаем его в конец списка
-        last = newNode; // последний нод инициализуем новым нодом
-        if (l == null) { // если список был пустым
-            first = newNode; // первый нод инициализуем новым нодом
+        final Node<E> newNode = new Node<>(l, value, null);
+        last = newNode;
+        if (l == null) {
+            first = newNode;
         } else {
-            l.next = newNode; // в ином случае в предыдущий нод записываем ссылку на последующий новый последний нод
+            l.next = newNode;
         }
         size++;
         modCount++;

@@ -14,8 +14,8 @@ public class SoftWeakReference {
     public static void main(String[] args) {
         exampleSafeSoft();
         exampleSafeWeak();
-        // exampleSoft();
-        // exampleWeak();
+        /** exampleSoft(); */
+        /** exampleWeak(); */
     }
 
     /**

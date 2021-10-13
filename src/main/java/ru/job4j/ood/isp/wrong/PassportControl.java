@@ -9,7 +9,7 @@ package ru.job4j.ood.isp.wrong;
  * Решением будет создание отдельных интерфейсов для RussianCitizen и ForeignCitizen.
  */
 public interface PassportControl {
-    boolean checkPassport(); // проверка паспорта
-    boolean checkVisa(); // проверка визы
-    boolean checkInvitation(); // проверка приглашения
+    boolean checkPassport();
+    boolean checkVisa();
+    boolean checkInvitation();
 }

@@ -17,18 +17,20 @@ public class ReportXml  implements Report {
         this.store = store;
     }
 
+    /**
+     * Получаем контекст для доступа к API. Создаем сериализатор.
+     * Указываем, что нам нужно форматирование. Сериализуем.
+     * @param filter
+     * @return
+     */
     @Override
     public String generate(Predicate<Employee> filter) {
         try {
-            // Получаем контекст для доступа к API
             JAXBContext context = JAXBContext.newInstance(Employee.class);
-            // Создаем сериализатор
             Marshaller marshaller = context.createMarshaller();
-            // Указываем, что нам нужно форматирование
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
             String xml = "";
             try (StringWriter writer = new StringWriter()) {
-                // Сериализуем
                 for (Employee employee : store.findBy(filter)) {
                     marshaller.marshal(employee, writer);
                     xml = writer.getBuffer().toString();

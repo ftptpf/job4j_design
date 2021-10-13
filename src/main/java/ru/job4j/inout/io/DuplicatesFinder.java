@@ -28,12 +28,12 @@ public class DuplicatesFinder {
     /**
      * Метод ищет дубликаты.
      * @param start
-     * @return
+     * @return возвращаем map с дубликатами
      * @throws IOException
      */
     public static Map<FileProperty, List<Path>> findDuplicate(Path start) throws IOException {
         DuplicatesVisitor duplicatesVisitor = new DuplicatesVisitor();
         Files.walkFileTree(start, duplicatesVisitor);
-        return duplicatesVisitor.getDuplicatedMap(); // возвращаем map с дубликатами
+        return duplicatesVisitor.getDuplicatedMap();
     }
 }

@@ -11,9 +11,8 @@ public class UsageLog4jException {
         try {
             throw new Exception("Not supported code");
         } catch (Exception e) {
-            //e.printStackTrace(); // печатаем исключение на консоль
-            LOG.error(e.getMessage()); // В этом случае мы не можем понять, кто вызывал этот код. Не можем отследить причину.
-            LOG.error("Exception in log example", e); // перенапрвляем исключение в логгер
+            LOG.error(e.getMessage());
+            LOG.error("Exception in log example", e);
         }
     }
 }

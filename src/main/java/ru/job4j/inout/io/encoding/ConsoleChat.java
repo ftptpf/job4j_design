@@ -14,17 +14,21 @@ import java.util.Random;
  * - если пользователь вводит слово «продолжить», программа снова начинает отвечать.
  * - при вводе слова «закончить» программа прекращает работу.
  * - запись диалога, включая слова-команды стоп/продолжить/закончить должны быть записаны в текстовый лог.
+ * path - имя файла, в который будет записан весь диалог между ботом и пользователем
+ * botAnswer - имя файла в котором находятся строки с ответами, которые будет использовать бот
+ * answerList - лист с ответами бота
+ * logList - в лист собираем переписку с ботом перед записью её в файл
+ * pauseStop - признак начала и окончания паузы в ответах бота
  */
 public class ConsoleChat {
-    private final String path; // имя файла, в который будет записан весь диалог между ботом и пользователем
-    private final String botAnswer; // имя файла в котором находятся строки с ответами, которые будет использовать бот
+    private final String path;
+    private final String botAnswer;
     private static final String OUT = "закончить";
     private static final String STOP = "стоп";
     private static final String CONTINUE = "продолжить";
-    private List<String> answerList = new ArrayList<>(); // лист с ответами бота
-    private List<String> logList = new ArrayList<>(); // в лист собираем переписку с ботом перед записью её в файл
-    private boolean pauseStop = false; // признак начала и окончания паузы в ответах бота
-
+    private List<String> answerList = new ArrayList<>();
+    private List<String> logList = new ArrayList<>();
+    private boolean pauseStop = false;
 
     public ConsoleChat(String path, String botAnswer) {
         this.path = path;

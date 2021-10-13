@@ -22,11 +22,11 @@ public class AnalizeTest {
 
         List<User> current = new ArrayList<>();
         current.add(new User(1, "Roy"));
-        current.add(new User(2, "Inga")); // change
+        current.add(new User(2, "Inga"));
         current.add(new User(3, "Din"));
-                                                   // delete
-        current.add(new User(5, "Zoya")); // change
-        current.add(new User(6, "Nika")); // add
+
+        current.add(new User(5, "Zoya"));
+        current.add(new User(6, "Nika"));
 
         Info rsl = analize.diff(previous, current);
 

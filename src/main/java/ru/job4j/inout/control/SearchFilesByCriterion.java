@@ -74,18 +74,22 @@ public class SearchFilesByCriterion {
         }
     }
 
+    /**
+     * pr - создаем map (ключ-значение) из входных параметров
+     * rootPath - директория с которой будем начинать поиск
+     * targetPath - файл в который будут записаны результаты поиска
+     * @param args
+     * @throws IOException
+     */
     public static void main(String[] args) throws IOException {
         if (args.length == 0) {
             throw new IllegalArgumentException("Your parameters is empty. Check and add it.");
         }
-        ParamNames pr = ParamNames.of(args); // создаем map (ключ-значение) из входных параметров
-
-        Path rootPath = Paths.get(pr.get("d")); // директория с которой будем начинать поиск
-        Path targetPath = Paths.get(pr.get("o")); // файл в который будут записаны результаты поиска
-
+        ParamNames pr = ParamNames.of(args);
+        Path rootPath = Paths.get(pr.get("d"));
+        Path targetPath = Paths.get(pr.get("o"));
         String n = pr.get("n");
         String t = pr.get("t");
-
         SearchFilesByCriterion sfc = new SearchFilesByCriterion();
         List<Path> sourcesList = sfc.findFiles(rootPath, n, t);
         sfc.saveFiles(sourcesList, targetPath);

@@ -27,7 +27,7 @@ public class Zip {
      * @param target файл в который мы архивируем
      */
     public void packFiles(List<Path> sources, Path target) {
-        if (sources.size() == 0) { // выполняем проверку чтобы лист файлов и папок которые мы получили не был пуст
+        if (sources.size() == 0) {
             throw new IllegalArgumentException("Пустой список архивирования папок, файлов.");
         }
         try (ZipOutputStream zipOut = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(target.toFile())))) {
@@ -44,17 +44,18 @@ public class Zip {
 
     /**
      * Метод архивирует один определенный файл.
+     * Создаем исходящие потоки (записываем): zip поток -> буферизация потока -> поток байтов запись в zip файл target.
+     * Создается пустой файл source в zip архиве.
+     * Создаем входящие потоки (чтение): буферизация потока <- чтение байтов из фала source.
+     * Запись содержимого файла source в ранее созданный в zip архиве пустой файл source.
      * @param source исходный файл
      * @param target zip архив
      */
     public void packSingleFile(File source, File target) {
-        /* Создаем исходящие потоки (записываем): zip поток -> буферизация потока -> поток байтов запись в zip файл target */
         try (ZipOutputStream zip = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(target)))) {
-            zip.putNextEntry(new ZipEntry(source.getPath())); // создается пустой файл source в zip архиве
-            /* Создаем входящие потоки (чтение): буферизация потока <- чтение байтов из фала source */
+            zip.putNextEntry(new ZipEntry(source.getPath()));
             try (BufferedInputStream out = new BufferedInputStream(new FileInputStream(source))) {
-                zip.write(out.readAllBytes()); // запись содержимого файла source в ранее созданный в zip архиве пустой файл source
-
+                zip.write(out.readAllBytes());
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -66,20 +67,15 @@ public class Zip {
      * @param args Входные аргументы (-d=c:\projects\job4j_design -e=java -o=.\resources\project.zip) указываем в настройках файла в Intellije IDEA.
      */
     public static void main(String[] args) throws IOException {
-        if (args.length == 0) { // выполняем проверку чтобы массив принимаемых аргументов не был пуст
+        if (args.length == 0) {
             throw new IllegalArgumentException("Root folder is null. Usage java -jar dir.jar ROOT_FOLDER.");
         }
-/*        new Zip().packSingleFile(
-                new File("./resources/serverlog.txt"),
-                new File("./resources/serverlog.zip")
-        );*/
-
-        ArgsName mapArgs = ArgsName.of(args); // создаем map (ключ-значение) из входных параметров
-        Predicate<Path> predicate = p -> !p.toFile().getName().endsWith(mapArgs.get("e")); // условие отбора файлов
-        Path rootPath = Paths.get(mapArgs.get("d")); // директория которую мы будем архивировать
-        List<Path> list = SearchProg.search(rootPath, predicate); // отобранный лист папок и директорий
+        ArgsName mapArgs = ArgsName.of(args);
+        Predicate<Path> predicate = p -> !p.toFile().getName().endsWith(mapArgs.get("e"));
+        Path rootPath = Paths.get(mapArgs.get("d"));
+        List<Path> list = SearchProg.search(rootPath, predicate);
         Zip zip = new Zip();
-        Path target = Paths.get(mapArgs.get("o")); // zip файл в который будем все архивировать
-        zip.packFiles(list, target); // архивируем директорию
+        Path target = Paths.get(mapArgs.get("o"));
+        zip.packFiles(list, target);
     }
 }

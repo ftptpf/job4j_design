@@ -4,10 +4,12 @@ import java.util.Objects;
 
 /**
  * Модель данных файла.
+ * name - имя файла
+ * size - размер файла
  */
 public class FileProperty {
-    private String name; // имя файла
-    private long size; // размер файла
+    private String name;
+    private long size;
 
 
     public FileProperty(String name, long size) {

@@ -5,10 +5,15 @@ public class UserRunner {
     private static final long MB = KB * KB;
     private static final Runtime ENVIRONMENT = Runtime.getRuntime();
 
+    /**
+     * freeMemory - возвращает количество свободной памяти в байтах
+     * totalMemory - возвращает общее количество памяти которое может быть использовано
+     * maxMemory - возвращает максимальное количество памяти которое может быть использовано
+     */
     public static void info() {
-        final long freeMemory = ENVIRONMENT.freeMemory(); // возвращает количество свободной памяти в байтах
-        final long totalMemory = ENVIRONMENT.totalMemory(); // возвращает общее количество памяти которое может быть использовано
-        final long maxMemory = ENVIRONMENT.maxMemory(); // возвращает максимальное количество памяти которое может быть использовано
+        final long freeMemory = ENVIRONMENT.freeMemory();
+        final long totalMemory = ENVIRONMENT.totalMemory();
+        final long maxMemory = ENVIRONMENT.maxMemory();
         System.out.println("=== Environment state ===");
         System.out.printf("Free: %d%n", freeMemory / MB);
         System.out.printf("Total: %d%n", totalMemory / MB);

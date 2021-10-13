@@ -26,10 +26,10 @@ public class DirFileCache extends AbstractCache<String, String> {
     @Override
     protected String load(String key) {
         String result = "";
-        Path path = Path.of(cachingDir, key); // путь к файлу в текущей директории
+        Path path = Path.of(cachingDir, key);
         try {
             result = Files.lines(path)
-                    .collect(Collectors.joining(System.lineSeparator())); // считываем все строки файла
+                    .collect(Collectors.joining(System.lineSeparator()));
         } catch (IOException e) {
             e.printStackTrace();
         }

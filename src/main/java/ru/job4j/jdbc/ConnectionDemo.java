@@ -11,10 +11,12 @@ import java.util.Properties;
 
 /**
  * Подключение к базе данных.
+ * path - путь к properties файлу
+ * values - настройки (properties)
  */
 public class ConnectionDemo {
-    private static Path path = Paths.get("resources/app.properties"); // путь к properties файлу
-    private static Properties values = new Properties(); // настройки (properties)
+    private static Path path = Paths.get("resources/app.properties");
+    private static Properties values = new Properties();
 
     /**
      * Загрузка из properties файла параметров настроек (url, login, password).

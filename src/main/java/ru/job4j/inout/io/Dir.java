@@ -11,14 +11,14 @@ public class Dir {
             throw new IllegalArgumentException("Root folder is null. Usage java -jar dir.jar ROOT_FOLDER.");
         }
         File file = new File(args[0]);
-        if (!file.exists()) { // проверяем существование файла
+        if (!file.exists()) {
             throw new IllegalArgumentException(String.format("Not exist %s", file.getAbsoluteFile()));
         }
-        if (!file.isDirectory()) { // проверяем что файл это директория
+        if (!file.isDirectory()) {
             throw new IllegalArgumentException(String.format("Not directory %s", file.getAbsoluteFile()));
         }
         System.out.println(String.format("size : %s", file.getTotalSpace()));
-        for (File subFile : file.listFiles()) { // получаем список файлов в этой директории
+        for (File subFile : file.listFiles()) {
             System.out.println("Directory name: " + subFile.getName() + " ------  size: " + subFile.length());
         }
     }

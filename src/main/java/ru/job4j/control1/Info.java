@@ -2,11 +2,14 @@ package ru.job4j.control1;
 
 /**
  * Модель данных Info.
+ * added - сколько добавлено новых пользователей
+ * changed - сколько изменено пользователей. Изменённым считается объект в котором изменилось имя, а id осталось прежним.
+ * deleted - сколько удалено пользователей
  */
 public class Info {
-    private int added; // Сколько добавлено новых пользователей.
-    private int changed; // Сколько изменено пользователей. Изменённым считается объект в котором изменилось имя, а id осталось прежним.
-    private int deleted; // Сколько удалено пользователей.
+    private int added;
+    private int changed;
+    private int deleted;
 
     public Info(int added, int changed, int deleted) {
         this.added = added;

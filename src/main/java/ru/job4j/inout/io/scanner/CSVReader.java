@@ -23,7 +23,7 @@ public class CSVReader {
     /**
      * Читаем данные исходного файла, собираем их в лист.
      * Последовательно запуская вспомогательные методы, делаем выборку и выводим информацию.
-     * @param argsName пусть к исходно файлу, путь к файлу куда будем записывать информацию, фильтр по столбцам и разделитель
+     * @param argsName путь к исходному файлу, путь к файлу куда будем записывать информацию, фильтр по столбцам и разделитель
      * @throws Exception
      */
     public static void handle(ArgsName argsName) throws Exception {
@@ -36,7 +36,7 @@ public class CSVReader {
 
         Scanner scanner = new Scanner(new FileInputStream(path));
 
-        while (scanner.hasNext()) {
+        while (scanner.hasNextLine()) {
             List<String> listString = new ArrayList<>();
             String string = scanner.nextLine();
             Scanner scannerString = new Scanner(new CharArrayReader(string.toCharArray())).useDelimiter(";");
@@ -105,12 +105,15 @@ public class CSVReader {
      */
     private static void writeToFile(String resultString, String out) throws FileNotFoundException {
         String console = "stdout";
-        FileOutputStream fileOutputStream;
+        //BufferedOutputStream fileOutputStream;
+        //FileOutputStream fileOutputStream;
         if (out.equals(console)) {
-            fileOutputStream = new FileOutputStream(String.valueOf(System.out));
+            //fileOutputStream = new BufferedOutputStream(System.out);
+            //fileOutputStream = new FileOutputStream(String.valueOf(System.out));
 
         } else {
-            fileOutputStream = new FileOutputStream(out);
+            //fileOutputStream = new BufferedOutputStream(new FileOutputStream(out));
+            //fileOutputStream = new FileOutputStream(out);
         }
         PrintStream ps = new PrintStream(fileOutputStream);
         ps.print(resultString);

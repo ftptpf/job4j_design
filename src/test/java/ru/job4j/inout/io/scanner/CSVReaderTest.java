@@ -1,6 +1,5 @@
 package ru.job4j.inout.io.scanner;
 
-import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -14,8 +13,6 @@ import java.nio.file.Files;
 import static org.junit.Assert.*;
 
 public class CSVReaderTest {
-    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private final PrintStream originalOut = System.out;
 
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
@@ -93,9 +90,10 @@ public class CSVReaderTest {
                 "Johnson;Undergraduate",
                 "Brown;Secondary special"
         ).concat(System.lineSeparator());
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
         CSVReader.handle(argsName);
         assertEquals(expected, outContent.toString());
-        System.setOut(originalOut);
+        System.setOut(System.out);
     }
 }

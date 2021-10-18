@@ -105,17 +105,13 @@ public class CSVReader {
      */
     private static void writeToFile(String resultString, String out) throws FileNotFoundException {
         String console = "stdout";
-        //BufferedOutputStream fileOutputStream;
-        //FileOutputStream fileOutputStream;
+        OutputStream outputStream;
         if (out.equals(console)) {
-            //fileOutputStream = new BufferedOutputStream(System.out);
-            //fileOutputStream = new FileOutputStream(String.valueOf(System.out));
-
+            outputStream = System.out;
         } else {
-            //fileOutputStream = new BufferedOutputStream(new FileOutputStream(out));
-            //fileOutputStream = new FileOutputStream(out);
+            outputStream = new FileOutputStream(out);
         }
-        PrintStream ps = new PrintStream(fileOutputStream);
+        PrintStream ps = new PrintStream(outputStream);
         ps.print(resultString);
     }
 

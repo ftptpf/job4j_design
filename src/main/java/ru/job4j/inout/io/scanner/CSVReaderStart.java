@@ -9,6 +9,7 @@ public class CSVReaderStart {
 
     public static void main(String[] args) throws Exception {
         ArgsName argsName = ArgsName.of(args);
-        CSVReader.handle(argsName);
+        CSVReader csvReader = new CSVReader();
+        csvReader.handle(argsName);
     }
 }

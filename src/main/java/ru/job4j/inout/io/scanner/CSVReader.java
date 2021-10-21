@@ -3,10 +3,7 @@ package ru.job4j.inout.io.scanner;
 import ru.job4j.inout.io.namedarguments.ArgsName;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.StringJoiner;
+import java.util.*;
 
 /**
  * Читаем данные из CSV файла и выводим их.
@@ -26,7 +23,8 @@ public class CSVReader {
      * @param argsName путь к исходному файлу, путь к файлу куда будем записывать информацию, фильтр по столбцам и разделитель
      * @throws Exception
      */
-    public static void handle(ArgsName argsName) throws Exception {
+    public void handle(ArgsName argsName) throws Exception {
+        validate(argsName);
         String path = argsName.get("path");
         String out = argsName.get("out");
         String delimiter = argsName.get("delimiter");
@@ -34,20 +32,32 @@ public class CSVReader {
         List<List<String>> listAllTable = new ArrayList<>();
         List<List<String>> resultList;
 
-        Scanner scanner = new Scanner(new FileInputStream(path));
-
-        while (scanner.hasNextLine()) {
-            List<String> listString = new ArrayList<>();
-            String string = scanner.nextLine();
-            Scanner scannerString = new Scanner(new CharArrayReader(string.toCharArray())).useDelimiter(";");
-            while (scannerString.hasNext()) {
-                listString.add(scannerString.next());
+        try (Scanner scanner = new Scanner(new FileInputStream(path))) {
+            while (scanner.hasNextLine()) {
+                String string = scanner.nextLine();
+                String[] arrayString = string.split(";");
+                List<String> listString = new ArrayList<>(Arrays.asList(arrayString));
+                listAllTable.add(listString);
             }
-            listAllTable.add(listString);
         }
         resultList = listFilter(listAllTable, filter);
         String resultString = convertFromListToString(resultList, delimiter);
         writeToFile(resultString, out);
+    }
+
+    /**
+     * Выполняем валидацию что в аргументах которые к нам поступают содержаться ключи
+     * path, out, delimiter, filter
+     * @param argsName путь к исходному файлу, путь к файлу куда будем записывать информацию, фильтр по столбцам и разделитель
+     */
+    public void validate(ArgsName argsName) {
+        Optional<String> path = Optional.ofNullable(argsName.get("path"));
+        Optional<String> out = Optional.ofNullable(argsName.get("out"));
+        Optional<String> delimiter = Optional.ofNullable(argsName.get("delimiter"));
+        Optional<String> filter = Optional.ofNullable(argsName.get("filter"));
+        if (path.isEmpty() || out.isEmpty() || delimiter.isEmpty() || filter.isEmpty()) {
+            throw new IllegalArgumentException("Check you arguments. Some or all of them is wrong.");
+        }
     }
 
     /**
@@ -61,14 +71,10 @@ public class CSVReader {
      * @param filter название столбцов, разделенный запятой по которым будет происходить отбор
      * @return лист только с указанными в фильтре столбцами
      */
-    private static List<List<String>> listFilter(List<List<String>> list, String filter) {
+    private List<List<String>> listFilter(List<List<String>> list, String filter) {
         List<List<String>> result = new ArrayList<>();
-
-        List<String> filterFirstStringList = new ArrayList<>();
-        Scanner scanner = new Scanner(new CharArrayReader(filter.toCharArray())).useDelimiter(",");
-        while (scanner.hasNext()) {
-            filterFirstStringList.add(scanner.next());
-        }
+        String[] arrayString = filter.split(",");
+        List<String> filterFirstStringList = new ArrayList<>(Arrays.asList(arrayString));
         List<String> titleStringList = list.get(0);
         List<Integer> indexTitleStringList = new ArrayList<>();
 
@@ -103,16 +109,16 @@ public class CSVReader {
      *            в ином случае в параметрах должен прийти путь к файлу в который записываем информацию.
      * @throws FileNotFoundException
      */
-    private static void writeToFile(String resultString, String out) throws FileNotFoundException {
+    private void writeToFile(String resultString, String out) throws FileNotFoundException {
         String console = "stdout";
-        OutputStream outputStream;
         if (out.equals(console)) {
-            outputStream = System.out;
+            PrintStream ps = new PrintStream(System.out);
+            ps.print(resultString);
         } else {
-            outputStream = new FileOutputStream(out);
+            try (PrintStream ps = new PrintStream(new FileOutputStream(out))) {
+                ps.print(resultString);
+            }
         }
-        PrintStream ps = new PrintStream(outputStream);
-        ps.print(resultString);
     }
 
     /**
@@ -121,7 +127,7 @@ public class CSVReader {
      * @param delimiter разделитель
      * @return строка
      */
-    private static String convertFromListToString(List<List<String>> resultList, String delimiter) {
+    private String convertFromListToString(List<List<String>> resultList, String delimiter) {
         StringBuilder sb = new StringBuilder();
         for (List<String> listString : resultList) {
             StringJoiner sj = new StringJoiner(delimiter);

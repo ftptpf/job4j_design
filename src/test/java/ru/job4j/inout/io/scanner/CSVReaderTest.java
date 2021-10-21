@@ -39,7 +39,8 @@ public class CSVReaderTest {
                 "Jack;25",
                 "William;30"
         ).concat(System.lineSeparator());
-        CSVReader.handle(argsName);
+        CSVReader csvReader = new CSVReader();
+        csvReader.handle(argsName);
         assertEquals(expected, Files.readString(target.toPath()));
     }
 
@@ -65,7 +66,8 @@ public class CSVReaderTest {
                 "Johnson;Undergraduate",
                 "Brown;Secondary special"
         ).concat(System.lineSeparator());
-        CSVReader.handle(argsName);
+        CSVReader csvReader = new CSVReader();
+        csvReader.handle(argsName);
         assertEquals(expected, Files.readString(target.toPath()));
     }
 
@@ -92,8 +94,36 @@ public class CSVReaderTest {
         ).concat(System.lineSeparator());
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
-        CSVReader.handle(argsName);
+        CSVReader csvReader = new CSVReader();
+        csvReader.handle(argsName);
         assertEquals(expected, outContent.toString());
         System.setOut(System.out);
+    }
+
+    @Test (expected =  IllegalArgumentException.class)
+    public void whenFilterTwoFirstColumnsWrongFirstArgs() throws Exception {
+        String data = String.join(
+                System.lineSeparator(),
+                "name;age;last_name;education",
+                "Tom;20;Smith;Bachelor",
+                "Jack;25;Johnson;Undergraduate",
+                "William;30;Brown;Secondary special"
+        );
+        File file = temporaryFolder.newFile("source.csv");
+        File target = temporaryFolder.newFile("target.csv");
+        ArgsName argsName = ArgsName.of(new String[]{
+                "-pathWrong=" + file.getAbsolutePath(), "-delimiter=;", "-out=" + target.getAbsolutePath(), "-filter=name,age"
+        });
+        Files.writeString(file.toPath(), data);
+        String expected = String.join(
+                System.lineSeparator(),
+                "name;age",
+                "Tom;20",
+                "Jack;25",
+                "William;30"
+        ).concat(System.lineSeparator());
+        CSVReader csvReader = new CSVReader();
+        csvReader.handle(argsName);
+        assertEquals(expected, Files.readString(target.toPath()));
     }
 }

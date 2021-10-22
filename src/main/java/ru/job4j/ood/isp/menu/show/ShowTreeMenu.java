@@ -5,11 +5,6 @@ import ru.job4j.ood.isp.menu.MenuItem;
 import java.util.List;
 
 public class ShowTreeMenu implements ShowMenu {
-/*    List<MenuItem> list;
-
-    public ShowTreeMenu(List<MenuItem> list) {
-        this.list = list;
-    }*/
 
     @Override
     public void showMenu(List<MenuItem> listMenu) {
@@ -21,8 +16,4 @@ public class ShowTreeMenu implements ShowMenu {
             }
         }
     }
-
-/*    public void printMenu(List<MenuItem> list) {
-        String result =
-    }*/
 }

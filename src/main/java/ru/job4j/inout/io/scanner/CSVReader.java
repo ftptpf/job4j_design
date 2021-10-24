@@ -18,8 +18,8 @@ import java.util.*;
  */
 public class CSVReader {
     /**
-     * Читаем данные исходного файла, собираем их в лист.
-     * Последовательно запуская вспомогательные методы, делаем выборку и выводим информацию.
+     * Читаем данные исходного файла.
+     * Последовательно запуская вспомогательные методы, делаем выборку и построчно выводим информацию.
      * @param argsName путь к исходному файлу, путь к файлу куда будем записывать информацию, фильтр по столбцам и разделитель
      * @throws Exception
      */
@@ -28,21 +28,22 @@ public class CSVReader {
         String path = argsName.get("path");
         String out = argsName.get("out");
         String delimiter = argsName.get("delimiter");
+        String delimiterFilter = ",";
         String filter = argsName.get("filter");
-        List<List<String>> listAllTable = new ArrayList<>();
-        List<List<String>> resultList;
+        String[] filterArray = filterArray(filter, delimiterFilter);
+        List<Integer> index = new ArrayList<>();
 
         try (Scanner scanner = new Scanner(new FileInputStream(path))) {
             while (scanner.hasNextLine()) {
                 String string = scanner.nextLine();
-                String[] arrayString = string.split(";");
-                List<String> listString = new ArrayList<>(Arrays.asList(arrayString));
-                listAllTable.add(listString);
+                String[] array = string.split(delimiter);
+                if (index.isEmpty()) {
+                    index = findFilterIndex(array, filterArray);
+                }
+                String resultString = filter(array, index, delimiter);
+                write(resultString, out);
             }
         }
-        resultList = listFilter(listAllTable, filter);
-        String resultString = convertFromListToString(resultList, delimiter);
-        writeToFile(resultString, out);
     }
 
     /**
@@ -61,45 +62,53 @@ public class CSVReader {
     }
 
     /**
-     * Из общей таблицы значений делает выборку по определенным столбцам.
-     * filterFirstStringList - лист слов-фильтров первой(титульной) строки
-     * titleStringList - лист первой строка таблицы
-     * indexTitleStringList - лист индексов слов-фильтров первой строки
-     * stringList - лист всех значений одной строки
-     * stringIndexList - лист значений строки у которых индексы совпали с индексами слов-фильтров первой строки
-     * @param list вся таблица собранная в лист
-     * @param filter название столбцов, разделенный запятой по которым будет происходить отбор
-     * @return лист только с указанными в фильтре столбцами
+     * Разбиваем строку по разделителю на массив строк.
+     * @param filter исходная строка
+     * @param delimiter разделитель
+     * @return массив строк
      */
-    private List<List<String>> listFilter(List<List<String>> list, String filter) {
-        List<List<String>> result = new ArrayList<>();
-        String[] arrayString = filter.split(",");
-        List<String> filterFirstStringList = new ArrayList<>(Arrays.asList(arrayString));
-        List<String> titleStringList = list.get(0);
-        List<Integer> indexTitleStringList = new ArrayList<>();
+    private String[] filterArray(String filter, String delimiter) {
+        return filter.split(delimiter);
+    }
 
-        for (String str : filterFirstStringList) {
-            for (int i = 0; i < titleStringList.size(); i++) {
-                if (str.equals(titleStringList.get(i))) {
-                    indexTitleStringList.add(i);
+    /**
+     * Находим совпадения в двух массивах строк и возвращаем индексы первого массива по которым были совпадения.
+     * @param array массив строк первого массива в котором будем искать совпадения
+     * @param filterArray  второй массив строк для сравнения
+     * @return лист индексов первого массива у которого значения совпали со значениями второго массива
+     */
+    private List<Integer> findFilterIndex(String[] array, String[] filterArray) {
+        List<Integer> result = new ArrayList<>();
+        for (int i = 0; i < array.length; i++) {
+            for (String fl : filterArray) {
+                if (fl.equals(array[i])) {
+                    result.add(i);
                 }
             }
-        }
-        result.add(new ArrayList<>(filterFirstStringList));
-
-        for (int i = 1; i < list.size(); i++) {
-            List<String> stringList = list.get(i);
-            List<String> stringIndexList = new ArrayList<>();
-            for (int j = 0; j < stringList.size(); j++) {
-                for (int index : indexTitleStringList) {
-                    if (index == j) {
-                        stringIndexList.add(stringList.get(j));
-                    }
-                }
-            }
-            result.add(stringIndexList);
         }
         return result;
+    }
+
+    /**
+     * Из массива строк делаем выборку нужных значений по индексам и формируем, используя разделители, строку.
+     * @param array массив строк
+     * @param index массив индексов по которым выполняем отбор
+     * @param delimiter разделитель строк
+     * @return
+     */
+    private String filter(String[] array, List<Integer> index, String delimiter) {
+        StringBuilder sb = new StringBuilder();
+        StringJoiner sj = new StringJoiner(delimiter);
+        for (int i = 0; i < array.length; i++) {
+            for (int j : index) {
+                if (i == j) {
+                    sj.add(array[i]);
+                }
+            }
+        }
+        sb.append(sj);
+        sb.append(System.lineSeparator());
+        return sb.toString();
     }
 
     /**
@@ -109,34 +118,15 @@ public class CSVReader {
      *            в ином случае в параметрах должен прийти путь к файлу в который записываем информацию.
      * @throws FileNotFoundException
      */
-    private void writeToFile(String resultString, String out) throws FileNotFoundException {
+    private void write(String resultString, String out) throws FileNotFoundException {
         String console = "stdout";
         if (out.equals(console)) {
             PrintStream ps = new PrintStream(System.out);
             ps.print(resultString);
         } else {
-            try (PrintStream ps = new PrintStream(new FileOutputStream(out))) {
+            try (PrintStream ps = new PrintStream(new FileOutputStream(out, true))) {
                 ps.print(resultString);
             }
         }
-    }
-
-    /**
-     * Выполняем конвертацию из листа в строку.
-     * @param resultList лист
-     * @param delimiter разделитель
-     * @return строка
-     */
-    private String convertFromListToString(List<List<String>> resultList, String delimiter) {
-        StringBuilder sb = new StringBuilder();
-        for (List<String> listString : resultList) {
-            StringJoiner sj = new StringJoiner(delimiter);
-            for (String str : listString) {
-                sj.add(str);
-            }
-            sb.append(sj);
-            sb.append(System.lineSeparator());
-        }
-        return sb.toString();
     }
 }

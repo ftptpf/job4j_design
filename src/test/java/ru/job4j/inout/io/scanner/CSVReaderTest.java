@@ -14,18 +14,23 @@ import static org.junit.Assert.*;
 
 public class CSVReaderTest {
 
-    @Rule
-    public TemporaryFolder temporaryFolder = new TemporaryFolder();
+    String data;
 
-    @Test
-    public void whenFilterTwoFirstColumns() throws Exception {
-        String data = String.join(
+    {
+        data = String.join(
                 System.lineSeparator(),
                 "name;age;last_name;education",
                 "Tom;20;Smith;Bachelor",
                 "Jack;25;Johnson;Undergraduate",
                 "William;30;Brown;Secondary special"
         );
+    }
+
+    @Rule
+    public TemporaryFolder temporaryFolder = new TemporaryFolder();
+
+    @Test
+    public void whenFilterTwoFirstColumns() throws Exception {
         File file = temporaryFolder.newFile("source.csv");
         File target = temporaryFolder.newFile("target.csv");
         ArgsName argsName = ArgsName.of(new String[]{
@@ -46,13 +51,6 @@ public class CSVReaderTest {
 
     @Test
     public void whenFilterTwoLastColumns() throws Exception {
-        String data = String.join(
-                System.lineSeparator(),
-                "name;age;last_name;education",
-                "Tom;20;Smith;Bachelor",
-                "Jack;25;Johnson;Undergraduate",
-                "William;30;Brown;Secondary special"
-        );
         File file = temporaryFolder.newFile("source.csv");
         File target = temporaryFolder.newFile("target.csv");
         ArgsName argsName = ArgsName.of(new String[]{
@@ -73,13 +71,6 @@ public class CSVReaderTest {
 
     @Test
     public void whenFilterTwoLastColumnsToConsole() throws Exception {
-        String data = String.join(
-                System.lineSeparator(),
-                "name;age;last_name;education",
-                "Tom;20;Smith;Bachelor",
-                "Jack;25;Johnson;Undergraduate",
-                "William;30;Brown;Secondary special"
-        );
         File file = temporaryFolder.newFile("source.csv");
         ArgsName argsName = ArgsName.of(new String[]{
                 "-path=" + file.getAbsolutePath(), "-delimiter=;", "-out=stdout", "-filter=last_name,education"
@@ -102,13 +93,6 @@ public class CSVReaderTest {
 
     @Test (expected =  IllegalArgumentException.class)
     public void whenFilterTwoFirstColumnsWrongFirstArgs() throws Exception {
-        String data = String.join(
-                System.lineSeparator(),
-                "name;age;last_name;education",
-                "Tom;20;Smith;Bachelor",
-                "Jack;25;Johnson;Undergraduate",
-                "William;30;Brown;Secondary special"
-        );
         File file = temporaryFolder.newFile("source.csv");
         File target = temporaryFolder.newFile("target.csv");
         ArgsName argsName = ArgsName.of(new String[]{

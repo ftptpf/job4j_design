@@ -43,14 +43,14 @@ public class StartMenu {
         Action action1 = new SomeAction1();
         Action action2 = new SomeAction2();
 
-        MenuItem menuItemTask1 = new MenuItem("Задача 1.",0, action1);
-        MenuItem menuItemTask11 = new MenuItem("Задача 1.1",1, menuItemTask1, action1);
-        MenuItem menuItemTask12 = new MenuItem("Задача 1.2",1, menuItemTask1, action1);
-        MenuItem menuItemTask111 = new MenuItem("Задача 1.1.1",2, menuItemTask11, action1);
-        MenuItem menuItemTask112 = new MenuItem("Задача 1.1.2",2, menuItemTask11, action1);
-        MenuItem menuItemExit = new MenuItem("Exit",0, action1);
-
-/*        MenuItem menuLevel3Item1 = new MenuItem("Задача 1.1.1.", 3, new ArrayList<>(), action1);
+        MenuItem menuItemTask1 = new MenuItem("Задача 1.", 0, action1);
+        MenuItem menuItemTask11 = new MenuItem("Задача 1.1", 1, menuItemTask1, action1);
+        MenuItem menuItemTask12 = new MenuItem("Задача 1.2", 1, menuItemTask1, action1);
+        MenuItem menuItemTask111 = new MenuItem("Задача 1.1.1", 2, menuItemTask11, action1);
+        MenuItem menuItemTask112 = new MenuItem("Задача 1.1.2", 2, menuItemTask11, action1);
+        MenuItem menuItemExit = new MenuItem("Exit", 0, action1);
+/*
+        MenuItem menuLevel3Item1 = new MenuItem("Задача 1.1.1.", 3, new ArrayList<>(), action1);
         MenuItem menuLevel3Item2 = new MenuItem("Задача 1.1.2.", 3, new ArrayList<>(), action2);
         List<MenuItem> listLevel3 = List.of(menuLevel3Item1, menuLevel3Item2);
         MenuItem menuLevel2Item1 = new MenuItem("Задача 1.1.", 2, listLevel3, action1);
@@ -59,11 +59,10 @@ public class StartMenu {
         MenuItem menuLevel1Item1 = new MenuItem("Задача 1.", 1, new ArrayList<>(), action1);
         MenuItem menuLevel1Item2 = new MenuItem("Exit", 1, new ArrayList<>(), action2);
         List<MenuItem> listLevel1 = List.of(menuLevel1Item1, menuLevel1Item2);
-        //listMenu = listLevel1;*/
+        listMenu = listLevel1;
 
-        Me
 
         StartMenu startMenu = new StartMenu(listLevel1);
-        startMenu.init(input);
+        startMenu.init(input);*/
     }
 }

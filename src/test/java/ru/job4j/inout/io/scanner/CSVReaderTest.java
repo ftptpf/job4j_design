@@ -5,8 +5,8 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import ru.job4j.inout.io.namedarguments.ArgsName;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.nio.file.Files;
 
@@ -72,6 +72,7 @@ public class CSVReaderTest {
     @Test
     public void whenFilterTwoLastColumnsToConsole() throws Exception {
         File file = temporaryFolder.newFile("source.csv");
+        File target = temporaryFolder.newFile("target.csv");
         ArgsName argsName = ArgsName.of(new String[]{
                 "-path=" + file.getAbsolutePath(), "-delimiter=;", "-out=stdout", "-filter=last_name,education"
         });
@@ -83,11 +84,12 @@ public class CSVReaderTest {
                 "Johnson;Undergraduate",
                 "Brown;Secondary special"
         ).concat(System.lineSeparator());
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outContent));
-        CSVReader csvReader = new CSVReader();
-        csvReader.handle(argsName);
-        assertEquals(expected, outContent.toString());
+        try (PrintStream ps = new PrintStream(new FileOutputStream(target, true))) {
+            System.setOut(ps);
+            CSVReader csvReader = new CSVReader();
+            csvReader.handle(argsName);
+        }
+        assertEquals(expected, Files.readString(target.toPath()));
         System.setOut(System.out);
     }
 

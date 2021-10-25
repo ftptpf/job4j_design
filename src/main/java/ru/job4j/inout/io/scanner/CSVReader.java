@@ -33,7 +33,8 @@ public class CSVReader {
         String[] filterArray = filterArray(filter, delimiterFilter);
         List<Integer> index = new ArrayList<>();
 
-        try (Scanner scanner = new Scanner(new FileInputStream(path))) {
+        try (Scanner scanner = new Scanner(new FileInputStream(path));
+             PrintStream psToFile = new PrintStream(new FileOutputStream(out, true))) {
             while (scanner.hasNextLine()) {
                 String string = scanner.nextLine();
                 String[] array = string.split(delimiter);
@@ -41,7 +42,7 @@ public class CSVReader {
                     index = findFilterIndex(array, filterArray);
                 }
                 String resultString = filter(array, index, delimiter);
-                write(resultString, out);
+                write(resultString, out, psToFile);
             }
         }
     }
@@ -99,12 +100,8 @@ public class CSVReader {
     private String filter(String[] array, List<Integer> index, String delimiter) {
         StringBuilder sb = new StringBuilder();
         StringJoiner sj = new StringJoiner(delimiter);
-        for (int i = 0; i < array.length; i++) {
-            for (int j : index) {
-                if (i == j) {
-                    sj.add(array[i]);
-                }
-            }
+        for (int i : index) {
+            sj.add(array[i]);
         }
         sb.append(sj);
         sb.append(System.lineSeparator());
@@ -116,17 +113,14 @@ public class CSVReader {
      * @param resultString строка которую нужно вывести
      * @param out если приходит - "stdout" - данные выводим на консоль,
      *            в ином случае в параметрах должен прийти путь к файлу в который записываем информацию.
-     * @throws FileNotFoundException
+     * @param psToFile поток записи в файл
      */
-    private void write(String resultString, String out) throws FileNotFoundException {
+    private void write(String resultString, String out, PrintStream psToFile) {
         String console = "stdout";
         if (out.equals(console)) {
-            PrintStream ps = new PrintStream(System.out);
-            ps.print(resultString);
+            System.out.print(resultString);
         } else {
-            try (PrintStream ps = new PrintStream(new FileOutputStream(out, true))) {
-                ps.print(resultString);
-            }
+            psToFile.print(resultString);
         }
     }
 }

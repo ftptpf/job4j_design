@@ -30,11 +30,11 @@ public class CSVReader {
         String delimiter = argsName.get("delimiter");
         String delimiterFilter = ",";
         String filter = argsName.get("filter");
-        String[] filterArray = filterArray(filter, delimiterFilter);
+        String[] filterArray = filter.split(delimiterFilter);
         List<Integer> index = new ArrayList<>();
 
         try (Scanner scanner = new Scanner(new FileInputStream(path));
-             PrintStream psToFile = new PrintStream(new FileOutputStream(out, true))) {
+             PrintStream psToFile = "stdout".equals(out) ? System.out : new PrintStream(new FileOutputStream(out, true))) {
             while (scanner.hasNextLine()) {
                 String string = scanner.nextLine();
                 String[] array = string.split(delimiter);
@@ -42,7 +42,7 @@ public class CSVReader {
                     index = findFilterIndex(array, filterArray);
                 }
                 String resultString = filter(array, index, delimiter);
-                write(resultString, out, psToFile);
+                psToFile.print(resultString);
             }
         }
     }
@@ -63,16 +63,6 @@ public class CSVReader {
     }
 
     /**
-     * Разбиваем строку по разделителю на массив строк.
-     * @param filter исходная строка
-     * @param delimiter разделитель
-     * @return массив строк
-     */
-    private String[] filterArray(String filter, String delimiter) {
-        return filter.split(delimiter);
-    }
-
-    /**
      * Находим совпадения в двух массивах строк и возвращаем индексы первого массива по которым были совпадения.
      * @param array массив строк первого массива в котором будем искать совпадения
      * @param filterArray  второй массив строк для сравнения
@@ -81,8 +71,8 @@ public class CSVReader {
     private List<Integer> findFilterIndex(String[] array, String[] filterArray) {
         List<Integer> result = new ArrayList<>();
         for (int i = 0; i < array.length; i++) {
-            for (String fl : filterArray) {
-                if (fl.equals(array[i])) {
+            for (String filterString : filterArray) {
+                if (filterString.equals(array[i])) {
                     result.add(i);
                 }
             }
@@ -106,21 +96,5 @@ public class CSVReader {
         sb.append(sj);
         sb.append(System.lineSeparator());
         return sb.toString();
-    }
-
-    /**
-     * Выполняем вывод информации.
-     * @param resultString строка которую нужно вывести
-     * @param out если приходит - "stdout" - данные выводим на консоль,
-     *            в ином случае в параметрах должен прийти путь к файлу в который записываем информацию.
-     * @param psToFile поток записи в файл
-     */
-    private void write(String resultString, String out, PrintStream psToFile) {
-        String console = "stdout";
-        if (out.equals(console)) {
-            System.out.print(resultString);
-        } else {
-            psToFile.print(resultString);
-        }
     }
 }

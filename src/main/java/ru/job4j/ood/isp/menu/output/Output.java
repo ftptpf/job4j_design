@@ -5,5 +5,5 @@ import ru.job4j.ood.isp.menu.MenuItem;
 import java.util.List;
 
 public interface Output {
-    void show(List<MenuItem> list);
+    void show(Object obj);
 }

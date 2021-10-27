@@ -14,6 +14,7 @@ import java.util.List;
  */
 public class MenuItem {
     private String name;
+    int id;
     int level;
     private List<MenuItem> childrenList;
     private MenuItem parent;
@@ -25,7 +26,14 @@ public class MenuItem {
         this.action = action;
     }
 
-    public MenuItem(String name, int level, MenuItem parent, Action action) {
+    public MenuItem(String name, int id, int level, Action action) {
+        this.name = name;
+        this.id = id;
+        this.level = level;
+        this.action = action;
+    }
+
+    public MenuItem(String name, int id,  int level, MenuItem parent, Action action) {
         this.name = name;
         this.level = level;
         this.parent = parent;
@@ -37,6 +45,22 @@ public class MenuItem {
         this.level = level;
         this.childrenList = childrenList;
         this.action = action;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 
     public String getName() {
@@ -70,4 +94,5 @@ public class MenuItem {
     public void setAction(Action action) {
         this.action = action;
     }
+
 }

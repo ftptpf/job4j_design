@@ -5,7 +5,7 @@ import java.util.Scanner;
 /**
  * Получаем строковые данные от пользователя в консоли.
  */
-public class ConsoleInput implements Input{
+public class ConsoleInput implements Input {
     private final Scanner scanner = new Scanner(System.in);
 
     public String askStr(String question) {

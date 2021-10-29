@@ -3,6 +3,7 @@ package ru.job4j.ood.isp.menu;
 import ru.job4j.ood.isp.menu.action.Action;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Модель данных пункта меню.
@@ -14,31 +15,9 @@ import java.util.List;
  */
 public class MenuItem {
     private String name;
-    int id;
     int level;
     private List<MenuItem> childrenList;
-    private MenuItem parent;
     private Action action;
-
-    public MenuItem(String name, int level, Action action) {
-        this.name = name;
-        this.level = level;
-        this.action = action;
-    }
-
-    public MenuItem(String name, int id, int level, Action action) {
-        this.name = name;
-        this.id = id;
-        this.level = level;
-        this.action = action;
-    }
-
-    public MenuItem(String name, int id,  int level, MenuItem parent, Action action) {
-        this.name = name;
-        this.level = level;
-        this.parent = parent;
-        this.action = action;
-    }
 
     public MenuItem(String name, int level, List<MenuItem> childrenList, Action action) {
         this.name = name;
@@ -47,12 +26,10 @@ public class MenuItem {
         this.action = action;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public MenuItem(String name, int level, List<MenuItem> childrenList) {
+        this.name = name;
+        this.level = level;
+        this.childrenList = childrenList;
     }
 
     public int getLevel() {
@@ -79,14 +56,6 @@ public class MenuItem {
         this.childrenList = childrenList;
     }
 
-    public MenuItem getParent() {
-        return parent;
-    }
-
-    public void setParent(MenuItem parent) {
-        this.parent = parent;
-    }
-
     public Action getAction() {
         return action;
     }
@@ -95,4 +64,20 @@ public class MenuItem {
         this.action = action;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        MenuItem menuItem = (MenuItem) o;
+        return level == menuItem.level && name.equals(menuItem.name) && childrenList.equals(menuItem.childrenList) && action.equals(menuItem.action);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, level, childrenList, action);
+    }
 }

@@ -7,13 +7,7 @@ import ru.job4j.ood.isp.menu.input.ConsoleInput;
 import ru.job4j.ood.isp.menu.input.Input;
 import ru.job4j.ood.isp.menu.output.Output;
 import ru.job4j.ood.isp.menu.output.ConsoleOutput;
-import ru.job4j.ood.isp.menu.store.MemStore;
-import ru.job4j.ood.isp.menu.store.Store;
-
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Scanner;
 
 public class StartMenu {
     private final Output out;
@@ -25,50 +19,65 @@ public class StartMenu {
     public void init(Input input, List<MenuItem> items) {
         boolean run = true;
         while (run) {
+            out.show("*** Menu ***");
             consoleMenu(items);
-            String select = input.askStr("*** Please, select menu item. e.g. Задача 1.1 :");
+            String select = input.askStr("*** Please, select menu item. e.g. Задача 1.1");
             if (!select.equals("Exit")) {
                 out.show("User selected menu item: " + select);
+                findActon(select, items);
+                out.show(System.lineSeparator());
             } else {
                 run = false;
             }
         }
     }
 
+    /**
+     * Выводим на меню. Используем рекурсию.
+     * @param items пункты меню
+     */
     private void consoleMenu(List<MenuItem> items) {
-        out.show("*** Menu ***");
         for (MenuItem item : items) {
-            out.show(item.getName());
-
+            String delimiter = "-".repeat(item.getLevel());
+            out.show(delimiter + " " + item.getName());
+            if (!item.getChildrenList().isEmpty()) {
+                consoleMenu(item.getChildrenList());
+            }
         }
     }
 
+    /**
+     * Ищем действие соответствущее запрашиваемому меню. Поиск через рекурсию.
+     * @param select строка по которой осуществляется поиск
+     * @param items пункты меню
+     */
+    private void findActon(String select, List<MenuItem> items) {
+        for (MenuItem item : items) {
+            if (select.equals(item.getName())) {
+                System.out.println("yes");
+                item.getAction().doAction();
+            }
+            if (!item.getChildrenList().isEmpty()) {
+                findActon(select, item.getChildrenList());
+            }
+        }
+    }
 
     public static void main(String[] args) {
         Output output = new ConsoleOutput();
         Input input = new ConsoleInput();
-        // Store store = new MemStore();
         Action action1 = new SomeAction1();
         Action action2 = new SomeAction2();
 
-        MenuItem menuItemTask1 = new MenuItem("Задача 1.",  1, 0, action1);
-        MenuItem menuItemTask11 = new MenuItem("Задача 1.1", 1, 1, menuItemTask1, action1);
-        MenuItem menuItemTask12 = new MenuItem("Задача 1.2", 2, 1, menuItemTask1, action1);
-        MenuItem menuItemTask111 = new MenuItem("Задача 1.1.1", 1, 2, menuItemTask11, action1);
-        MenuItem menuItemTask112 = new MenuItem("Задача 1.1.2", 1, 2, menuItemTask11, action1);
-        MenuItem menuItemExit = new MenuItem("Exit", 2 ,0, action2);
+        MenuItem menu111 = new MenuItem("Задача 1.1.1", 2, List.of(), action1);
+        MenuItem menu112 = new MenuItem("Задача 1.1.2", 2, List.of(), action2);
+        MenuItem menu11 = new MenuItem("Задача 1.1", 1, List.of(menu111, menu112), action1);
+        MenuItem menu12 = new MenuItem("Задача 1.2", 1, List.of(), action2);
+        MenuItem menu1 = new MenuItem("Задача 1", 0, List.of(menu11, menu12), action1);
+        MenuItem menu2 = new MenuItem("Exit", 0, List.of());
 
-        List<MenuItem> menuItemList = new ArrayList<>();
-        menuItemList.add(menuItemTask1);
-        menuItemList.add(menuItemTask11);
-        menuItemList.add(menuItemTask12);
-        menuItemList.add(menuItemTask111);
-        menuItemList.add(menuItemTask112);
-        menuItemList.add(menuItemExit);
+        List<MenuItem> list = List.of(menu1, menu2);
 
-        menuItemList.sort(Comparator.comparing(MenuItem::getLevel)
-                .thenComparing(MenuItem::getId));
-
-        new StartMenu(output).init(input, menuItemList);
+        new StartMenu(output).init(input, list);
     }
 }
